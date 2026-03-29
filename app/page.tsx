@@ -3,10 +3,9 @@ import Image from "next/image"
 import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { drivers, teams, nextRace, redlineTv, currentSeason } from "@/lib/data"
+import { teams, nextRace, redlineTv, currentSeason } from "@/lib/data"
 
 export default function HomePage() {
-  const topDrivers = drivers.slice(0, 5)
   const topTeams = teams.slice(0, 5)
 
   return (
@@ -111,86 +110,44 @@ export default function HomePage() {
       {/* Main Content */}
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
-          <div className="grid gap-8 lg:grid-cols-2">
-            {/* Driver Standings */}
-            <Card className="border-border/80 bg-card/70 backdrop-blur-sm">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
-                  Clasificación de Pilotos
-                </CardTitle>
-                <Link href="/clasificacion" className="flex items-center gap-1 text-sm text-primary hover:underline">
-                  Ver todo <ChevronRight className="h-4 w-4" />
-                </Link>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {topDrivers.map((driver) => (
-                    <div
-                      key={driver.position}
-                      className="flex items-center justify-between rounded-lg bg-secondary/50 p-3 transition-colors hover:bg-secondary"
-                    >
-                      <div className="flex items-center gap-4">
-                        <span className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
-                          driver.position === 1 ? 'bg-primary text-primary-foreground' : 
-                          driver.position === 2 ? 'bg-muted-foreground/50 text-foreground' :
-                          driver.position === 3 ? 'bg-orange-700/50 text-foreground' :
-                          'bg-muted text-muted-foreground'
-                        }`}>
-                          {driver.position}
-                        </span>
-                        <div>
-                          <p className="font-medium text-foreground">{driver.name}</p>
-                          <p className="text-sm text-muted-foreground">{driver.team}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="h-3 w-1 rounded-full" style={{ backgroundColor: driver.teamColor }} />
-                        <span className="font-bold text-foreground">{driver.points} pts</span>
+          {/* Team Standings */}
+          <Card className="mx-auto max-w-2xl border-border/80 bg-card/70 backdrop-blur-sm">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
+                Clasificación de Equipos
+              </CardTitle>
+              <Link href="/clasificacion" className="flex items-center gap-1 text-sm text-primary hover:underline">
+                Ver todo <ChevronRight className="h-4 w-4" />
+              </Link>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {topTeams.map((team) => (
+                  <div
+                    key={team.position}
+                    className="flex items-center justify-between rounded-lg bg-secondary/50 p-3 transition-colors hover:bg-secondary"
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
+                        team.position === 1 ? 'bg-primary text-primary-foreground' : 
+                        team.position === 2 ? 'bg-muted-foreground/50 text-foreground' :
+                        team.position === 3 ? 'bg-orange-700/50 text-foreground' :
+                        'bg-muted text-muted-foreground'
+                      }`}>
+                        {team.position}
+                      </span>
+                      <div className="flex items-center gap-3">
+                        <div className="h-4 w-1 rounded-full" style={{ backgroundColor: team.color }} />
+                        <span className="font-bold text-foreground">{team.acronym}</span>
+                        <span className="text-sm text-muted-foreground">{team.name}</span>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Team Standings */}
-            <Card className="border-border/80 bg-card/70 backdrop-blur-sm">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
-                  Clasificación de Equipos
-                </CardTitle>
-                <Link href="/clasificacion" className="flex items-center gap-1 text-sm text-primary hover:underline">
-                  Ver todo <ChevronRight className="h-4 w-4" />
-                </Link>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {topTeams.map((team) => (
-                    <div
-                      key={team.position}
-                      className="flex items-center justify-between rounded-lg bg-secondary/50 p-3 transition-colors hover:bg-secondary"
-                    >
-                      <div className="flex items-center gap-4">
-                        <span className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
-                          team.position === 1 ? 'bg-primary text-primary-foreground' : 
-                          team.position === 2 ? 'bg-muted-foreground/50 text-foreground' :
-                          team.position === 3 ? 'bg-orange-700/50 text-foreground' :
-                          'bg-muted text-muted-foreground'
-                        }`}>
-                          {team.position}
-                        </span>
-                        <div className="flex items-center gap-3">
-                          <div className="h-4 w-1 rounded-full" style={{ backgroundColor: team.color }} />
-                          <p className="font-medium text-foreground">{team.name}</p>
-                        </div>
-                      </div>
-                      <span className="font-bold text-foreground">{team.points} pts</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                    <span className="font-bold text-foreground">{team.points} pts</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
@@ -229,7 +186,7 @@ export default function HomePage() {
               </Card>
             </Link>
             
-            <Link href="https://dyno.gg/form/77f334e" className="group">
+            <Link href="/reportar-incidente" className="group">
               <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
                 <CardContent className="flex flex-col items-center justify-center p-6 text-center">
                   <AlertTriangle className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
