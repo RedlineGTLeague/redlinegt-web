@@ -229,7 +229,7 @@ export default function HomePage() {
               </Card>
             </Link>
             
-            <Link href="/reportar-incidente" className="group">
+            <Link href="https://dyno.gg/form/77f334e" className="group">
               <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
                 <CardContent className="flex flex-col items-center justify-center p-6 text-center">
                   <AlertTriangle className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
@@ -238,7 +238,7 @@ export default function HomePage() {
               </Card>
             </Link>
             
-            <a href="https://discord.gg/example" target="_blank" rel="noopener noreferrer" className="group">
+            <a href="https://discord.gg/bybcwHPQ3" target="_blank" rel="noopener noreferrer" className="group">
               <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
                 <CardContent className="flex flex-col items-center justify-center p-6 text-center">
                   <svg className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor">

@@ -19,7 +19,7 @@ const oswald = Oswald({
 export const metadata: Metadata = {
   title: 'Redline GT League | Campeonato Gran Turismo 7',
   description: 'Liga competitiva de sim racing en Gran Turismo 7. Carreras, clasificaciones, equipos y pilotos.',
-  generator: 'v0.app',
+  generator: 'JV',
   icons: {
     icon: [
       {
