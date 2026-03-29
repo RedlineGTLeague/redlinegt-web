@@ -20,7 +20,7 @@ const navItems = [
   { href: "/clasificacion", label: "Clasificación", icon: Trophy, enabled: true },
   { href: "/calendario", label: "Calendario", icon: Calendar, enabled: true },
   { href: "/reglamento", label: "Reglamento", icon: FileText, enabled: true },
-  { href: "/reportar-incidente", label: "Reportar Incidente", icon: AlertTriangle, enabled: true },
+  { href: "/reportar-incidente", label: "Reportar Incidente", icon: AlertTriangle, enabled: false },
 ]
 
 // Disable items by setting enabled: false

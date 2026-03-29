@@ -4,9 +4,9 @@ import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin,
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { teams, nextRace, redlineTv, currentSeason, races } from "@/lib/data"
+import { TeamTable } from "@/components/team-table"
 
 export default function HomePage() {
-  const topTeams = teams.slice(0, 5)
   const hasUpcomingRace = races.some(race => !race.completed)
 
   return (
@@ -153,32 +153,8 @@ export default function HomePage() {
                 Ver todo <ChevronRight className="h-4 w-4" />
               </Link>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {topTeams.map((team) => (
-                  <div
-                    key={team.position}
-                    className="flex items-center justify-between rounded-lg bg-secondary/50 p-3 transition-colors hover:bg-secondary"
-                  >
-                    <div className="flex items-center gap-4">
-                      <span className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
-                        team.position === 1 ? 'bg-primary text-primary-foreground' : 
-                        team.position === 2 ? 'bg-muted-foreground/50 text-foreground' :
-                        team.position === 3 ? 'bg-orange-700/50 text-foreground' :
-                        'bg-muted text-muted-foreground'
-                      }`}>
-                        {team.position}
-                      </span>
-                      <div className="flex items-center gap-3">
-                        <div className="h-4 w-1 rounded-full flex-shrink-0" style={{ backgroundColor: team.color }} />
-                        <span className="min-w-[2.5rem] font-bold text-foreground">{team.acronym}</span>
-                        <span className="text-sm text-muted-foreground">{team.name}</span>
-                      </div>
-                    </div>
-                    <span className="font-bold text-foreground">{team.points} pts</span>
-                  </div>
-                ))}
-              </div>
+            <CardContent className="p-0">
+              <TeamTable teams={teams} showHeader={false} />
             </CardContent>
           </Card>
         </div>

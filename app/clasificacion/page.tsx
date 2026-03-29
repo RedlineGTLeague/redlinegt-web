@@ -1,6 +1,7 @@
 import { Users, Crown } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { teams, currentSeason } from "@/lib/data"
+import { TeamTable } from "@/components/team-table"
 
 export default function ClasificacionPage() {
   return (
@@ -45,38 +46,7 @@ export default function ClasificacionPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {/* Table Header */}
-            <div className="mb-3 grid grid-cols-[3rem_1fr_1fr_5rem] gap-4 border-b border-border px-3 pb-3 text-sm font-medium uppercase tracking-wider text-muted-foreground">
-              <span>Pos</span>
-              <span>Equipo</span>
-              <span>Nombre</span>
-              <span className="text-right">Puntos</span>
-            </div>
-            
-            {/* Table Body */}
-            <div className="space-y-2">
-              {teams.map((team) => (
-                <div
-                  key={team.position}
-                  className="grid grid-cols-[3rem_1fr_1fr_5rem] items-center gap-4 rounded-lg bg-secondary/50 px-3 py-3 transition-colors hover:bg-secondary"
-                >
-                  <span className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
-                    team.position === 1 ? 'bg-primary text-primary-foreground' : 
-                    team.position === 2 ? 'bg-muted-foreground/50 text-foreground' :
-                    team.position === 3 ? 'bg-orange-700/50 text-foreground' :
-                    'bg-muted text-muted-foreground'
-                  }`}>
-                    {team.position}
-                  </span>
-                  <div className="flex min-w-[4rem] items-center gap-2">
-                    <div className="h-4 w-1 rounded-full flex-shrink-0" style={{ backgroundColor: team.color }} />
-                    <span className="min-w-[2.5rem] font-bold text-foreground">{team.acronym}</span>
-                  </div>
-                  <span className="text-sm text-muted-foreground">{team.name}</span>
-                  <span className="text-right font-bold text-foreground">{team.points}</span>
-                </div>
-              ))}
-            </div>
+            <TeamTable teams={teams} showHeader={true} />
             
             {/* Points Gap Section */}
             <div className="mt-8 rounded-lg border border-border bg-secondary/30 p-4">
