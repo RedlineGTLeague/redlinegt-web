@@ -1,12 +1,13 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv } from "lucide-react"
+import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv, Crown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { teams, nextRace, redlineTv, currentSeason } from "@/lib/data"
+import { teams, nextRace, redlineTv, currentSeason, races } from "@/lib/data"
 
 export default function HomePage() {
   const topTeams = teams.slice(0, 5)
+  const hasUpcomingRace = races.some(race => !race.completed)
 
   return (
     <div className="min-h-screen">
@@ -16,12 +17,25 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-transparent to-transparent" />
         <div className="container relative mx-auto px-4 text-center">
           <div className="mx-auto max-w-4xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm text-primary">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary"></span>
-              </span>
-              Temporada {currentSeason.number} en curso
+            <div className={`mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium ${
+              currentSeason.completed 
+                ? 'border-yellow-500/50 bg-yellow-500/10 text-yellow-500' 
+                : 'border-primary/30 bg-primary/10 text-primary'
+            }`}>
+              {currentSeason.completed ? (
+                <>
+                  <Crown className="h-4 w-4" />
+                  Temporada {currentSeason.number} completada
+                </>
+              ) : (
+                <>
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-primary"></span>
+                  </span>
+                  Temporada {currentSeason.number} en curso
+                </>
+              )}
             </div>
             
             <Image
@@ -55,57 +69,76 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Next Race Section */}
-      <section className="border-y border-border/80 bg-card/60 py-12 backdrop-blur-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center justify-between gap-6 lg:flex-row">
-            <div className="text-center lg:text-left">
-              <p className="text-sm font-medium uppercase tracking-wider text-primary">Próxima Carrera</p>
-              <h2 className="font-oswald mt-2 text-3xl font-bold uppercase text-foreground md:text-4xl">
-                Ronda {nextRace.round}: {nextRace.circuit}
-              </h2>
+      {currentSeason.completed && teams[0] && (
+        <section className="border-y border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 via-amber-500/10 to-yellow-500/10 py-10">
+          <div className="container mx-auto px-4 text-center">
+            <div className="flex items-center justify-center gap-2 text-yellow-500">
+              <Crown className="h-5 w-5" />
+              <span className="font-oswald text-sm font-bold uppercase tracking-wide">Campeón de Temporada {currentSeason.number}</span>
+              <Crown className="h-5 w-5" />
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-6 text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-primary" />
-                <span>{nextRace.date}</span>
+            <div className="mt-3 flex items-center justify-center gap-4">
+              <div className="h-3 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: teams[0].color }} />
+              <span className="font-oswald text-2xl font-bold text-yellow-500 md:text-3xl">{teams[0].acronym}</span>
+              <span className="text-amber-200/80 md:text-2xl">— {teams[0].name}</span>
+            </div>
+            <p className="mt-1 font-bold text-yellow-500">{teams[0].points} puntos</p>
+          </div>
+        </section>
+      )}
+
+      {hasUpcomingRace && (
+        <section className="border-y border-border/80 bg-card/60 py-12 backdrop-blur-sm">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col items-center justify-between gap-6 lg:flex-row">
+              <div className="text-center lg:text-left">
+                <p className="text-sm font-medium uppercase tracking-wider text-primary">Próxima Carrera</p>
+                <h2 className="font-oswald mt-2 text-3xl font-bold uppercase text-foreground md:text-4xl">
+                  Ronda {nextRace.round}: {nextRace.circuit}
+                </h2>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-primary" />
-                <span>{nextRace.time}</span>
+              <div className="flex flex-wrap items-center justify-center gap-6 text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5 text-primary" />
+                  <span>{nextRace.date}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-primary" />
+                  <span>{nextRace.time}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-5 w-5 text-primary" />
+                  <span>Gran Turismo 7</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-primary" />
-                <span>Gran Turismo 7</span>
+            </div>
+            {/* Redline TV – Watch live stream */}
+            <div className="mt-8 flex flex-col items-center gap-4 border-t border-border pt-8">
+              <p className="flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-primary">
+                <Tv className="h-5 w-5" />
+                {redlineTv.name}
+              </p>
+              <p className="text-center text-sm text-muted-foreground">
+                Ver las carreras en directo con nuestro caster
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <Button asChild variant="default" size="lg" className="gap-2">
+                  <a href={redlineTv.twitch} target="_blank" rel="noopener noreferrer">
+                    <Tv className="h-5 w-5" />
+                    Ver en Twitch
+                  </a>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="gap-2">
+                  <a href={redlineTv.youtube} target="_blank" rel="noopener noreferrer">
+                    <Tv className="h-5 w-5" />
+                    Ver en YouTube
+                  </a>
+                </Button>
               </div>
             </div>
           </div>
-          {/* Redline TV – Watch live stream */}
-          <div className="mt-8 flex flex-col items-center gap-4 border-t border-border pt-8">
-            <p className="flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-primary">
-              <Tv className="h-5 w-5" />
-              {redlineTv.name}
-            </p>
-            <p className="text-center text-sm text-muted-foreground">
-              Ver las carreras en directo con nuestro caster
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Button asChild variant="default" size="lg" className="gap-2">
-                <a href={redlineTv.twitch} target="_blank" rel="noopener noreferrer">
-                  <Tv className="h-5 w-5" />
-                  Ver en Twitch
-                </a>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="gap-2">
-                <a href={redlineTv.youtube} target="_blank" rel="noopener noreferrer">
-                  <Tv className="h-5 w-5" />
-                  Ver en YouTube
-                </a>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Main Content */}
       <section className="py-16 lg:py-24">
@@ -137,8 +170,8 @@ export default function HomePage() {
                         {team.position}
                       </span>
                       <div className="flex items-center gap-3">
-                        <div className="h-4 w-1 rounded-full" style={{ backgroundColor: team.color }} />
-                        <span className="font-bold text-foreground">{team.acronym}</span>
+                        <div className="h-4 w-1 rounded-full flex-shrink-0" style={{ backgroundColor: team.color }} />
+                        <span className="min-w-[2.5rem] font-bold text-foreground">{team.acronym}</span>
                         <span className="text-sm text-muted-foreground">{team.name}</span>
                       </div>
                     </div>

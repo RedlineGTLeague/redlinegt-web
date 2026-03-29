@@ -3,6 +3,8 @@
 export interface Season {
   /** Sequential season number within the league (1, 2, 3, ...) */
   number: number
+  /** Whether the season has finished and a champion has been crowned */
+  completed: boolean
 }
 
 export interface Team {
@@ -24,6 +26,7 @@ export interface Race {
 /** Current active season for the website */
 export const currentSeason: Season = {
   number: 1,
+  completed: false,
 }
 
 // Placeholder - drivers not used in current season

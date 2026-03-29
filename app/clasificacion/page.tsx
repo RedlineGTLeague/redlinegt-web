@@ -1,6 +1,6 @@
-import { Users } from "lucide-react"
+import { Users, Crown } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { teams } from "@/lib/data"
+import { teams, currentSeason } from "@/lib/data"
 
 export default function ClasificacionPage() {
   return (
@@ -15,6 +15,22 @@ export default function ClasificacionPage() {
             Clasificación actual de equipos en la temporada 2026 de Redline GT League.
           </p>
         </div>
+
+        {currentSeason.completed && teams[0] && (
+          <div className="mx-auto mb-12 max-w-3xl rounded-xl border border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 via-amber-500/10 to-yellow-500/10 p-6 text-center">
+            <div className="flex items-center justify-center gap-2 text-yellow-500">
+              <Crown className="h-6 w-6" />
+              <span className="font-oswald text-lg font-bold uppercase tracking-wide">Campeón de Temporada {currentSeason.number}</span>
+              <Crown className="h-6 w-6" />
+            </div>
+            <div className="mt-3 flex items-center justify-center gap-4">
+              <div className="h-3 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: teams[0].color }} />
+              <span className="font-oswald text-3xl font-bold text-yellow-500 md:text-4xl">{teams[0].acronym}</span>
+              <span className="text-xl text-amber-200/80">— {teams[0].name}</span>
+            </div>
+            <p className="mt-2 text-lg font-bold text-yellow-500">{teams[0].points} puntos</p>
+          </div>
+        )}
 
         {/* Team Standings */}
         <Card className="mx-auto max-w-3xl border-border bg-card">
@@ -52,9 +68,9 @@ export default function ClasificacionPage() {
                   }`}>
                     {team.position}
                   </span>
-                  <div className="flex items-center gap-2">
-                    <div className="h-4 w-1 rounded-full" style={{ backgroundColor: team.color }} />
-                    <span className="font-bold text-foreground">{team.acronym}</span>
+                  <div className="flex min-w-[4rem] items-center gap-2">
+                    <div className="h-4 w-1 rounded-full flex-shrink-0" style={{ backgroundColor: team.color }} />
+                    <span className="min-w-[2.5rem] font-bold text-foreground">{team.acronym}</span>
                   </div>
                   <span className="text-sm text-muted-foreground">{team.name}</span>
                   <span className="text-right font-bold text-foreground">{team.points}</span>
