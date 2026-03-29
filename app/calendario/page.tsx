@@ -14,7 +14,7 @@ export default function CalendarioPage() {
           <h1 className="font-oswald text-4xl font-bold uppercase tracking-tight text-foreground md:text-5xl lg:text-6xl">
             Calendario
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+          <p className="mx-auto mt-4 max-w-2xl text-base text-[#b0b0b0]">
             Calendario completo de carreras de la temporada {currentSeason.number}. {completedRaces} de {totalRaces} rondas completadas.
           </p>
         </div>

@@ -82,7 +82,7 @@ export default function ReportarIncidentePage() {
           <h1 className="font-oswald text-4xl font-bold uppercase tracking-tight text-foreground md:text-5xl lg:text-6xl">
             Reportar Incidente
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+          <p className="mx-auto mt-4 max-w-2xl text-base text-[#b0b0b0]">
             Utiliza este formulario para reportar incidentes ocurridos durante las carreras de la liga.
           </p>
         </div>

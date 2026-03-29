@@ -34,7 +34,7 @@ export default function HomePage() {
               priority
             />
             
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
+            <p className="mx-auto mt-6 max-w-2xl text-base text-[#b0b0b0] md:text-lg">
               Campeonato competitivo de Gran Turismo 7. Donde la velocidad, la estrategia y la habilidad se unen para coronar al mejor piloto virtual.
             </p>
             

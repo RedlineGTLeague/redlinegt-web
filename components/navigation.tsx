@@ -16,12 +16,16 @@ import { cn } from "@/lib/utils"
 import { redlineTv } from "@/lib/data"
 
 const navItems = [
-  { href: "/", label: "Inicio", icon: Flag },
-  { href: "/clasificacion", label: "Clasificación", icon: Trophy },
-  { href: "/calendario", label: "Calendario", icon: Calendar },
-  { href: "/reglamento", label: "Reglamento", icon: FileText },
-  { href: "/reportar-incidente", label: "Reportar Incidente", icon: AlertTriangle },
+  { href: "/", label: "Inicio", icon: Flag, enabled: true },
+  { href: "/clasificacion", label: "Clasificación", icon: Trophy, enabled: true },
+  { href: "/calendario", label: "Calendario", icon: Calendar, enabled: true },
+  { href: "/reglamento", label: "Reglamento", icon: FileText, enabled: true },
+  { href: "/reportar-incidente", label: "Reportar Incidente", icon: AlertTriangle, enabled: true },
 ]
+
+// Disable items by setting enabled: false
+// Examples:
+// { href: "/clasificacion", label: "Clasificación", icon: Trophy, enabled: false },
 
 export function Navigation() {
   const pathname = usePathname()
@@ -44,7 +48,7 @@ export function Navigation() {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-1 md:flex">
-          {navItems.map((item) => {
+          {navItems.filter(item => item.enabled !== false).map((item) => {
             const Icon = item.icon
             return (
               <Link
@@ -114,7 +118,7 @@ export function Navigation() {
       {mobileMenuOpen && (
         <div className="border-t border-border bg-background md:hidden">
           <div className="container mx-auto space-y-1 px-4 py-4">
-            {navItems.map((item) => {
+            {navItems.filter(item => item.enabled !== false).map((item) => {
               const Icon = item.icon
               return (
                 <Link

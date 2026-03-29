@@ -138,3 +138,98 @@ body[data-scroll-locked] {
   }
 }
 
+/* Rulebook chapter styles - matching original site */
+.chapter {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #e0e0e0;
+}
+
+.chapter h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.chapter h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.chapter p {
+  margin-bottom: 1rem;
+  color: #e0e0e0;
+}
+
+.chapter ul,
+.chapter ol {
+  margin: 0.5rem 0 1rem 1.5rem;
+  list-style: disc;
+  color: #e0e0e0;
+}
+
+.chapter li {
+  margin-bottom: 0.35rem;
+}
+
+.chapter strong {
+  color: #fff;
+}
+
+.chapter em {
+  color: #888;
+}
+
+.chapter a {
+  color: #e52222;
+}
+
+.chapter blockquote {
+  border-left: 3px solid #e52222;
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background: rgba(229, 34, 34, 0.05);
+  border-radius: 0 4px 4px 0;
+}
+
+.chapter table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.92rem;
+}
+
+.chapter th, .chapter td {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #2a2a2a;
+  text-align: left;
+  color: #e0e0e0;
+}
+
+.chapter th {
+  background: rgba(229, 34, 34, 0.15);
+  color: #fff;
+  font-weight: 600;
+}
+
+.chapter tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.chapter hr {
+  border: none;
+  border-top: 1px solid #2a2a2a;
+  margin: 1.5rem 0;
+}
+
+.chapter img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 1rem 0;
+}
+

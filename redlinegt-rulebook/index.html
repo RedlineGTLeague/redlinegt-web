@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REDLINE GT League – Reglamento Oficial</title>
+    <meta
+      name="description"
+      content="Reglamento oficial de REDLINE GT League. Normas deportivas, técnicas y de conducta que regulan la competición."
+    />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0e0e0e;
+        --bg-card: #181818;
+        --bg-nav: #141414;
+        --text: #e0e0e0;
+        --text-muted: #888;
+        --accent: #e52222;
+        --accent-hover: #ff3b3b;
+        --border: #2a2a2a;
+        --radius: 8px;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+        min-height: 100vh;
+      }
+
+      /* Header */
+      .header {
+        background: linear-gradient(135deg, #111 0%, #1a0a0a 100%);
+        border-bottom: 3px solid var(--accent);
+        padding: 2rem 1.5rem;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #fff;
+      }
+
+      .header h1 span {
+        color: var(--accent);
+      }
+
+      .header p {
+        color: var(--text-muted);
+        margin-top: 0.5rem;
+        font-size: 1rem;
+      }
+
+      .lang-switch {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .lang-btn {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.02);
+        color: var(--text-muted);
+        padding: 0.45rem 0.9rem;
+        border-radius: var(--radius);
+        cursor: pointer;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        transition: all 0.15s ease;
+      }
+
+      .lang-btn:hover {
+        border-color: var(--accent);
+        color: #fff;
+      }
+
+      .lang-btn[aria-pressed="true"],
+      .lang-btn.active {
+        background: rgba(229, 34, 34, 0.14);
+        border-color: var(--accent);
+        color: #fff;
+      }
+
+      /* Layout */
+      .layout {
+        display: flex;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 0;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        width: 280px;
+        min-width: 280px;
+        background: var(--bg-nav);
+        border-right: 1px solid var(--border);
+        overflow-y: auto;
+        padding: 1.5rem 0;
+      }
+
+      .sidebar-title {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-muted);
+        padding: 0 1.25rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .sidebar a {
+        display: block;
+        padding: 0.55rem 1.25rem;
+        text-decoration: none;
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        border-left: 3px solid transparent;
+        transition: all 0.15s ease;
+      }
+
+      .sidebar a:hover,
+      .sidebar a.active {
+        color: #fff;
+        background: rgba(229, 34, 34, 0.08);
+        border-left-color: var(--accent);
+      }
+
+      /* Main content */
+      .content {
+        flex: 1;
+        min-width: 0;
+        padding: 2rem 2.5rem 4rem;
+      }
+
+      .chapter {
+        padding: 2rem 0;
+        border-bottom: 1px solid var(--border);
+        max-width: 750px;
+        margin: 0 auto;
+        font-size: 1.05rem;
+        line-height: 1.8;
+      }
+
+      .chapter:last-child {
+        border-bottom: none;
+      }
+
+      /* Markdown rendered styles */
+      .chapter h1 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--accent);
+      }
+
+      .chapter h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #fff;
+        margin: 1.5rem 0 0.75rem;
+      }
+
+      .chapter h3 {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--text);
+        margin: 1.25rem 0 0.5rem;
+      }
+
+      .chapter p {
+        margin-bottom: 1rem;
+      }
+
+      .chapter ul,
+      .chapter ol {
+        margin: 0.5rem 0 1rem 1.5rem;
+      }
+
+      .chapter li {
+        margin-bottom: 0.35rem;
+      }
+
+      .chapter strong {
+        color: #fff;
+      }
+
+      .chapter em {
+        color: var(--text-muted);
+      }
+
+      .chapter a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      .chapter a:hover {
+        color: var(--accent-hover);
+        text-decoration: underline;
+      }
+
+      .chapter blockquote {
+        border-left: 3px solid var(--accent);
+        margin: 1rem 0;
+        padding: 0.75rem 1rem;
+        background: rgba(229, 34, 34, 0.05);
+        border-radius: 0 var(--radius) var(--radius) 0;
+      }
+
+      .chapter table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        font-size: 0.92rem;
+      }
+
+      .chapter th,
+      .chapter td {
+        padding: 0.6rem 0.8rem;
+        border: 1px solid var(--border);
+        text-align: left;
+      }
+
+      .chapter th {
+        background: rgba(229, 34, 34, 0.15);
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .chapter tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .chapter img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--radius);
+        margin: 1rem 0;
+      }
+
+      .chapter hr {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 1.5rem 0;
+      }
+
+      .chapter iframe {
+        max-width: 100%;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        height: auto;
+      }
+
+      /* Loading state */
+      .loading {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: var(--text-muted);
+      }
+
+      .loading::after {
+        content: "";
+        display: block;
+        width: 32px;
+        height: 32px;
+        margin: 1rem auto;
+        border: 3px solid var(--border);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Chapter skeleton shimmer */
+      .chapter-skeleton {
+        pointer-events: none;
+      }
+
+      .skeleton-line {
+        height: 1em;
+        border-radius: 4px;
+        margin-bottom: 0.75rem;
+        background: linear-gradient(
+          90deg,
+          var(--border) 25%,
+          rgba(255,255,255,0.06) 50%,
+          var(--border) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.4s infinite;
+      }
+
+      .skeleton-line.title  { width: 55%; height: 1.4em; margin-bottom: 1.25rem; }
+      .skeleton-line.short  { width: 38%; }
+      .skeleton-line.medium { width: 72%; }
+      .skeleton-line.long   { width: 91%; }
+      .skeleton-line.full   { width: 100%; }
+
+      @keyframes shimmer {
+        from { background-position: 200% 0; }
+        to   { background-position: -200% 0; }
+      }
+
+      /* Mobile nav toggle */
+      .nav-toggle {
+        display: none;
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        z-index: 9999;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        font-size: 1.4rem;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(229, 34, 34, 0.4);
+        transform: translateZ(0);
+        will-change: transform;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .sidebar {
+          position: fixed;
+          left: -300px;
+          top: 0;
+          z-index: 50;
+          transition: left 0.3s ease;
+          box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar.open {
+          left: 0;
+        }
+
+        .nav-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .overlay {
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 40;
+        }
+
+        .overlay.open {
+          display: block;
+        }
+
+        .content {
+          padding: 1.5rem 1.25rem 4rem;
+        }
+      }
+
+      /* Back to top */
+      .back-to-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        z-index: 9998;
+        width: 42px;
+        height: 42px;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 16px rgba(229, 34, 34, 0.45);
+        opacity: 0;
+        transform: translateY(80px);
+        transition: opacity 0.25s ease, transform 0.25s ease, background 0.15s ease;
+        will-change: transform, opacity;
+        clip-path: polygon(0 8px, 50% 0, 100% 8px, 100% 100%, 0 100%);
+      }
+
+      .back-to-top.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* On mobile, stack it above the nav toggle */
+      @media (max-width: 1024px) {
+        .back-to-top {
+          bottom: 5.5rem; /* clears the 48px toggle + gap */
+        }
+      }
+
+      /* Footer */
+      .footer {
+        text-align: center;
+        padding: 2rem 1rem;
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        border-top: 1px solid var(--border);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <h1><span>REDLINE</span> GT League</h1>
+      <p id="pageSubtitle">Reglamento Oficial</p>
+      <div class="lang-switch" role="group" aria-label="Idioma">
+        <button class="lang-btn" data-lang="es" id="lang-btn-es" aria-pressed="true">
+          ES
+        </button>
+        <button class="lang-btn" data-lang="pt" id="lang-btn-pt" aria-pressed="false">
+          PT
+        </button>
+        <button class="lang-btn" data-lang="en" id="lang-btn-en" aria-pressed="false">
+          EN
+        </button>
+        <button class="lang-btn" data-lang="ca" id="lang-btn-ca" aria-pressed="false">
+          CA
+        </button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav class="sidebar" id="sidebar">
+        <div class="sidebar-title">Índice</div>
+        <div id="nav-links"></div>
+      </nav>
+      <div class="overlay" id="overlay"></div>
+      <main class="content" id="content">
+        <div class="loading">Cargando reglamento…</div>
+      </main>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
+    <button class="back-to-top" id="backToTop" aria-label="Top">&#8963;</button>
+    <footer class="footer">REDLINE GT League</footer>
+
+    <script>
+      const languages = {
+        es: { subtitle: "Reglamento Oficial", backToTop: "Volver arriba" },
+        ca: { subtitle: "Reglament Oficial",  backToTop: "Tornar a dalt" },
+        pt: { subtitle: "Regulamento Oficial", backToTop: "Voltar ao topo" },
+        en: { subtitle: "Official Rulebook",  backToTop: "Back to top" },
+      };
+
+      // Fallback chapter mapping (keeps ES working even if the ES index.md is missing).
+      const fallbackChapters = [
+        {
+          file: "1.md",
+          titleEs: "1. DISPOSICIONES GENERALES",
+        },
+        {
+          file: "2.md",
+          titleEs: "2. CATEGORÍA Y FORMATO GENERAL",
+        },
+        {
+          file: "3.md",
+          titleEs: "3. ELECCIÓN DE MODELO (DRAFT)",
+        },
+        {
+          file: "4.md",
+          titleEs: "4. INSCRIPCIÓN DE EQUIPO",
+        },
+        {
+          file: "5.md",
+          titleEs: "5. FORMATO DEPORTIVO",
+        },
+        {
+          file: "6.md",
+          titleEs: "6. CONFIGURACIÓN TÉCNICA",
+        },
+        {
+          file: "7.md",
+          titleEs: "7. SISTEMA DE PUNTUACIÓN",
+        },
+        {
+          file: "8.md",
+          titleEs: "8. SISTEMA DE PENALIZACIONES",
+        },
+        {
+          file: "9.md",
+          titleEs: "9. REPORTES Y RECLAMACIONES",
+        },
+        {
+          file: "10.md",
+          titleEs: "10. GESTIÓN DE LIGA EN DISCORD",
+        },
+        {
+          file: "11.md",
+          titleEs: "11. REQUISITOS DE DISEÑO",
+        },
+        {
+          file: "12.md",
+          titleEs: "12. DISPOSICIONES FINALES",
+        },
+      ];
+
+      let currentLang = "es";
+      let loadRequestId = 0;
+
+      // Save language selected when page was visited last time
+      const savedLang = localStorage.getItem("lang");
+      if (savedLang) currentLang = savedLang;
+
+      function fixImagePaths(html) {
+        // All languages share the same media folder for now.
+        // This keeps image URLs stable even if PT/EN are introduced later.
+        return html.replace(
+          /src="media\/media\//g,
+          'src="content/rules/media/'
+        ).replace(
+          /src="media\//g,
+          'src="content/rules/media/'
+        );
+      }
+
+      function stripFrontmatter(text) {
+        if (text.startsWith("---")) {
+          const end = text.indexOf("---", 3);
+          if (end !== -1) {
+            return text.slice(end + 3).trim();
+          }
+        }
+        return text;
+      }
+
+      function parseIndexChapters(indexMarkdown) {
+        // Expecting the same format as `content/rules/<lang>/index.md`,
+        // e.g. `1. [Disposiciones Generales](./1.md)`
+        const results = [];
+        const rx =
+          /^\s*(\d+)\.\s*\[([^\]]+)\]\(([^)]+\.md)\)\s*$/gm;
+
+        for (const match of indexMarkdown.matchAll(rx)) {
+          const num = match[1];
+          const label = match[2].trim();
+          const target = match[3].trim();
+          results.push({
+            title: `${num}. ${label}`,
+            target,
+          });
+        }
+
+        // Fallback: parse any markdown link that points to a .md file.
+        if (results.length === 0) {
+          const generic = /\[([^\]]+)\]\(([^)]+\.md)\)/g;
+          for (const match of indexMarkdown.matchAll(generic)) {
+            results.push({
+              title: match[1].trim(),
+              target: match[2].trim(),
+            });
+          }
+        }
+        return results;
+      }
+
+      function resolveChapterTarget(lang, target) {
+        // Most links look like `./01-foo.md`.
+        const normalized = target.replace(/^\.?\//, "");
+        if (normalized.startsWith("content/")) return normalized;
+        return `content/rules/${lang}/${normalized}`;
+      }
+
+      function chapterNotAvailable(lang) {
+        const msgs = {
+          es: "Este capítulo no existe.",
+          en: "This chapter is not available in this language yet.",
+          pt: "Este capítulo ainda não está disponível neste idioma.",
+          ca: "Aquest capítol encara no està disponible en aquest idioma.",
+        };
+        return `<p style="color:var(--text-muted)">${msgs[lang] ?? "Chapter not available."}</p>`;
+      }
+
+      function skeletonHTML() {
+        return `
+          <div class="chapter-skeleton">
+            <div class="skeleton-line title"></div>
+            <div class="skeleton-line long"></div>
+            <div class="skeleton-line full"></div>
+            <div class="skeleton-line medium"></div>
+            <div class="skeleton-line full"></div>
+            <div class="skeleton-line short"></div>
+            <div class="skeleton-line full"></div>
+            <div class="skeleton-line long"></div>
+            <div class="skeleton-line medium"></div>
+          </div>`;
+      }
+
+      async function loadChapters(lang) {
+        const requestId = ++loadRequestId;
+        currentLang = lang;
+
+        const contentEl = document.getElementById("content");
+        const navEl = document.getElementById("nav-links");
+        contentEl.innerHTML = "";
+        navEl.innerHTML = "";
+
+        const subtitleEl = document.getElementById("pageSubtitle");
+        if (languages[lang] && subtitleEl) subtitleEl.textContent = languages[lang].subtitle;
+        document.getElementById("backToTop").setAttribute("aria-label", languages[lang]?.backToTop ?? "Top");
+        document.documentElement.lang = lang;
+
+        // ── 1. Resolve the chapter list (index fetch is still serial — it's one small file) ──
+        let indexChapters = null;
+        try {
+          let indexRes;
+          try {
+            indexRes = await fetch(`content/rules/${lang}/index.md`);
+            if (!indexRes.ok) throw new Error();
+          } catch {
+            indexRes = await fetch(`content/rules/es/index.md`);
+          }
+          if (indexRes.ok) {
+            indexChapters = parseIndexChapters(await indexRes.text());
+          }
+        } catch {
+          indexChapters = null;
+        }
+
+        if (requestId !== loadRequestId) return;
+
+        const chaptersToLoad =
+          indexChapters && indexChapters.length > 0
+            ? indexChapters.map((ch) => ({
+                file: resolveChapterTarget(lang, ch.target),
+                title: ch.title,
+              }))
+            : fallbackChapters.map((ch) => ({
+                file: `content/rules/${lang}/${ch.file}`,
+                title: ch.titleEs,
+              }));
+
+        // ── 2. Build all nav links + skeleton sections immediately ──
+        const sectionEls = chaptersToLoad.map((ch, i) => {
+          const id = "chapter-" + (i + 1);
+
+          const link = document.createElement("a");
+          link.href = "#" + id;
+          link.textContent = ch.title && ch.title.trim() ? ch.title : "…";
+          link.addEventListener("click", closeMobileNav);
+          navEl.appendChild(link);
+
+          const section = document.createElement("section");
+          section.className = "chapter";
+          section.id = id;
+          section.innerHTML = skeletonHTML();
+          contentEl.appendChild(section);
+
+          return section;
+        });
+
+        // ── 3. Fire all fetches in parallel ──
+        await Promise.all(
+          chaptersToLoad.map(async (ch, i) => {
+            try {
+              const res = await fetch(ch.file);
+              if (requestId !== loadRequestId) return;
+
+              if (!res.ok) {
+                sectionEls[i].innerHTML = chapterNotAvailable(lang);
+                return;
+              }
+              const clean = stripFrontmatter(await res.text());
+              try {
+                sectionEls[i].innerHTML = fixImagePaths(marked.parse(clean));
+              } catch {
+                sectionEls[i].innerHTML = chapterNotAvailable(lang);
+              }
+            } catch {
+              if (requestId !== loadRequestId) return;
+              sectionEls[i].innerHTML =
+                "<p style='color:var(--text-muted)'>No se pudo cargar este capítulo.</p>";
+            }
+          })
+        );
+
+        if (requestId !== loadRequestId) return;
+        setupScrollSpy();
+      }
+
+      function setupScrollSpy() {
+        const links = document.querySelectorAll("#nav-links a");
+        const sections = document.querySelectorAll(".chapter");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                links.forEach((l) => l.classList.remove("active"));
+                const active = document.querySelector(
+                  '#nav-links a[href="#' + entry.target.id + '"]'
+                );
+                if (active) active.classList.add("active");
+              }
+            });
+          },
+          { rootMargin: "-20% 0px -70% 0px" }
+        );
+
+        sections.forEach((s) => observer.observe(s));
+      }
+
+      /* Mobile nav */
+      const toggle = document.getElementById("navToggle");
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+
+      function closeMobileNav() {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("open");
+      }
+
+      toggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("open");
+      });
+
+      overlay.addEventListener("click", closeMobileNav);
+
+      function setActiveLangButtons(lang) {
+        document.querySelectorAll(".lang-btn").forEach((btn) => {
+          const pressed = btn.getAttribute("data-lang") === lang;
+          btn.setAttribute("aria-pressed", pressed ? "true" : "false");
+          btn.classList.toggle("active", pressed);
+        });
+      }
+
+      document.querySelectorAll(".lang-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const lang = btn.getAttribute("data-lang");
+          if (!lang || lang === currentLang) return;
+
+          localStorage.setItem("lang", lang);
+
+          setActiveLangButtons(lang);
+          closeMobileNav();
+          loadChapters(lang);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+
+      /* Back to top */
+      const backToTop = document.getElementById("backToTop");
+      window.addEventListener("scroll", () => {
+        backToTop.classList.toggle("visible", window.scrollY > 400);
+      }, { passive: true });
+      backToTop.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      /* Init */
+      setActiveLangButtons(currentLang);
+      loadChapters(currentLang);
+    </script>
+  </body>
+</html>

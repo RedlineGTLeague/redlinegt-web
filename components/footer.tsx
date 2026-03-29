@@ -1,6 +1,15 @@
 import Link from "next/link"
 import Image from "next/image"
 
+const footerLinks = [
+  { href: "/", label: "Inicio", enabled: true },
+  { href: "/clasificacion", label: "Clasificación", enabled: true },
+  { href: "/calendario", label: "Calendario", enabled: true },
+  { href: "/reglamento", label: "Reglamento", enabled: true },
+]
+
+// Disable items by setting enabled: false
+
 export function Footer() {
   return (
     <footer className="border-t border-border bg-card">
@@ -17,18 +26,11 @@ export function Footer() {
           </Link>
           
           <nav className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
-            <Link href="/" className="transition-colors hover:text-foreground">
-              Inicio
-            </Link>
-            <Link href="/clasificacion" className="transition-colors hover:text-foreground">
-              Clasificación
-            </Link>
-            <Link href="/calendario" className="transition-colors hover:text-foreground">
-              Calendario
-            </Link>
-            <Link href="/reglamento" className="transition-colors hover:text-foreground">
-              Reglamento
-            </Link>
+            {footerLinks.filter(link => link.enabled !== false).map((link) => (
+              <Link key={link.href} href={link.href} className="transition-colors hover:text-foreground">
+                {link.label}
+              </Link>
+            ))}
           </nav>
           
           <p className="text-sm text-muted-foreground">
