@@ -1,6 +1,6 @@
 'use client'
 
-import { FileText, Flag, AlertTriangle, Settings, Users, MessageSquare, MessageCircle, Palette, Scale, Play, Trophy, Truck, Globe } from "lucide-react"
+import { FileText, Flag, AlertTriangle, Settings, Users, MessageSquare, MessageCircle, Palette, Scale, Play, Trophy, Truck, Globe, List } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import ReactMarkdown from "react-markdown"
@@ -138,24 +138,29 @@ function RuleSection({ number, title, content }: RuleSectionProps) {
   )
 }
 
-function IndexNav({ lang }: { lang: Lang }) {
+function IndexNav({ lang, onSelect }: { lang: Lang; onSelect?: () => void }) {
   const titles = SECTION_TITLES_CLIENT[lang]
   
+  const handleClick = () => {
+    if (onSelect) onSelect()
+  }
+
   return (
-    <nav className="mb-8 bg-[#141414] border border-[#2a2a2a] rounded-lg p-4">
+    <div className="bg-[#141414] border border-[#2a2a2a] rounded-lg p-4 max-h-[70vh] overflow-y-auto">
       <div className="text-xs uppercase tracking-wider text-[#888] mb-3">Índice</div>
-      <div className="grid gap-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="space-y-1">
         {Object.entries(titles).map(([num, title]) => (
           <a
             key={num}
             href={`#seccion-${num}`}
-            className="block py-1.5 px-2 text-sm text-[#888] no-underline border-l-[3px] border-transparent hover:text-white hover:border-[#e52222] transition-all"
+            onClick={handleClick}
+            className="block py-2 px-3 text-sm text-[#888] no-underline rounded hover:bg-[#e52222]/10 hover:text-white hover:border-l-2 hover:border-[#e52222] transition-all"
           >
             {num}. {title}
           </a>
         ))}
       </div>
-    </nav>
+    </div>
   )
 }
 
@@ -169,13 +174,25 @@ export default function ReglamentoClient({ lang, sections }: ReglamentoClientPro
   const searchParams = useSearchParams()
   const [currentLang, setCurrentLang] = useState(lang)
   const [showBackToTop, setShowBackToTop] = useState(false)
+  const [showToc, setShowToc] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 400)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile)
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   const handleLangChange = (newLang: Lang) => {
@@ -208,7 +225,10 @@ export default function ReglamentoClient({ lang, sections }: ReglamentoClientPro
       </div>
 
       <div className="space-y-6 max-w-[750px] mx-auto">
-        <IndexNav lang={currentLang} />
+        {/* TOC visible on desktop */}
+        <div className="hidden md:block">
+          <IndexNav lang={currentLang} />
+        </div>
 
         {Object.entries(sections)
           .sort(([a], [b]) => parseInt(a) - parseInt(b))
@@ -222,10 +242,34 @@ export default function ReglamentoClient({ lang, sections }: ReglamentoClientPro
           ))}
       </div>
 
+      {/* Floating TOC Panel (mobile only) */}
+      {showToc && (
+        <>
+          <div 
+            className="fixed inset-0 bg-black/50 z-[70]"
+            onClick={() => setShowToc(false)}
+          />
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-sm z-[80]">
+            <IndexNav lang={currentLang} onSelect={() => setShowToc(false)} />
+          </div>
+        </>
+      )}
+
+      {/* Floating TOC Toggle Button (mobile only, or when scrolled on desktop) */}
+      {isMobile && (
+        <button
+          onClick={() => setShowToc(!showToc)}
+          className={`fixed bottom-6 right-20 w-12 h-12 bg-[#181818] text-white border border-[#2a2a2a] rounded-full cursor-pointer flex items-center justify-center shadow-lg transition-all duration-300 hover:border-[#e52222] hover:text-[#e52222] z-[90] ${showToc ? 'border-[#e52222] text-[#e52222]' : ''}`}
+          aria-label={showToc ? "Ocultar índice" : "Mostrar índice"}
+        >
+          <List className="h-5 w-5" />
+        </button>
+      )}
+
+      {/* Back to Top Button */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={`fixed bottom-6 right-6 w-10 h-10 bg-[#e52222] text-white border-none cursor-pointer flex items-center justify-center text-lg shadow-md transition-all duration-300 hover:bg-[#ff3b3b] z-50 ${showBackToTop ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        style={{ clipPath: 'polygon(0 8px, 50% 0, 100% 8px, 100% 100%, 0 100%)' }}
+        className={`fixed bottom-6 right-6 w-12 h-12 bg-[#e52222] text-white border-none rounded-full cursor-pointer flex items-center justify-center shadow-lg transition-all duration-300 hover:bg-[#ff3b3b] z-[90] ${showBackToTop ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         aria-label="Volver arriba"
       >
         &#8963;
