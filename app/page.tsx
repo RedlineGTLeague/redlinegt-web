@@ -3,8 +3,9 @@ import Image from "next/image"
 import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv, Crown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { teams, nextRace, redlineTv, currentSeason, races } from "@/lib/data"
+import { teams, currentTeams, pastTeams, nextRace, redlineTv, currentSeason, races } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
+import { TeamsSection } from "@/components/teams-section"
 
 export default function HomePage() {
   const hasUpcomingRace = races.some(race => !race.completed)
@@ -159,6 +160,9 @@ export default function HomePage() {
           </Card>
         </div>
       </section>
+
+      {/* Teams on the Grid */}
+      <TeamsSection teams={currentTeams} extraTeams={pastTeams} />
 
       {/* Quick Links Section */}
       <section className="border-t border-border/80 bg-card/60 py-16 backdrop-blur-sm">

@@ -136,6 +136,27 @@ body[data-scroll-locked] {
   .font-oswald {
     font-family: var(--font-oswald);
   }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll 30s linear infinite;
+  }
+
+  .animate-scroll-slow {
+    animation: scroll 45s linear infinite;
+  }
+
+  .pause:hover {
+    animation-play-state: paused;
+  }
 }
 
 /* Rulebook chapter styles - matching original site */
