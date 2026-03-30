@@ -3,12 +3,13 @@ import Image from "next/image"
 import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv, Crown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { teams, currentTeams, pastTeams, nextRace, redlineTv, currentSeason, races } from "@/lib/data"
+import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, redlineTv, currentSeason, races } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { TeamsSection } from "@/components/teams-section"
 
 export default function HomePage() {
   const hasUpcomingRace = races.some(race => !race.completed)
+  const standingsWithTeams = getStandingsWithTeams(standings)
 
   return (
     <div className="min-h-screen">
@@ -70,7 +71,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {currentSeason.completed && teams[0] && (
+      {currentSeason.completed && standingsWithTeams[0] && (
         <section className="border-y border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 via-amber-500/10 to-yellow-500/10 py-10">
           <div className="container mx-auto px-4 text-center">
             <div className="flex items-center justify-center gap-2 text-yellow-500">
@@ -79,11 +80,11 @@ export default function HomePage() {
               <Crown className="h-5 w-5" />
             </div>
             <div className="mt-3 flex items-center justify-center gap-4">
-              <div className="h-3 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: teams[0].color }} />
-              <span className="font-oswald text-2xl font-bold text-yellow-500 md:text-3xl">{teams[0].acronym}</span>
-              <span className="text-amber-200/80 md:text-2xl">— {teams[0].name}</span>
+              <div className="h-3 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: standingsWithTeams[0].color }} />
+              <span className="font-oswald text-2xl font-bold text-yellow-500 md:text-3xl">{standingsWithTeams[0].acronym}</span>
+              <span className="text-amber-200/80 md:text-2xl">— {standingsWithTeams[0].name}</span>
             </div>
-            <p className="mt-1 font-bold text-yellow-500">{teams[0].points} puntos</p>
+            <p className="mt-1 font-bold text-yellow-500">{standingsWithTeams[0].points} puntos</p>
           </div>
         </section>
       )}
@@ -155,7 +156,7 @@ export default function HomePage() {
               </Link>
             </CardHeader>
             <CardContent className="p-0">
-              <TeamTable teams={teams} showHeader={false} />
+              <TeamTable standings={standingsWithTeams} showHeader={false} />
             </CardContent>
           </Card>
         </div>

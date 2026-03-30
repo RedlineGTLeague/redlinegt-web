@@ -1,12 +1,19 @@
-import { Team } from "@/lib/data"
+import { Standing } from "@/lib/data"
 import { cn } from "@/lib/utils"
 
+interface StandingWithTeam extends Standing {
+  name: string
+  acronym: string
+  color: string
+  logo?: string
+}
+
 interface TeamTableProps {
-  teams: Team[]
+  standings: StandingWithTeam[]
   showHeader?: boolean
 }
 
-export function TeamTable({ teams, showHeader = true }: TeamTableProps) {
+export function TeamTable({ standings, showHeader = true }: TeamTableProps) {
   return (
     <div className="space-y-2">
       {showHeader && (
@@ -17,7 +24,7 @@ export function TeamTable({ teams, showHeader = true }: TeamTableProps) {
           <span className="text-right">Puntos</span>
         </div>
       )}
-      {teams.map((team) => (
+      {standings.map((team) => (
         <div
           key={team.position}
           className="flex items-center gap-2 md:gap-4 rounded-lg bg-secondary/50 px-2 md:px-3 py-2 transition-colors hover:bg-secondary"
