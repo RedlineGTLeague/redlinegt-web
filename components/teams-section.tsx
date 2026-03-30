@@ -12,6 +12,7 @@ interface TeamLogo {
 interface TeamsSectionProps {
   teams: TeamLogo[]
   extraTeams?: TeamLogo[]
+  intervalMs?: number
 }
 
 function TeamLogoItem({ team }: { team: TeamLogo }) {
@@ -52,7 +53,7 @@ function EmptySlot() {
   )
 }
 
-export function TeamsSection({ teams, extraTeams = [] }: Readonly<TeamsSectionProps>) {
+export function TeamsSection({ teams, extraTeams = [], intervalMs = 6000 }: Readonly<TeamsSectionProps>) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [itemsPerSlide, setItemsPerSlide] = useState(4)
   const [isPaused, setIsPaused] = useState(false)
@@ -88,9 +89,9 @@ export function TeamsSection({ teams, extraTeams = [] }: Readonly<TeamsSectionPr
     if (isPaused || totalSlides <= 1) return
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % totalSlides)
-    }, 6000)
+    }, intervalMs)
     return () => clearInterval(interval)
-  }, [isPaused, totalSlides])
+  }, [isPaused, totalSlides, intervalMs])
 
   const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index)

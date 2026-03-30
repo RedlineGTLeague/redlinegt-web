@@ -1,6 +1,7 @@
 import { Calendar, Clock, MapPin, CheckCircle, Circle } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { races, currentSeason } from "@/lib/data"
+import { ChampionBanner } from "@/components/champion-banner"
 
 export default function CalendarioPage() {
   const completedRaces = races.filter(r => r.completed).length
@@ -15,9 +16,12 @@ export default function CalendarioPage() {
             Calendario
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-[#b0b0b0]">
-            Calendario completo de carreras de la temporada {currentSeason.number}. {completedRaces} de {totalRaces} rondas completadas.
+            Calendario completo de carreras de la temporada {currentSeason.number}.<br />
+            {completedRaces} de {totalRaces} rondas completadas.
           </p>
         </div>
+
+        <ChampionBanner />
 
         {/* Progress Bar */}
         <div className="mx-auto mb-12 max-w-2xl">

@@ -1,7 +1,8 @@
-import { Users, Crown } from "lucide-react"
+import { Users } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { standings, getStandingsWithTeams, currentSeason } from "@/lib/data"
+import { standings, getStandingsWithTeams } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
+import { ChampionBanner } from "@/components/champion-banner"
 
 export default function ClasificacionPage() {
   const standingsWithTeams = getStandingsWithTeams(standings)
@@ -19,21 +20,7 @@ export default function ClasificacionPage() {
           </p>
         </div>
 
-        {currentSeason.completed && standingsWithTeams[0] && (
-          <div className="mx-auto mb-12 max-w-3xl rounded-xl border border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 via-amber-500/10 to-yellow-500/10 p-6 text-center">
-            <div className="flex items-center justify-center gap-2 text-yellow-500">
-              <Crown className="h-6 w-6" />
-              <span className="font-oswald text-lg font-bold uppercase tracking-wide">Campeón de Temporada {currentSeason.number}</span>
-              <Crown className="h-6 w-6" />
-            </div>
-            <div className="mt-3 flex items-center justify-center gap-4">
-              <div className="h-3 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: standingsWithTeams[0].color }} />
-              <span className="font-oswald text-3xl font-bold text-yellow-500 md:text-4xl">{standingsWithTeams[0].acronym}</span>
-              <span className="text-xl text-amber-200/80">— {standingsWithTeams[0].name}</span>
-            </div>
-            <p className="mt-2 text-lg font-bold text-yellow-500">{standingsWithTeams[0].points} puntos</p>
-          </div>
-        )}
+        <ChampionBanner />
 
         {/* Team Standings */}
         <Card className="mx-auto max-w-3xl border-border bg-card">
