@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { AlertTriangle, Upload, Info, CheckCircle } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -15,9 +16,21 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { drivers, races, teams } from "@/lib/data"
+import { isRouteEnabled } from "@/lib/routes"
 
 export default function ReportarIncidentePage() {
+  const router = useRouter()
   const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    if (!isRouteEnabled("/reportar-incidente")) {
+      router.replace("/")
+    }
+  }, [router])
+
+  if (!isRouteEnabled("/reportar-incidente")) {
+    return null
+  }
   const [formData, setFormData] = useState({
     equipoReporta: "",
     pilotoReportado: "",

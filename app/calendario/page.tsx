@@ -1,9 +1,26 @@
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Calendar, Clock, MapPin, CheckCircle, Circle } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { races, currentSeason } from "@/lib/data"
 import { ChampionBanner } from "@/components/champion-banner"
+import { isRouteEnabled } from "@/lib/routes"
 
 export default function CalendarioPage() {
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!isRouteEnabled("/calendario")) {
+      router.replace("/")
+    }
+  }, [router])
+
+  if (!isRouteEnabled("/calendario")) {
+    return null
+  }
+
   const completedRaces = races.filter(r => r.completed).length
   const totalRaces = races.length
   

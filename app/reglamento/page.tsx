@@ -1,12 +1,18 @@
 import { Suspense } from 'react'
+import { redirect } from 'next/navigation'
 import { getRulebookSections, LANGUAGES, type Lang } from '@/lib/reglamento-server'
 import ReglamentoClient from '@/components/reglamento/ReglamentoClient'
+import { isRouteEnabled } from '@/lib/routes'
 
 interface PageProps {
   searchParams: Promise<{ lang?: string }>
 }
 
 export default async function ReglamentoPage({ searchParams }: PageProps) {
+  if (!isRouteEnabled("/reglamento")) {
+    redirect("/")
+  }
+
   const params = await searchParams
   const lang = (params.lang as Lang) || 'es'
   

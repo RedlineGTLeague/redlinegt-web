@@ -6,6 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, redlineTv, currentSeason, races } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { TeamsSection } from "@/components/teams-section"
+import { navItems } from "@/lib/routes"
+
+const isEnabled = (href: string) => navItems.find(item => item.href === href)?.enabled !== false
 
 export default function HomePage() {
   const hasUpcomingRace = races.some(race => !race.completed)
@@ -172,42 +175,50 @@ export default function HomePage() {
             Acceso Rápido
           </h2>
           
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            <Link href="/clasificacion" className="group">
-              <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
-                <CardContent className="flex flex-col items-center justify-center p-6 text-center">
-                  <Trophy className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
-                  <span className="font-medium text-foreground">Clasificación</span>
-                </CardContent>
-              </Card>
-            </Link>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            {isEnabled("/clasificacion") && (
+              <Link href="/clasificacion" className="group">
+                <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
+                  <CardContent className="flex flex-col items-center justify-center p-6 text-center">
+                    <Trophy className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
+                    <span className="font-medium text-foreground">Clasificación</span>
+                  </CardContent>
+                </Card>
+              </Link>
+            )}
             
-            <Link href="/calendario" className="group">
-              <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
-                <CardContent className="flex flex-col items-center justify-center p-6 text-center">
-                  <Calendar className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
-                  <span className="font-medium text-foreground">Calendario</span>
-                </CardContent>
-              </Card>
-            </Link>
+            {isEnabled("/calendario") && (
+              <Link href="/calendario" className="group">
+                <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
+                  <CardContent className="flex flex-col items-center justify-center p-6 text-center">
+                    <Calendar className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
+                    <span className="font-medium text-foreground">Calendario</span>
+                  </CardContent>
+                </Card>
+              </Link>
+            )}
             
-            <Link href="/reglamento" className="group">
-              <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
-                <CardContent className="flex flex-col items-center justify-center p-6 text-center">
-                  <FileText className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
-                  <span className="font-medium text-foreground">Reglamento</span>
-                </CardContent>
-              </Card>
-            </Link>
+            {isEnabled("/reglamento") && (
+              <Link href="/reglamento" className="group">
+                <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
+                  <CardContent className="flex flex-col items-center justify-center p-6 text-center">
+                    <FileText className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
+                    <span className="font-medium text-foreground">Reglamento</span>
+                  </CardContent>
+                </Card>
+              </Link>
+            )}
             
-            <Link href="/reportar-incidente" className="group">
-              <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
-                <CardContent className="flex flex-col items-center justify-center p-6 text-center">
-                  <AlertTriangle className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
-                  <span className="font-medium text-foreground">Reportar Incidente</span>
-                </CardContent>
-              </Card>
-            </Link>
+            {isEnabled("/reportar-incidente") && (
+              <Link href="/reportar-incidente" className="group">
+                <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
+                  <CardContent className="flex flex-col items-center justify-center p-6 text-center">
+                    <AlertTriangle className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
+                    <span className="font-medium text-foreground">Reportar Incidente</span>
+                  </CardContent>
+                </Card>
+              </Link>
+            )}
             
             <a href="https://discord.gg/bybcwHPQ3" target="_blank" rel="noopener noreferrer" className="group">
               <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">

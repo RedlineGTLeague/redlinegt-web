@@ -1,10 +1,27 @@
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Users } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { standings, getStandingsWithTeams } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { ChampionBanner } from "@/components/champion-banner"
+import { isRouteEnabled } from "@/lib/routes"
 
 export default function ClasificacionPage() {
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!isRouteEnabled("/clasificacion")) {
+      router.replace("/")
+    }
+  }, [router])
+
+  if (!isRouteEnabled("/clasificacion")) {
+    return null
+  }
+
   const standingsWithTeams = getStandingsWithTeams(standings)
 
   return (

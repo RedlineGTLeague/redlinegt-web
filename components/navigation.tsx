@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import { Menu, X, Flag, Trophy, Calendar, FileText, AlertTriangle, Tv, ChevronDown } from "lucide-react"
+import { Menu, X, Tv, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -14,18 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { redlineTv } from "@/lib/data"
-
-const navItems = [
-  { href: "/", label: "Inicio", icon: Flag, enabled: true },
-  { href: "/clasificacion", label: "Clasificación", icon: Trophy, enabled: true },
-  { href: "/calendario", label: "Calendario", icon: Calendar, enabled: true },
-  { href: "/reglamento", label: "Reglamento", icon: FileText, enabled: true },
-  { href: "/reportar-incidente", label: "Reportar Incidente", icon: AlertTriangle, enabled: false },
-]
-
-// Disable items by setting enabled: false
-// Examples:
-// { href: "/clasificacion", label: "Clasificación", icon: Trophy, enabled: false },
+import { navItems } from "@/lib/routes"
 
 export function Navigation() {
   const pathname = usePathname()
