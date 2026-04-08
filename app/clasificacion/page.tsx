@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Users } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { standings, getStandingsWithTeams } from "@/lib/data"
+import { standings, getStandingsWithTeams, currentSeason } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { ChampionBanner } from "@/components/champion-banner"
 import { isRouteEnabled } from "@/lib/routes"
@@ -33,7 +33,7 @@ export default function ClasificacionPage() {
             Clasificación
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-[#b0b0b0]">
-            Clasificación actual de equipos en la temporada 2026 de Redline GT League.
+            Clasificación actual de equipos en la temporada {currentSeason.number} de Redline GT League.
           </p>
         </div>
 

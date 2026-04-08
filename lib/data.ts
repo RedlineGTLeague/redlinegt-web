@@ -103,3 +103,23 @@ export const redlineTv = {
   twitch: "https://www.twitch.tv/dihondia",
   youtube: "https://www.youtube.com/@dihondia/streams",
 } as const
+
+export interface PreQualy {
+  enabled: boolean
+  title: string
+  date: string
+  time: string
+  description: string
+  circuit: string | null
+  car: string | null
+}
+
+export const preQualy: PreQualy = {
+  enabled: true,
+  title: "REDLINE GT PreQualy Temporada 2",
+  date: "12 Abril 2026",
+  time: "20:00 CET",
+  description: "Piloto único por equipo.\nLas posiciones determinan el orden de elección de modelo para la temporada.",
+  circuit: "Kyoto Yamagiwa",
+  car: "VW Beetle Gr3",
+}

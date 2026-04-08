@@ -3,9 +3,10 @@ import Image from "next/image"
 import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv, Crown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, redlineTv, currentSeason, races } from "@/lib/data"
+import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, redlineTv, currentSeason, races, preQualy } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { TeamsSection } from "@/components/teams-section"
+import { PreQualyCard } from "@/components/pre-qualy-card"
 import { navItems } from "@/lib/routes"
 
 const isEnabled = (href: string) => navItems.find(item => item.href === href)?.enabled !== false
@@ -16,6 +17,17 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
+      {preQualy.enabled && (
+        <PreQualyCard
+          title={preQualy.title}
+          date={preQualy.date}
+          time={preQualy.time}
+          description={preQualy.description}
+          circuit={preQualy.circuit}
+          car={preQualy.car}
+        />
+      )}
+
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 lg:py-32">
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" />
@@ -30,7 +42,7 @@ export default function HomePage() {
               {currentSeason.completed ? (
                 <>
                   <Crown className="h-4 w-4" />
-                  Temporada {currentSeason.number} completada
+                  Temporada {currentSeason.number} Finalizada
                 </>
               ) : (
                 <>
