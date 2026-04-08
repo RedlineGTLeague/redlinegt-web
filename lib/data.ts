@@ -48,7 +48,7 @@ export const teams: Team[] = [
   { id: "hrb", acronym: "HRB", name: "Hispanic Racing Bulls", color: "#9333ea", logo: "/images/team-logos/hrb.jpg", active: true },
   { id: "bpf", acronym: "BPF", name: "Brinde Pa Festa", color: "#ffffff", logo: "/images/team-logos/bpf.png", active: false },
   { id: "shk", acronym: "SHK", name: "Shark Racing Team", color: "#ffffff", logo: "/images/team-logos/shk.jpg", active: false },
-  { id: "spuk", acronym: "SPUK", name: "SPUK Racing", color: "#ffffff", logo: "/images/team-logos/spuk.jpg", active: false },
+  { id: "spuk", acronym: "SPUK", name: "SPUK Racing", color: "#ffffff", logo: "/images/team-logos/spuk.png", active: false },
 ]
 
 export const standings: Standing[] = [
@@ -60,7 +60,7 @@ export const standings: Standing[] = [
   { position: 6, teamId: "hrb", points: 59 },
 ]
 
-export const currentTeams = teams.map(t => ({ acronym: t.acronym, name: t.name, logo: t.logo ?? null }))
+export const currentTeams = teams.filter(t => t.active).map(t => ({ acronym: t.acronym, name: t.name, logo: t.logo ?? null }))
 export const pastTeams = teams.filter(t => !t.active).map(t => ({ acronym: t.acronym, name: t.name, logo: t.logo ?? null }))
 
 export const getTeamById = (id: string) => teams.find((t) => t.id === id)
