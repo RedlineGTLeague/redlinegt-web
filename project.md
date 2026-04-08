@@ -85,4 +85,3 @@ npm run lint     # Run ESLint
 - Pre-Qualy card is controlled via `preQualy` object in `lib/data.ts`:
   - Set `enabled: true/false` to show/hide
   - Update `circuit` and `car` when announced
-- Discord invite: https://discord.gg/bybcwHPQ3

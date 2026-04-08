@@ -3,7 +3,7 @@ import Image from "next/image"
 import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv, Crown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, redlineTv, currentSeason, races, preQualy } from "@/lib/data"
+import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, redlineTv, currentSeason, races, preQualy, discordLink } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { TeamsSection } from "@/components/teams-section"
 import { PreQualyCard } from "@/components/pre-qualy-card"
@@ -232,7 +232,7 @@ export default function HomePage() {
               </Link>
             )}
             
-            <a href="https://discord.gg/bybcwHPQ3" target="_blank" rel="noopener noreferrer" className="group">
+            <a href={discordLink} target="_blank" rel="noopener noreferrer" className="group">
               <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
                 <CardContent className="flex flex-col items-center justify-center p-6 text-center">
                   <svg className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor">

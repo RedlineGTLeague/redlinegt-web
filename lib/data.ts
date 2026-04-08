@@ -104,6 +104,8 @@ export const redlineTv = {
   youtube: "https://www.youtube.com/@dihondia/streams",
 } as const
 
+export const discordLink = "https://discord.gg/wFUpgjbKhM" as const
+
 export interface PreQualy {
   enabled: boolean
   title: string

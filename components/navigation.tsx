@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
-import { redlineTv } from "@/lib/data"
+import { redlineTv, discordLink } from "@/lib/data"
 import { navItems } from "@/lib/routes"
 
 export function Navigation() {
@@ -80,7 +80,7 @@ export function Navigation() {
             </DropdownMenuContent>
           </DropdownMenu>
           <a
-            href="https://discord.gg/bybcwHPQ3"
+            href={discordLink}
             target="_blank"
             rel="noopener noreferrer"
             className="ml-2 flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
@@ -150,7 +150,7 @@ export function Navigation() {
               </a>
             </div>
             <a
-              href="https://discord.gg/bybcwHPQ3"
+              href={discordLink}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 rounded-md bg-primary px-3 py-3 text-sm font-medium text-primary-foreground"
