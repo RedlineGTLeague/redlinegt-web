@@ -41,14 +41,15 @@ export const drivers: { position: number; name: string; team: string; points: nu
 
 export const teams: Team[] = [
   { id: "srt", acronym: "SRT", name: "Speed Racing Team", color: "#e52222", logo: "/images/team-logos/srt.png", active: true },
-  { id: "tsr", acronym: "TSR", name: "Technical Sim Racing", color: "#2563eb", logo: "/images/team-logos/tsr.jpg", active: true },
+  { id: "tsr", acronym: "TSR", name: "Technical Sim Racing", color: "#5900a1", logo: "/images/team-logos/tsr.jpg", active: true },
   { id: "ksm", acronym: "KSM", name: "Kaishin Motorsport", color: "#16a34a", logo: "/images/team-logos/ksm.png", active: true },
   { id: "tr", acronym: "TR", name: "Virtual Racing", color: "#eab308", logo: "/images/team-logos/tr.png", active: true },
   { id: "grt", acronym: "GRT", name: "Gardening Racing Team", color: "#ea580c", logo: "/images/team-logos/grt.png", active: true },
   { id: "hrb", acronym: "HRB", name: "Hispanic Racing Bulls", color: "#9333ea", logo: "/images/team-logos/hrb.jpg", active: true },
-  { id: "bpf", acronym: "BPF", name: "Brinde Pa Festa", color: "#ffffff", logo: "/images/team-logos/bpf.png", active: false },
-  { id: "shk", acronym: "SHK", name: "Shark Racing Team", color: "#ffffff", logo: "/images/team-logos/shk.jpg", active: false },
-  { id: "spuk", acronym: "SPUK", name: "SPUK Racing", color: "#ffffff", logo: "/images/team-logos/spuk.png", active: false },
+  { id: "bpf", acronym: "BPF", name: "Brinde Pa Festa", color: "#001c97", logo: "/images/team-logos/bpf.png", active: false },
+  { id: "shk", acronym: "SHK", name: "Shark Racing Team", color: "#2279fc", logo: "/images/team-logos/shk.jpg", active: false },
+  { id: "spuk", acronym: "SPUK", name: "SPUK Racing", color: "#dd00d2", logo: "/images/team-logos/spuk.png", active: false },
+  { id: "erg", acronym: "ERG", name: "Elite Racing Global", color: "#47fa5f", logo: "/images/team-logos/erg.jpg", active: false },
 ]
 
 export const standings: Standing[] = [
@@ -106,22 +107,42 @@ export const redlineTv = {
 
 export const discordLink = "https://discord.gg/wFUpgjbKhM" as const
 
+export interface PreQualyPosition {
+  position: number
+  teamId: string
+  time: string
+}
+
 export interface PreQualy {
   enabled: boolean
+  showPositions: boolean
   title: string
   date: string
   time: string
   description: string
   circuit: string | null
   car: string | null
+  positions: PreQualyPosition[]
 }
 
 export const preQualy: PreQualy = {
   enabled: true,
+  showPositions: false,
   title: "REDLINE GT PreQualy Temporada 2",
   date: "12 Abril 2026",
   time: "20:00 CET",
   description: "Piloto único por equipo.\nLas posiciones determinan el orden de elección de modelo para la temporada.",
   circuit: "Kyoto Yamagiwa",
   car: "VW Beetle Gr3",
+  positions: [
+    { position: 1, teamId: "srt", time: "1:45.234" },
+    { position: 2, teamId: "tsr", time: "1:45.567" },
+    { position: 3, teamId: "ksm", time: "1:45.890" },
+    { position: 4, teamId: "grt", time: "1:46.123" },
+    { position: 5, teamId: "tr", time: "1:46.456" },
+    { position: 6, teamId: "hrb", time: "1:46.789" },
+    { position: 7, teamId: "shk", time: "1:48.456" },
+    { position: 8, teamId: "erg", time: "1:48.333" },
+    { position: 9, teamId: "spuk", time: "1:49.271" },
+  ],
 }

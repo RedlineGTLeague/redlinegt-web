@@ -19,12 +19,14 @@ export default function HomePage() {
     <div className="min-h-screen">
       {preQualy.enabled && (
         <PreQualyCard
+          showPositions={preQualy.showPositions}
           title={preQualy.title}
           date={preQualy.date}
           time={preQualy.time}
           description={preQualy.description}
           circuit={preQualy.circuit}
           car={preQualy.car}
+          positions={preQualy.positions}
         />
       )}
 

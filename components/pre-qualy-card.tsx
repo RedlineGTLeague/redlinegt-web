@@ -1,17 +1,31 @@
 import { Calendar, Clock, MapPin, Car, Tv, Flag } from "lucide-react"
-import { Card } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { getTeamById } from "@/lib/data"
+
+interface PreQualyPosition {
+  position: number
+  teamId: string
+  time: string
+}
 
 interface PreQualyCardProps {
+  showPositions: boolean
   title: string
   date: string
   time: string
   description: string
   circuit: string | null
   car: string | null
+  positions: PreQualyPosition[]
 }
 
-export function PreQualyCard({ title, date, time, description, circuit, car }: PreQualyCardProps) {
+export function PreQualyCard({ showPositions, title, date, time, description, circuit, car, positions }: PreQualyCardProps) {
+  const positionsWithTeams = positions.map(p => ({
+    ...p,
+    team: getTeamById(p.teamId),
+  }))
+
   return (
     <section className="border-y border-primary/30 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 py-6 backdrop-blur-sm">
       <div className="container mx-auto px-4">
@@ -82,6 +96,50 @@ export function PreQualyCard({ title, date, time, description, circuit, car }: P
                   </a>
                 </Button>
               </div>
+
+              {showPositions && positionsWithTeams.length > 0 && (
+                <div className="mt-6 border-t border-primary/20 pt-6">
+                  <h3 className="mb-4 text-center font-oswald text-lg font-bold uppercase tracking-wide text-foreground">
+                    Posiciones PreQualy
+                  </h3>
+                  <div className="overflow-x-auto rounded-lg border border-primary/20 bg-background/50">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-primary/20 bg-primary/5 text-xs uppercase tracking-wider text-muted-foreground">
+                          <th className="px-4 py-2 text-center">Pos</th>
+                          <th className="px-4 py-2 text-left">Equipo</th>
+                          <th className="px-4 py-2 text-right">Tiempo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {positionsWithTeams.map(({ position, team, time }) => (
+                          <tr key={position} className="border-b border-primary/10 last:border-0">
+                            <td className="px-4 py-2 text-center text-sm font-medium text-muted-foreground">
+                              {position}
+                            </td>
+                            <td className="px-4 py-2">
+                              <div className="flex items-center gap-2">
+                                {team && (
+                                  <div 
+                                    className="h-2 w-2 rounded-full" 
+                                    style={{ backgroundColor: team.color }} 
+                                  />
+                                )}
+                                <span className="font-medium text-foreground">
+                                  {team?.acronym ?? "???"}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="px-4 py-2 text-right text-sm tabular-nums text-muted-foreground">
+                              {time}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </Card>
