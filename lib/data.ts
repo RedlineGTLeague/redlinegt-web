@@ -128,7 +128,7 @@ export interface PreQualy {
 
 export const preQualy: PreQualy = {
   enabled: true,
-  showPositions: false,
+  showPositions: true,
   title: "REDLINE GT PreQualy Temporada 2",
   date: "12 Abril 2026",
   time: "20:00 CET",
@@ -136,14 +136,15 @@ export const preQualy: PreQualy = {
   circuit: "Kyoto Yamagiwa",
   car: "VW Beetle Gr3",
   positions: [
-    { position: 1, teamId: "srt", time: "1:45.234" },
-    { position: 2, teamId: "tsr", time: "1:45.567" },
-    { position: 3, teamId: "ksm", time: "1:45.890" },
-    { position: 4, teamId: "grt", time: "1:46.123" },
-    { position: 5, teamId: "tr", time: "1:46.456" },
-    { position: 6, teamId: "hrb", time: "1:46.789" },
-    { position: 7, teamId: "shk", time: "1:48.456" },
-    { position: 8, teamId: "erg", time: "1:48.333" },
-    { position: 9, teamId: "spuk", time: "1:49.271" },
+    { position: 1, teamId: "ksm", time: "1:32.980" },
+    { position: 2, teamId: "tr", time: "1:33.215" },
+    { position: 3, teamId: "tsr", time: "1:33.321" },
+    { position: 4, teamId: "bpf", time: "1:33.381" },
+    { position: 5, teamId: "bpf2", time: "1:33.442" },
+    { position: 6, teamId: "grt", time: "1:33.498" },
+    { position: 7, teamId: "shk", time: "1:33.504" },
+    { position: 8, teamId: "srt", time: "1:33.736" },
+    { position: 9, teamId: "spuk", time: "1:33.956" },
+    { position: 10, teamId: "erg", time: "1:34.358" },
   ],
 }
