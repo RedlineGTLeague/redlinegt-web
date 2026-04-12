@@ -46,10 +46,11 @@ export const teams: Team[] = [
   { id: "tr", acronym: "TR", name: "Virtual Racing", color: "#eab308", logo: "/images/team-logos/tr.png", active: true },
   { id: "grt", acronym: "GRT", name: "Gardening Racing Team", color: "#ea580c", logo: "/images/team-logos/grt.png", active: true },
   { id: "hrb", acronym: "HRB", name: "Hispanic Racing Bulls", color: "#9333ea", logo: "/images/team-logos/hrb.jpg", active: true },
-  { id: "bpf", acronym: "BPF", name: "Brinde Pa Festa", color: "#001c97", logo: "/images/team-logos/bpf.png", active: false },
+  { id: "bpf", acronym: "BPF", name: "Brinde Pa Festa", color: "#001c97", logo: "/images/team-logos/bpf1.jpg", active: false },
   { id: "shk", acronym: "SHK", name: "Shark Racing Team", color: "#2279fc", logo: "/images/team-logos/shk.jpg", active: false },
   { id: "spuk", acronym: "SPUK", name: "SPUK Racing", color: "#dd00d2", logo: "/images/team-logos/spuk.png", active: false },
   { id: "erg", acronym: "ERG", name: "Elite Racing Global", color: "#47fa5f", logo: "/images/team-logos/erg.jpg", active: false },
+  { id: "bpf2", acronym: "BPF2", name: "Brinde Pa Festa 2", color: "#ffd483", logo: "/images/team-logos/bpf2.jpg", active: false },
 ]
 
 export const standings: Standing[] = [
