@@ -139,6 +139,7 @@ export interface PreQualyPosition {
   position: number
   teamId: string
   time: string
+  car?: string
 }
 
 export interface PreQualy {
@@ -163,16 +164,16 @@ export const preQualy: PreQualy = {
   circuit: "Kyoto Yamagiwa",
   car: "VW Beetle Gr3",
   positions: [
-    { position: 1, teamId: "ksm", time: "1:32.980" },
-    { position: 2, teamId: "tr", time: "1:33.215" },
-    { position: 3, teamId: "tsr", time: "1:33.321" },
-    { position: 4, teamId: "bpf", time: "1:33.381" },
-    { position: 5, teamId: "bpf2", time: "1:33.442" },
-    { position: 6, teamId: "grt", time: "1:33.498" },
-    { position: 7, teamId: "srt", time: "1:33.504" },
-    { position: 8, teamId: "shk", time: "1:33.736" },
-    { position: 9, teamId: "spuk", time: "1:33.956" },
-    { position: 10, teamId: "erg", time: "1:34.358" },
+    { position: 1, teamId: "ksm", time: "1:32.980", car: "Ferrari 296 GT3 '23" },
+    { position: 2, teamId: "tr", time: "1:33.215", car: "Audi R8 LMS Evo '19" },
+    { position: 3, teamId: "tsr", time: "1:33.321", car: "Porsche 911 RSR (991) '17" },
+    { position: 4, teamId: "bpf", time: "1:33.381", car: "Mazda RX-VISION GT3" },
+    { position: 5, teamId: "bpf2", time: "1:33.442", car: "BMW M6 GT3 Sprint Model '16" },
+    { position: 6, teamId: "grt", time: "1:33.498", car: "Peugeot RCZ Gr.3" },
+    { position: 7, teamId: "srt", time: "1:33.504", car: "BMW M6 GT3 Endurance Model '16" },
+    { position: 8, teamId: "shk", time: "1:33.736", car: "Citroën Race Car (Gr.3)" },
+    { position: 9, teamId: "spuk", time: "1:33.956", car: "Subaru WRX Gr.3" },
+    { position: 10, teamId: "erg", time: "1:34.358", car: "Nissan GT-R NISMO GT3 '18" },
   ],
 }
 

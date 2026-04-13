@@ -7,6 +7,7 @@ interface PreQualyPosition {
   position: number
   teamId: string
   time: string
+  car?: string
 }
 
 interface PreQualyCardProps {
@@ -109,10 +110,11 @@ export function PreQualyCard({ showPositions, title, date, time, description, ci
                           <th className="px-4 py-2 text-center">Pos</th>
                           <th className="px-4 py-2 text-left">Equipo</th>
                           <th className="px-4 py-2 text-right">Tiempo</th>
+                          <th className="px-4 py-2 text-center">Modelo Seleccionado</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {positionsWithTeams.map(({ position, team, time }) => (
+                        {positionsWithTeams.map(({ position, team, time, car }) => (
                           <tr key={position} className="border-b border-primary/10 last:border-0">
                             <td className="px-4 py-2 text-center text-sm font-medium text-muted-foreground">
                               {position}
@@ -132,6 +134,9 @@ export function PreQualyCard({ showPositions, title, date, time, description, ci
                             </td>
                             <td className="px-4 py-2 text-right text-sm tabular-nums text-muted-foreground">
                               {time}
+                            </td>
+                            <td className="px-4 py-2 text-center text-sm uppercase tabular-nums text-muted-foreground">
+                              {car?.toUpperCase() ?? "-"}
                             </td>
                           </tr>
                         ))}
