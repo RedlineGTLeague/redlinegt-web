@@ -12,6 +12,7 @@ interface PreQualyPosition {
 
 interface PreQualyCardProps {
   showPositions: boolean
+  showModel: boolean
   title: string
   date: string
   time: string
@@ -21,7 +22,7 @@ interface PreQualyCardProps {
   positions: PreQualyPosition[]
 }
 
-export function PreQualyCard({ showPositions, title, date, time, description, circuit, car, positions }: PreQualyCardProps) {
+export function PreQualyCard({ showPositions, showModel, title, date, time, description, circuit, car, positions }: PreQualyCardProps) {
   const positionsWithTeams = positions.map(p => ({
     ...p,
     team: getTeamById(p.teamId),
@@ -105,14 +106,14 @@ export function PreQualyCard({ showPositions, title, date, time, description, ci
                   </h3>
                   <div className="overflow-x-auto rounded-lg border border-primary/20 bg-background/50">
                     <table className="w-full">
-                      <thead>
-                        <tr className="border-b border-primary/20 bg-primary/5 text-xs uppercase tracking-wider text-muted-foreground">
-                          <th className="px-4 py-2 text-center">Pos</th>
-                          <th className="px-4 py-2 text-left">Equipo</th>
-                          <th className="px-4 py-2 text-right">Tiempo</th>
-                          <th className="px-4 py-2 text-center">Modelo Seleccionado</th>
-                        </tr>
-                      </thead>
+<thead>
+                          <tr className="border-b border-primary/20 bg-primary/5 text-xs uppercase tracking-wider text-muted-foreground">
+                            <th className="px-4 py-2 text-center">Pos</th>
+                            <th className="px-4 py-2 text-left">Equipo</th>
+                            <th className="px-4 py-2 text-right">Tiempo</th>
+                            {showModel && <th className="px-4 py-2 text-center">Modelo Seleccionado</th>}
+                          </tr>
+                        </thead>
                       <tbody>
                         {positionsWithTeams.map(({ position, team, time, car }) => (
                           <tr key={position} className="border-b border-primary/10 last:border-0">
@@ -135,9 +136,11 @@ export function PreQualyCard({ showPositions, title, date, time, description, ci
                             <td className="px-4 py-2 text-right text-sm tabular-nums text-muted-foreground">
                               {time}
                             </td>
-                            <td className="px-4 py-2 text-center text-sm uppercase tabular-nums text-muted-foreground">
-                              {car?.toUpperCase() ?? "-"}
-                            </td>
+                            {showModel && (
+                              <td className="px-4 py-2 text-center text-sm uppercase tabular-nums text-muted-foreground">
+                                {car?.toUpperCase() ?? "-"}
+                              </td>
+                            )}
                           </tr>
                         ))}
                       </tbody>

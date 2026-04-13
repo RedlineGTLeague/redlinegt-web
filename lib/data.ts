@@ -145,6 +145,7 @@ export interface PreQualyPosition {
 export interface PreQualy {
   enabled: boolean
   showPositions: boolean
+  showModel: boolean
   title: string
   date: string
   time: string
@@ -157,6 +158,7 @@ export interface PreQualy {
 export const preQualy: PreQualy = {
   enabled: true,
   showPositions: true,
+  showModel: true,
   title: "REDLINE GT PreQualy Temporada 2",
   date: "12 Abril 2026",
   time: "20:00 CET",

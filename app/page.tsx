@@ -21,6 +21,7 @@ export default function HomePage() {
       {preQualy.enabled && (
         <PreQualyCard
           showPositions={preQualy.showPositions}
+          showModel={preQualy.showModel}
           title={preQualy.title}
           date={preQualy.date}
           time={preQualy.time}
