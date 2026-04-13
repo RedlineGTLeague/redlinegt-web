@@ -22,6 +22,16 @@ export interface Standing {
   points: number
 }
 
+export interface Tier {
+  id: string
+  name: string
+  teamIds: string[]
+}
+
+export const tiers: Tier[] = [
+  { id: "redline-rojo", name: "Unico", teamIds: ["srt", "tsr", "ksm", "tr", "grt", "hrb"] },
+]
+
 export interface Race {
   round: number
   circuit: string
@@ -66,6 +76,23 @@ export const currentTeams = teams.filter(t => t.active).map(t => ({ acronym: t.a
 export const pastTeams = teams.filter(t => !t.active).map(t => ({ acronym: t.acronym, name: t.name, logo: t.logo ?? null }))
 
 export const getTeamById = (id: string) => teams.find((t) => t.id === id)
+
+export const getStandingsByTier = (tierId: string): Standing[] => {
+  const tier = tiers.find(t => t.id === tierId)
+  if (!tier) return standings
+  
+  return tier.teamIds
+    .map((teamId, index) => {
+      const standing = standings.find(s => s.teamId === teamId)
+      return {
+        position: index + 1,
+        teamId,
+        points: standing?.points ?? 0,
+      }
+    })
+    .sort((a, b) => b.points - a.points)
+    .map((s, index) => ({ ...s, position: index + 1 }))
+}
 
 export const getStandingsWithTeams = (standings: Standing[]) =>
   standings.map((s) => {
@@ -148,3 +175,6 @@ export const preQualy: PreQualy = {
     { position: 10, teamId: "erg", time: "1:34.358" },
   ],
 }
+
+export const tierNames = tiers.map((t) => t.name)
+export const isMultiTier = tiers.length > 1

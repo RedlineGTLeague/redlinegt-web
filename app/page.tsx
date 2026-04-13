@@ -3,7 +3,7 @@ import Image from "next/image"
 import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv, Crown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, redlineTv, currentSeason, races, preQualy, discordLink } from "@/lib/data"
+import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, redlineTv, currentSeason, races, preQualy, discordLink, tiers, getStandingsByTier } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { TeamsSection } from "@/components/teams-section"
 import { PreQualyCard } from "@/components/pre-qualy-card"
@@ -13,7 +13,8 @@ const isEnabled = (href: string) => navItems.find(item => item.href === href)?.e
 
 export default function HomePage() {
   const hasUpcomingRace = races.some(race => !race.completed)
-  const standingsWithTeams = getStandingsWithTeams(standings)
+  const tierStandings = getStandingsByTier(tiers[0].id)
+  const standingsWithTeams = getStandingsWithTeams(tierStandings)
 
   return (
     <div className="min-h-screen">

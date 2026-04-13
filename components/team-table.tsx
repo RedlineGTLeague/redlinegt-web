@@ -11,9 +11,10 @@ interface StandingWithTeam extends Standing {
 interface TeamTableProps {
   standings: StandingWithTeam[]
   showHeader?: boolean
+  tierName?: string
 }
 
-export function TeamTable({ standings, showHeader = true }: TeamTableProps) {
+export function TeamTable({ standings, showHeader = true, tierName }: TeamTableProps) {
   return (
     <div className="space-y-2">
       {showHeader && (
@@ -22,6 +23,11 @@ export function TeamTable({ standings, showHeader = true }: TeamTableProps) {
           <span className="hidden md:block min-w-[4rem]">Equipo</span>
           <span className="flex-1">Equipo</span>
           <span className="text-right">Puntos</span>
+        </div>
+      )}
+      {tierName && (
+        <div className="mb-3 px-3 text-sm font-medium uppercase tracking-wider text-primary">
+          {tierName}
         </div>
       )}
       {standings.map((team) => (
