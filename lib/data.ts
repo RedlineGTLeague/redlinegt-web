@@ -50,17 +50,18 @@ export const currentSeason: Season = {
 export const drivers: { position: number; name: string; team: string; points: number; teamColor: string }[] = []
 
 export const teams: Team[] = [
-  { id: "srt", acronym: "SRT", name: "Speed Racing Team", color: "#e52222", logo: "/images/team-logos/srt.png", active: true },
-  { id: "tsr", acronym: "TSR", name: "Technical Sim Racing", color: "#5900a1", logo: "/images/team-logos/tsr.jpg", active: true },
-  { id: "ksm", acronym: "KSM", name: "Kaishin Motorsport", color: "#16a34a", logo: "/images/team-logos/ksm.png", active: true },
-  { id: "tr", acronym: "TR", name: "Virtual Racing", color: "#eab308", logo: "/images/team-logos/tr.png", active: true },
-  { id: "grt", acronym: "GRT", name: "Gardening Racing Team", color: "#ea580c", logo: "/images/team-logos/grt.png", active: true },
-  { id: "hrb", acronym: "HRB", name: "Hispanic Racing Bulls", color: "#9333ea", logo: "/images/team-logos/hrb.jpg", active: true },
-  { id: "bpf", acronym: "BPF", name: "Brinde Pa Festa", color: "#001c97", logo: "/images/team-logos/bpf1.jpg", active: false },
-  { id: "shk", acronym: "SHK", name: "Shark Racing Team", color: "#2279fc", logo: "/images/team-logos/shk.jpg", active: false },
-  { id: "spuk", acronym: "SPUK", name: "SPUK Racing", color: "#dd00d2", logo: "/images/team-logos/spuk.png", active: false },
-  { id: "erg", acronym: "ERG", name: "Elite Racing Global", color: "#47fa5f", logo: "/images/team-logos/erg.jpg", active: false },
-  { id: "bpf2", acronym: "BPF2", name: "Brinde Pa Festa 2", color: "#ffd483", logo: "/images/team-logos/bpf2.jpg", active: false },
+  { id: "srt", acronym: "SRT", name: "Speed Racing Team", color: "#ff3b3b", logo: "/images/team-logos/srt.png", active: true },
+  { id: "tsr", acronym: "TSR", name: "Technical Sim Racing", color: "#06b6d4", logo: "/images/team-logos/tsr.jpg", active: true },   // cyan (was purple)
+  { id: "ksm", acronym: "KSM", name: "Kaishin Motorsport", color: "#84cc16", logo: "/images/team-logos/ksm.png", active: true },      // lime (distinct from green)
+  { id: "tr", acronym: "TR", name: "Virtual Racing", color: "#facc15", logo: "/images/team-logos/tr.png", active: true },
+  { id: "grt", acronym: "GRT", name: "Gardening Racing Team", color: "#f97316", logo: "/images/team-logos/grt.png", active: true },
+  { id: "hrb", acronym: "HRB", name: "Hispanic Racing Bulls", color: "#a855f7", logo: "/images/team-logos/hrb.jpg", active: true },
+  { id: "bpf", acronym: "BPF", name: "Brinde Pa Festa", color: "#2563eb", logo: "/images/team-logos/bpf1.jpg", active: false },
+  { id: "shk", acronym: "SHK", name: "Shark Racing Team", color: "#38bdf8", logo: "/images/team-logos/shk.jpg", active: false },
+  { id: "spuk", acronym: "SPUK", name: "SPUK Racing", color: "#ec4899", logo: "/images/team-logos/spuk.png", active: false },
+  { id: "erg", acronym: "ERG", name: "Elite Racing Global", color: "#00df30", logo: "/images/team-logos/erg.jpg", active: false },   // rose/red (new identity)
+  { id: "bpf2", acronym: "BPF2", name: "Brinde Pa Festa 2", color: "#fde68a", logo: "/images/team-logos/bpf2.jpg", active: false },
+  { id: "shkb", acronym: "SHKB", name: "Shark Racing Team Black", color: "#f59e0b", logo: "/images/team-logos/shkb.jpg", active: false }, // amber (not purple anymore)
 ]
 
 export const standings: Standing[] = [
@@ -174,8 +175,9 @@ export const preQualy: PreQualy = {
     { position: 6, teamId: "grt", time: "1:33.498", car: "Peugeot RCZ Gr.3" },
     { position: 7, teamId: "srt", time: "1:33.504", car: "BMW M6 GT3 Endurance Model '16" },
     { position: 8, teamId: "shk", time: "1:33.736", car: "Citroën Race Car (Gr.3)" },
-    { position: 9, teamId: "spuk", time: "1:33.956", car: "Subaru WRX Gr.3" },
-    { position: 10, teamId: "erg", time: "1:34.358", car: "Nissan GT-R NISMO GT3 '18" },
+    { position: 9, teamId: "shkb", time: "1:33.811", car: "Ferrari 458 Italia GT3 '13" },
+    { position: 10, teamId: "spuk", time: "1:33.956", car: "Subaru WRX Gr.3" },
+    { position: 11, teamId: "erg", time: "1:34.358", car: "Nissan GT-R NISMO GT3 '18" },
   ],
 }
 
