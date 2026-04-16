@@ -15,6 +15,7 @@ export default function HomePage() {
   const hasUpcomingRace = races.some(race => !race.completed)
   const tierStandings = getStandingsByTier(tiers[0].id)
   const standingsWithTeams = getStandingsWithTeams(tierStandings)
+  const hasPoints = standingsWithTeams.some(s => s.points > 0)
 
   return (
     <div className="min-h-screen">
@@ -165,19 +166,38 @@ export default function HomePage() {
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
           {/* Team Standings */}
-          <Card className="mx-auto max-w-2xl border-border/80 bg-card/70 backdrop-blur-sm">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
-                Clasificación de Equipos
-              </CardTitle>
-              <Link href="/clasificacion" className="flex items-center gap-1 text-sm text-primary hover:underline">
-                Ver todo <ChevronRight className="h-4 w-4" />
-              </Link>
-            </CardHeader>
-            <CardContent className="p-0">
-              <TeamTable standings={standingsWithTeams} showHeader={false} />
-            </CardContent>
-          </Card>
+          {hasPoints ? (
+            <Card className="mx-auto max-w-2xl border-border/80 bg-card/70 backdrop-blur-sm">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
+                  Clasificación de Equipos
+                </CardTitle>
+                <Link href="/clasificacion" className="flex items-center gap-1 text-sm text-primary hover:underline">
+                  Ver todo <ChevronRight className="h-4 w-4" />
+                </Link>
+              </CardHeader>
+              <CardContent className="p-0">
+                <TeamTable standings={standingsWithTeams} showHeader={false} />
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="mx-auto max-w-2xl border-border/80 bg-card/70 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
+                  Clasificación de Equipos
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="py-8 text-center">
+                <Trophy className="mx-auto mb-4 h-12 w-12 text-muted-foreground/50" />
+                <p className="text-lg font-medium text-muted-foreground">
+                  Temporada {currentSeason.number} por comenzar
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground/70">
+                  La clasificación se activará tras la primera carrera
+                </p>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </section>
 

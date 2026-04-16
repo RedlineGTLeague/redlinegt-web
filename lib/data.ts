@@ -29,12 +29,14 @@ export interface Tier {
 }
 
 export const tiers: Tier[] = [
-  { id: "redline-rojo", name: "Unico", teamIds: ["srt", "tsr", "ksm", "tr", "grt", "hrb"] },
+  { id: "split-rojo", name: "Split Rojo", teamIds: ["ksm", "tr", "tsr", "bpf", "bpf2"] },
+  { id: "split-blanco", name: "Split Blanco", teamIds: ["grt", "srt", "shk", "shkb", "spuk", "erg"] },
 ]
 
 export interface Race {
   round: number
   circuit: string
+  session: string
   date: string
   time: string
   completed: boolean
@@ -42,8 +44,8 @@ export interface Race {
 
 /** Current active season for the website */
 export const currentSeason: Season = {
-  number: 1,
-  completed: true,
+  number: 2,
+  completed: false,
 }
 
 // Placeholder - drivers not used in current season
@@ -65,12 +67,17 @@ export const teams: Team[] = [
 ]
 
 export const standings: Standing[] = [
-  { position: 1, teamId: "srt", points: 247 },
-  { position: 2, teamId: "tsr", points: 201 },
-  { position: 3, teamId: "ksm", points: 173 },
-  { position: 4, teamId: "tr", points: 154 },
-  { position: 5, teamId: "grt", points: 124 },
-  { position: 6, teamId: "hrb", points: 59 },
+  { position: 1, teamId: "ksm", points: 0 },
+  { position: 2, teamId: "tr", points: 0 },
+  { position: 3, teamId: "tsr", points: 0 },
+  { position: 4, teamId: "bpf", points: 0 },
+  { position: 5, teamId: "bpf2", points: 0 },
+  { position: 6, teamId: "grt", points: 0 },
+  { position: 7, teamId: "srt", points: 0 },
+  { position: 8, teamId: "shk", points: 0 },
+  { position: 9, teamId: "shkb", points: 0 },
+  { position: 10, teamId: "spuk", points: 0 },
+  { position: 11, teamId: "erg", points: 0 },
 ]
 
 export const currentTeams = teams.filter(t => t.active).map(t => ({ acronym: t.acronym, name: t.name, logo: t.logo ?? null }))
@@ -115,14 +122,14 @@ export const teamsSelection = [
 ]
 
 export const races: Race[] = [
-  { round: 1, circuit: "Tokyo Expressway", date: "8 Febrero 2026", time: "19:30 CET", completed: true },
-  { round: 2, circuit: "Circuit de Barcelona-Catalunya", date: "15 Febrero 2026", time: "19:30 CET", completed: true },
-  { round: 3, circuit: "Road Atlanta", date: "22 Febrero 2026", time: "19:30 CET", completed: true },
-  { round: 4, circuit: "Nürburgring", date: "1 Marzo 2026", time: "19:30 CET", completed: true },
-  { round: 5, circuit: "Circuit de Spa-Francorchamps", date: "8 Marzo 2026", time: "19:30 CET", completed: true },
-  { round: 6, circuit: "Interlagos", date: "15 Marzo 2026", time: "19:30 CET", completed: true },
-  { round: 7, circuit: "Fuji International Speedway", date: "22 Marzo 2026", time: "19:30 CET", completed: true },
-  { round: 8, circuit: "Suzuka Circuit", date: "29 Marzo 2026", time: "19:30 CET", completed: true },
+  { round: 1, circuit: "Deep Forest", date: "19 Abril 2026", time: "20:00 CET", session: "Amanecer", completed: false },
+  { round: 2, circuit: "Monza", date: "26 Abril 2026", time: "20:00 CET", session: "Atardecer", completed: false },
+  { round: 3, circuit: "Sardegna A", date: "3 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", completed: false },
+  { round: 4, circuit: "Dragon Trail", date: "10 Mayo 2026", time: "20:00 CET", session: "Alborada", completed: false },
+  { round: 5, circuit: "Watkins Glen", date: "17 Mayo 2026", time: "20:00 CET", session: "Amanecer", completed: false },
+  { round: 6, circuit: "Daytona Road Course", date: "24 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", completed: false },
+  { round: 7, circuit: "Trial Mountain", date: "31 Mayo 2026", time: "20:00 CET", session: "Amanecer", completed: false },
+  { round: 8, circuit: "Spa-Francorchamps", date: "7 Junio 2026", time: "20:00 CET", session: "Atardecer", completed: false },
 ]
 
 export const nextRace = races.find(race => !race.completed) || races[races.length - 1]
@@ -157,7 +164,7 @@ export interface PreQualy {
 }
 
 export const preQualy: PreQualy = {
-  enabled: true,
+  enabled: false,
   showPositions: true,
   showModel: true,
   title: "REDLINE GT PreQualy Temporada 2",

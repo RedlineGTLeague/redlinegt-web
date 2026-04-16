@@ -2,7 +2,7 @@
 
 import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
-import { Users } from "lucide-react"
+import { Users, Trophy } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { standings, getStandingsWithTeams, currentSeason, tiers, getStandingsByTier, tierNames, isMultiTier } from "@/lib/data"
@@ -20,6 +20,7 @@ export function ClasificacionContent() {
   const standingsWithTeams = getStandingsWithTeams(tierStandings)
 
   const currentTier = tiers.find(t => t.id === selectedTier) || tiers[0]
+  const hasPoints = standingsWithTeams.some(s => s.points > 0)
 
   const handleTierChange = (tierId: string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -65,25 +66,39 @@ export function ClasificacionContent() {
               </Tabs>
             )}
 
-            <TeamTable standings={standingsWithTeams} showHeader={true} tierName={currentTier.name} />
-            
-            <div className="mt-8 rounded-lg border border-border bg-secondary/30 p-4">
-              <h3 className="mb-3 text-sm font-medium uppercase tracking-wider text-muted-foreground">
-                Diferencia de Puntos
-              </h3>
-              <div className="space-y-2">
-                {standingsWithTeams.slice(0, -1).map((team, index) => (
-                  <div key={team.name} className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
-                      {team.acronym} vs {standingsWithTeams[index + 1].acronym}
-                    </span>
-                    <span className="font-medium text-primary">
-                      +{team.points - standingsWithTeams[index + 1].points} pts
-                    </span>
+            {hasPoints ? (
+              <>
+                <TeamTable standings={standingsWithTeams} showHeader={true} tierName={currentTier.name} />
+                
+                <div className="mt-8 rounded-lg border border-border bg-secondary/30 p-4">
+                  <h3 className="mb-3 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+                    Diferencia de Puntos
+                  </h3>
+                  <div className="space-y-2">
+                    {standingsWithTeams.slice(0, -1).map((team, index) => (
+                      <div key={team.name} className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">
+                          {team.acronym} vs {standingsWithTeams[index + 1].acronym}
+                        </span>
+                        <span className="font-medium text-primary">
+                          +{team.points - standingsWithTeams[index + 1].points} pts
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
+              </>
+            ) : (
+              <div className="py-12 text-center">
+                <Trophy className="mx-auto mb-4 h-12 w-12 text-muted-foreground/50" />
+                <p className="text-lg font-medium text-muted-foreground">
+                  Temporada {currentSeason.number} por comenzar
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground/70">
+                  La clasificación se activará tras la primera carrera
+                </p>
               </div>
-            </div>
+            )}
           </CardContent>
         </Card>
       </div>

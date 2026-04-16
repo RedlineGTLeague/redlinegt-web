@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Calendar, Clock, MapPin, CheckCircle, Circle } from "lucide-react"
+import { Calendar, Clock, MapPin, CheckCircle, Circle, Sun } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { races, currentSeason } from "@/lib/data"
 import { ChampionBanner } from "@/components/champion-banner"
@@ -68,9 +68,10 @@ export default function CalendarioPage() {
           </CardHeader>
           <CardContent>
             {/* Table Header - Desktop */}
-            <div className="mb-4 hidden grid-cols-[4rem_1fr_10rem_8rem_6rem] gap-4 border-b border-border px-4 pb-3 text-sm font-medium uppercase tracking-wider text-muted-foreground md:grid">
+            <div className="mb-4 hidden grid-cols-[4rem_1fr_8rem_6rem_6rem_6rem] gap-4 border-b border-border px-4 pb-3 text-sm font-medium uppercase tracking-wider text-muted-foreground md:grid">
               <span>Ronda</span>
               <span>Circuito</span>
+              <span>Sesión</span>
               <span>Fecha</span>
               <span>Hora</span>
               <span className="text-center">Estado</span>
@@ -88,7 +89,7 @@ export default function CalendarioPage() {
                   }`}
                 >
                   {/* Desktop Layout */}
-                  <div className="hidden grid-cols-[4rem_1fr_10rem_8rem_6rem] items-center gap-4 px-4 py-4 md:grid">
+                  <div className="hidden grid-cols-[4rem_1fr_8rem_6rem_6rem_6rem] items-center gap-4 px-4 py-4 md:grid">
                     <span className={`flex h-10 w-10 items-center justify-center rounded-lg text-sm font-bold ${
                       race.completed ? 'bg-muted text-muted-foreground' : 'bg-primary text-primary-foreground'
                     }`}>
@@ -100,6 +101,9 @@ export default function CalendarioPage() {
                         {race.circuit}
                       </span>
                     </div>
+                    <span className={`text-sm ${race.completed ? 'text-muted-foreground' : 'text-foreground'}`}>
+                      {race.session}
+                    </span>
                     <span className={race.completed ? 'text-muted-foreground' : 'text-foreground'}>
                       {race.date}
                     </span>
@@ -152,6 +156,10 @@ export default function CalendarioPage() {
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                      <span className="flex items-center gap-1.5">
+                        <Sun className="h-4 w-4" />
+                        {race.session}
+                      </span>
                       <span className="flex items-center gap-1.5">
                         <Calendar className="h-4 w-4" />
                         {race.date}
