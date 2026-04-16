@@ -50,18 +50,18 @@ export const currentSeason: Season = {
 export const drivers: { position: number; name: string; team: string; points: number; teamColor: string }[] = []
 
 export const teams: Team[] = [
-  { id: "srt", acronym: "SRT", name: "Speed Racing Team", color: "#ff3b3b", logo: "/images/team-logos/srt.png", active: true },
-  { id: "tsr", acronym: "TSR", name: "Technical Sim Racing", color: "#06b6d4", logo: "/images/team-logos/tsr.jpg", active: true },   // cyan (was purple)
-  { id: "ksm", acronym: "KSM", name: "Kaishin Motorsport", color: "#84cc16", logo: "/images/team-logos/ksm.png", active: true },      // lime (distinct from green)
-  { id: "tr", acronym: "TR", name: "Virtual Racing", color: "#facc15", logo: "/images/team-logos/tr.png", active: true },
-  { id: "grt", acronym: "GRT", name: "Gardening Racing Team", color: "#f97316", logo: "/images/team-logos/grt.png", active: true },
-  { id: "hrb", acronym: "HRB", name: "Hispanic Racing Bulls", color: "#a855f7", logo: "/images/team-logos/hrb.jpg", active: true },
-  { id: "bpf", acronym: "BPF", name: "Brinde Pa Festa", color: "#2563eb", logo: "/images/team-logos/bpf1.jpg", active: false },
-  { id: "shk", acronym: "SHK", name: "Shark Racing Team", color: "#38bdf8", logo: "/images/team-logos/shk.jpg", active: false },
-  { id: "spuk", acronym: "SPUK", name: "SPUK Racing", color: "#ec4899", logo: "/images/team-logos/spuk.png", active: false },
-  { id: "erg", acronym: "ERG", name: "Elite Racing Global", color: "#00df30", logo: "/images/team-logos/erg.jpg", active: false },   // rose/red (new identity)
-  { id: "bpf2", acronym: "BPF2", name: "Brinde Pa Festa 2", color: "#fde68a", logo: "/images/team-logos/bpf2.jpg", active: false },
-  { id: "shkb", acronym: "SHKB", name: "Shark Racing Team Black", color: "#f59e0b", logo: "/images/team-logos/shkb.jpg", active: false }, // amber (not purple anymore)
+  { id: "srt", acronym: "SRT", name: "Speed Racing Team", color: "#ef4444", logo: "/images/team-logos/srt.png", active: true },
+  { id: "tsr", acronym: "TSR", name: "Technical Sim Racing", color: "#22d3ee", logo: "/images/team-logos/tsr.jpg", active: true },   // cyan (was purple)
+  { id: "ksm", acronym: "KSM", name: "Kaishin Motorsport", color: "#f97316", logo: "/images/team-logos/ksm.png", active: true },      // lime (distinct from green)
+  { id: "tr", acronym: "TR", name: "Virtual Racing", color: "#e11d48", logo: "/images/team-logos/tr.png", active: true },
+  { id: "grt", acronym: "GRT", name: "Gardening Racing Team", color: "#10b981", logo: "/images/team-logos/grt.png", active: true },
+  { id: "hrb", acronym: "HRB", name: "Hispanic Racing Bulls", color: "#8b5cf6", logo: "/images/team-logos/hrb.jpg", active: true },
+  { id: "bpf", acronym: "BPF", name: "Brinde Pa Festa", color: "#3b82f6", logo: "/images/team-logos/bpf1.jpg", active: false },
+  { id: "shk", acronym: "SHK", name: "Shark Racing Team", color: "#0ea5e9", logo: "/images/team-logos/shk.jpg", active: false },
+  { id: "spuk", acronym: "SPUK", name: "SPUK Racing", color: "#d946ef", logo: "/images/team-logos/spuk.png", active: false },
+  { id: "erg", acronym: "ERG", name: "Elite Racing Global", color: "#14b8a6", logo: "/images/team-logos/erg.jpg", active: false },   // rose/red (new identity)
+  { id: "bpf2", acronym: "BPF2", name: "Brinde Pa Festa 2", color: "#93c5fd", logo: "/images/team-logos/bpf2.jpg", active: false },
+  { id: "shkb", acronym: "SHKB", name: "Shark Racing Team Black", color: "#b91c1c", logo: "/images/team-logos/shkb.jpg", active: false }, // amber (not purple anymore)
 ]
 
 export const standings: Standing[] = [
