@@ -125,6 +125,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  svg {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 /* Override Radix UI scroll-locking for dropdowns/modals */

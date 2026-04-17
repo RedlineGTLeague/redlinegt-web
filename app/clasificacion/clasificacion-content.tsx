@@ -90,7 +90,7 @@ export function ClasificacionContent() {
               </>
             ) : (
               <div className="py-12 text-center">
-                <Trophy className="mx-auto mb-4 h-12 w-12 text-muted-foreground/50" />
+                <p className="mb-4 text-5xl">🏆</p>
                 <p className="text-lg font-medium text-muted-foreground">
                   Temporada {currentSeason.number} por comenzar
                 </p>

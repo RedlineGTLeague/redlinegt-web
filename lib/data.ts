@@ -66,19 +66,24 @@ export const teams: Team[] = [
   { id: "shkb", acronym: "SHKB", name: "Shark Racing Team Black", color: "#b91c1c", logo: "/images/team-logos/shkb.jpg", active: false }, // amber (not purple anymore)
 ]
 
-export const standings: Standing[] = [
-  { position: 1, teamId: "ksm", points: 0 },
-  { position: 2, teamId: "tr", points: 0 },
-  { position: 3, teamId: "tsr", points: 0 },
-  { position: 4, teamId: "bpf", points: 0 },
-  { position: 5, teamId: "bpf2", points: 0 },
-  { position: 6, teamId: "grt", points: 0 },
-  { position: 7, teamId: "srt", points: 0 },
-  { position: 8, teamId: "shk", points: 0 },
-  { position: 9, teamId: "shkb", points: 0 },
-  { position: 10, teamId: "spuk", points: 0 },
-  { position: 11, teamId: "erg", points: 0 },
-]
+export const seasonPoints: Record<string, number> = {
+  "ksm": 0,
+  "tr": 0,
+  "tsr": 0,
+  "bpf": 0,
+  "bpf2": 0,
+  "grt": 0,
+  "srt": 0,
+  "shk": 0,
+  "shkb": 0,
+  "spuk": 0,
+  "erg": 0,
+}
+
+export const standings: Standing[] = Object.entries(seasonPoints)
+  .map(([teamId, points]) => ({ position: 0, teamId, points }))
+  .sort((a, b) => b.points - a.points)
+  .map((s, i) => ({ ...s, position: i + 1 }))
 
 export const currentTeams = teams.filter(t => t.active).map(t => ({ acronym: t.acronym, name: t.name, logo: t.logo ?? null }))
 export const pastTeams = teams.filter(t => !t.active).map(t => ({ acronym: t.acronym, name: t.name, logo: t.logo ?? null }))

@@ -18,6 +18,10 @@ export default function HomePage() {
   const standingsWithTeams = getStandingsWithTeams(tierStandings)
   const hasPoints = standingsWithTeams.some(s => s.points > 0)
   const currentCaster = casters[currentSplitId]
+  const splitsWithCasters = tiers.map(tier => ({
+    ...tier,
+    caster: casters[tier.id],
+  })).filter(s => s.caster)
 
   return (
     <div className="min-h-screen">
@@ -136,34 +140,48 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            {currentCaster && (
-              <div className="mt-8 flex flex-col items-center gap-4 border-t border-border pt-8">
-                <p className="flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-primary">
-                  <Tv className="h-5 w-5" />
-                  {currentCaster.name}
-                </p>
-                <p className="text-center text-sm text-muted-foreground">
-                  Ver las carreras en directo con nuestro caster
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-3">
-                  {currentCaster.twitch && (
-                    <Button asChild variant="default" size="lg" className="gap-2">
-                      <a href={currentCaster.twitch} target="_blank" rel="noopener noreferrer">
-                        <Tv className="h-5 w-5" />
-                        Ver en Twitch
-                      </a>
-                    </Button>
-                  )}
-                  {currentCaster.youtube && (
-                    <Button asChild variant="outline" size="lg" className="gap-2">
-                      <a href={currentCaster.youtube} target="_blank" rel="noopener noreferrer">
-                        <Tv className="h-5 w-5" />
-                        Ver en YouTube
-                      </a>
-                    </Button>
-                  )}
-                </div>
-              </div>
+            {splitsWithCasters.length > 0 && (
+              <Card className="mx-auto mt-8 max-w-2xl border-border/80 bg-card/70">
+                <CardHeader>
+                  <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide flex items-center gap-2">
+                    <Tv className="h-5 w-5" />
+                    Mira las carreras en directo
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap items-center justify-center gap-4">
+                    {splitsWithCasters.map(split => (
+                      <div key={split.id} className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card/50 p-4 text-center">
+                        <p className="text-sm font-medium uppercase tracking-wider text-primary">
+                          {split.name}
+                        </p>
+                        <p className="text-lg font-bold text-foreground">
+                          <span className="text-muted-foreground">Caster: </span>
+                          {split.caster!.name}
+                        </p>
+                        <div className="flex gap-2">
+                          {split.caster!.twitch && (
+                            <Button asChild variant="default" size="sm" className="gap-1.5">
+                              <a href={split.caster!.twitch} target="_blank" rel="noopener noreferrer">
+                                <Tv className="h-3.5 w-3.5" />
+                                Twitch
+                              </a>
+                            </Button>
+                          )}
+                          {split.caster!.youtube && (
+                            <Button asChild variant="outline" size="sm" className="gap-1.5">
+                              <a href={split.caster!.youtube} target="_blank" rel="noopener noreferrer">
+                                <Tv className="h-3.5 w-3.5" />
+                                YouTube
+                              </a>
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             )}
           </div>
         </section>
@@ -188,14 +206,14 @@ export default function HomePage() {
               </CardContent>
             </Card>
           ) : (
-            <Card className="mx-auto max-w-2xl border-border/80 bg-card/70 backdrop-blur-sm">
+            <Card className="mx-auto max-w-2xl border-border/80 bg-card/70">
               <CardHeader>
                 <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
                   Clasificación de Equipos
                 </CardTitle>
               </CardHeader>
               <CardContent className="py-8 text-center">
-                <Trophy className="mx-auto mb-4 h-12 w-12 text-muted-foreground/50" />
+                <p className="mx-auto mb-4 text-6xl font-bold text-muted-foreground/50">🏆</p>
                 <p className="text-lg font-medium text-muted-foreground">
                   Temporada {currentSeason.number} por comenzar
                 </p>

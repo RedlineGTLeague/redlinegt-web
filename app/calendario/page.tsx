@@ -2,14 +2,19 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Calendar, Clock, MapPin, CheckCircle, Circle, Sun } from "lucide-react"
+import { Calendar, Clock, MapPin, CheckCircle, Circle, Sun, Tv } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { races, currentSeason } from "@/lib/data"
+import { Button } from "@/components/ui/button"
+import { races, currentSeason, tiers, casters } from "@/lib/data"
 import { ChampionBanner } from "@/components/champion-banner"
 import { isRouteEnabled } from "@/lib/routes"
 
 export default function CalendarioPage() {
   const router = useRouter()
+  const splitsWithCasters = tiers.map(tier => ({
+    ...tier,
+    caster: casters[tier.id],
+  })).filter(s => s.caster)
 
   useEffect(() => {
     if (!isRouteEnabled("/calendario")) {
@@ -177,10 +182,51 @@ export default function CalendarioPage() {
         </Card>
 
         {/* Info Box */}
-        <div className="mt-8 rounded-lg border border-border bg-card p-6 text-center">
-          <p className="text-muted-foreground">
-            Todas las carreras se transmiten en vivo a través de nuestro servidor de Discord. 
-            <br className="hidden sm:inline" />
+        <div className="mt-8 space-y-4">
+          {splitsWithCasters.length > 0 && (
+            <Card className="mx-auto max-w-2xl border-border/80 bg-card/70">
+              <CardHeader>
+                <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide flex items-center gap-2">
+                  <Tv className="h-5 w-5" />
+                  Mira las carreras en directo
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                  {splitsWithCasters.map(split => (
+                    <div key={split.id} className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card/50 p-4 text-center">
+                      <p className="text-sm font-medium uppercase tracking-wider text-primary">
+                        {split.name}
+                      </p>
+                      <p className="text-lg font-bold text-foreground">
+                        <span className="text-muted-foreground">Caster: </span>
+                        {split.caster!.name}
+                      </p>
+                      <div className="flex gap-2">
+                        {split.caster!.twitch && (
+                          <Button asChild variant="default" size="sm" className="gap-1.5">
+                            <a href={split.caster!.twitch} target="_blank" rel="noopener noreferrer">
+                              <Tv className="h-3.5 w-3.5" />
+                              Twitch
+                            </a>
+                          </Button>
+                        )}
+                        {split.caster!.youtube && (
+                          <Button asChild variant="outline" size="sm" className="gap-1.5">
+                            <a href={split.caster!.youtube} target="_blank" rel="noopener noreferrer">
+                              <Tv className="h-3.5 w-3.5" />
+                              YouTube
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+          <p className="rounded-lg border border-border bg-card p-4 text-center text-muted-foreground">
             Las horas están indicadas en horario CET (Centro de Europa).
           </p>
         </div>
