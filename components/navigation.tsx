@@ -4,21 +4,25 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import { Menu, X, Tv, ChevronDown } from "lucide-react"
+import { Menu, X, Tv, ChevronDown, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { cn } from "@/lib/utils"
-import { redlineTv, discordLink } from "@/lib/data"
+import { discordLink, casters, tiers } from "@/lib/data"
 import { navItems } from "@/lib/routes"
 
 export function Navigation() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [expandedSplit, setExpandedSplit] = useState<string | null>(null)
+  const splitsWithCasters = tiers.map(tier => ({
+    ...tier,
+    caster: casters[tier.id],
+  })).filter(s => s.caster)
+
+  const toggleSplit = (splitId: string) => {
+    setExpandedSplit(expandedSplit === splitId ? null : splitId)
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -55,30 +59,42 @@ export function Navigation() {
               </Link>
             )
           })}
-          <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
-              <button
-                type="button"
-                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              >
-                <Tv className="h-4 w-4" />
-                {redlineTv.name}
-                <ChevronDown className="h-4 w-4" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
-                <a href={redlineTv.twitch} target="_blank" rel="noopener noreferrer">
-                  Twitch
-                </a>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <a href={redlineTv.youtube} target="_blank" rel="noopener noreferrer">
-                  YouTube
-                </a>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {splitsWithCasters.length > 0 && (
+            <div className="group relative flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
+              <Tv className="h-4 w-4" />
+              <span>Redline TV</span>
+              <ChevronDown className="h-4 w-4" />
+              <div className="absolute top-full left-0 z-50 hidden flex-col rounded-md border border-border bg-card shadow-md group-hover:flex">
+                {splitsWithCasters.map(split => (
+                  <div key={split.id} className="p-2">
+                    <p className="px-2 py-1 text-xs font-medium text-foreground">{split.name}</p>
+                    {split.caster!.twitch && (
+                      <a
+                        href={split.caster!.twitch}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
+                      >
+                        <Tv className="h-4 w-4" />
+                        Twitch
+                      </a>
+                    )}
+                    {split.caster!.youtube && (
+                      <a
+                        href={split.caster!.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
+                      >
+                        <Tv className="h-4 w-4" />
+                        YouTube
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           <a
             href={discordLink}
             target="_blank"
@@ -126,29 +142,52 @@ export function Navigation() {
                 </Link>
               )
             })}
-            <div className="border-t border-border pt-2">
-              <p className="px-3 py-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                {redlineTv.name}
-              </p>
-              <a
-                href={redlineTv.twitch}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 rounded-md px-3 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
-              >
-                <Tv className="h-5 w-5" />
-                Twitch
-              </a>
-              <a
-                href={redlineTv.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 rounded-md px-3 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
-              >
-                <Tv className="h-5 w-5" />
-                YouTube
-              </a>
-            </div>
+            {splitsWithCasters.length > 0 && (
+              <div className="border-t border-border pt-2">
+                <p className="px-3 py-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Redline TV
+                </p>
+                {splitsWithCasters.map(split => (
+                  <Collapsible key={`mobile-${split.id}`} open={expandedSplit === split.id} onOpenChange={() => toggleSplit(split.id)}>
+                    <CollapsibleTrigger asChild>
+                      <button
+                        type="button"
+                        className="flex w-full items-center justify-between gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                      >
+                        <span>{split.name}</span>
+                        <ChevronRight className={cn("h-4 w-4 transition-transform", expandedSplit === split.id && "rotate-90")} />
+                      </button>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <div className="flex flex-col gap-1 rounded-md bg-card p-2">
+                        {split.caster!.twitch && (
+                          <a
+                            href={split.caster!.twitch}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
+                          >
+                            <Tv className="h-4 w-4" />
+                            Twitch
+                          </a>
+                        )}
+                        {split.caster!.youtube && (
+                          <a
+                            href={split.caster!.youtube}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
+                          >
+                            <Tv className="h-4 w-4" />
+                            YouTube
+                          </a>
+                        )}
+                      </div>
+                    </CollapsibleContent>
+                  </Collapsible>
+                ))}
+              </div>
+            )}
             <a
               href={discordLink}
               target="_blank"

@@ -1,7 +1,7 @@
 import { Calendar, Clock, MapPin, Car, Tv, Flag } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { getTeamById } from "@/lib/data"
+import { getTeamById, casters, tiers } from "@/lib/data"
 
 interface PreQualyPosition {
   position: number
@@ -27,6 +27,7 @@ export function PreQualyCard({ showPositions, showModel, title, date, time, desc
     ...p,
     team: getTeamById(p.teamId),
   }))
+  const currentCaster = casters[tiers[0].id]
 
   return (
     <section className="border-y border-primary/30 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 py-6 backdrop-blur-sm">
@@ -84,20 +85,26 @@ export function PreQualyCard({ showPositions, showModel, title, date, time, desc
                 </div>
               </div>
               
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                <Button asChild variant="default" size="lg" className="gap-2">
-                  <a href="https://www.twitch.tv/dihondia" target="_blank" rel="noopener noreferrer">
-                    <Tv className="h-5 w-5" />
-                    Ver en Twitch
-                  </a>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="gap-2">
-                  <a href="https://www.youtube.com/@dihondia/streams" target="_blank" rel="noopener noreferrer">
-                    <Tv className="h-5 w-5" />
-                    Ver en YouTube
-                  </a>
-                </Button>
-              </div>
+              {currentCaster && (
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  {currentCaster.twitch && (
+                    <Button asChild variant="default" size="lg" className="gap-2">
+                      <a href={currentCaster.twitch} target="_blank" rel="noopener noreferrer">
+                        <Tv className="h-5 w-5" />
+                        Ver en Twitch
+                      </a>
+                    </Button>
+                  )}
+                  {currentCaster.youtube && (
+                    <Button asChild variant="outline" size="lg" className="gap-2">
+                      <a href={currentCaster.youtube} target="_blank" rel="noopener noreferrer">
+                        <Tv className="h-5 w-5" />
+                        Ver en YouTube
+                      </a>
+                    </Button>
+                  )}
+                </div>
+              )}
 
               {showPositions && positionsWithTeams.length > 0 && (
                 <div className="mt-6 border-t border-primary/20 pt-6">

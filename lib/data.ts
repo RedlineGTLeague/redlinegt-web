@@ -134,12 +134,25 @@ export const races: Race[] = [
 
 export const nextRace = races.find(race => !race.completed) || races[races.length - 1]
 
-/** Redline TV – live stream (caster: dihondia) */
-export const redlineTv = {
-  name: "Redline TV",
-  twitch: "https://www.twitch.tv/dihondia",
-  youtube: "https://www.youtube.com/@dihondia/streams",
-} as const
+export interface Caster {
+  name: string
+  twitch?: string
+  youtube?: string
+}
+
+export const casters: Record<string, Caster | null> = {
+  "split-rojo": {
+    name: "dihondia",
+    twitch: "https://www.twitch.tv/dihondia",
+    youtube: "https://www.youtube.com/@dihondia/streams",
+  },
+  "split-blanco": {
+    name: "eliteracing_global",
+    twitch: "https://www.twitch.tv/eliteracing_global",
+  },
+}
+
+export const redlineTv = casters["split-rojo"]!
 
 export const discordLink = "https://discord.gg/wFUpgjbKhM" as const
 

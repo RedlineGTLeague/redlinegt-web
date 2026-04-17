@@ -3,7 +3,7 @@ import Image from "next/image"
 import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv, Crown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, redlineTv, currentSeason, races, preQualy, discordLink, tiers, getStandingsByTier } from "@/lib/data"
+import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, currentSeason, races, preQualy, discordLink, tiers, getStandingsByTier, casters } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { TeamsSection } from "@/components/teams-section"
 import { PreQualyCard } from "@/components/pre-qualy-card"
@@ -13,9 +13,11 @@ const isEnabled = (href: string) => navItems.find(item => item.href === href)?.e
 
 export default function HomePage() {
   const hasUpcomingRace = races.some(race => !race.completed)
-  const tierStandings = getStandingsByTier(tiers[0].id)
+  const currentSplitId = tiers[0].id
+  const tierStandings = getStandingsByTier(currentSplitId)
   const standingsWithTeams = getStandingsWithTeams(tierStandings)
   const hasPoints = standingsWithTeams.some(s => s.points > 0)
+  const currentCaster = casters[currentSplitId]
 
   return (
     <div className="min-h-screen">
@@ -134,30 +136,35 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            {/* Redline TV – Watch live stream */}
-            <div className="mt-8 flex flex-col items-center gap-4 border-t border-border pt-8">
-              <p className="flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-primary">
-                <Tv className="h-5 w-5" />
-                {redlineTv.name}
-              </p>
-              <p className="text-center text-sm text-muted-foreground">
-                Ver las carreras en directo con nuestro caster
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                <Button asChild variant="default" size="lg" className="gap-2">
-                  <a href={redlineTv.twitch} target="_blank" rel="noopener noreferrer">
-                    <Tv className="h-5 w-5" />
-                    Ver en Twitch
-                  </a>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="gap-2">
-                  <a href={redlineTv.youtube} target="_blank" rel="noopener noreferrer">
-                    <Tv className="h-5 w-5" />
-                    Ver en YouTube
-                  </a>
-                </Button>
+            {currentCaster && (
+              <div className="mt-8 flex flex-col items-center gap-4 border-t border-border pt-8">
+                <p className="flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-primary">
+                  <Tv className="h-5 w-5" />
+                  {currentCaster.name}
+                </p>
+                <p className="text-center text-sm text-muted-foreground">
+                  Ver las carreras en directo con nuestro caster
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  {currentCaster.twitch && (
+                    <Button asChild variant="default" size="lg" className="gap-2">
+                      <a href={currentCaster.twitch} target="_blank" rel="noopener noreferrer">
+                        <Tv className="h-5 w-5" />
+                        Ver en Twitch
+                      </a>
+                    </Button>
+                  )}
+                  {currentCaster.youtube && (
+                    <Button asChild variant="outline" size="lg" className="gap-2">
+                      <a href={currentCaster.youtube} target="_blank" rel="noopener noreferrer">
+                        <Tv className="h-5 w-5" />
+                        Ver en YouTube
+                      </a>
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </section>
       )}
