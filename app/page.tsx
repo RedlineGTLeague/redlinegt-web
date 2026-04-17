@@ -3,6 +3,7 @@ import Image from "next/image"
 import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv, Crown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
 import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, currentSeason, races, preQualy, discordLink, tiers, getStandingsByTier, casters } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { TeamsSection } from "@/components/teams-section"
@@ -13,11 +14,12 @@ const isEnabled = (href: string) => navItems.find(item => item.href === href)?.e
 
 export default function HomePage() {
   const hasUpcomingRace = races.some(race => !race.completed)
-  const currentSplitId = tiers[0].id
-  const tierStandings = getStandingsByTier(currentSplitId)
-  const standingsWithTeams = getStandingsWithTeams(tierStandings)
-  const hasPoints = standingsWithTeams.some(s => s.points > 0)
-  const currentCaster = casters[currentSplitId]
+  const allStandings = tiers.map(tier => ({
+    ...tier,
+    standings: getStandingsWithTeams(getStandingsByTier(tier.id)),
+  }))
+  const hasPoints = allStandings.some(t => t.standings.some(s => s.points > 0))
+  const currentCaster = casters[tiers[0].id]
   const splitsWithCasters = tiers.map(tier => ({
     ...tier,
     caster: casters[tier.id],
@@ -75,10 +77,51 @@ export default function HomePage() {
               priority
             />
             
-            <p className="mx-auto mt-6 max-w-2xl text-base text-[#b0b0b0] md:text-lg">
-              Campeonato competitivo de Gran Turismo 7. Donde la velocidad, la estrategia y la habilidad se unen para coronar al mejor piloto virtual.
-            </p>
-            
+<p className="mx-auto mt-6 mb-8 max-w-2xl text-base text-[#b0b0b0] md:text-lg">
+               Campeonato competitivo de Gran Turismo 7. Donde la velocidad, la estrategia y la habilidad se unen para coronar al mejor piloto virtual.
+             </p>
+             
+{hasPoints && (
+              <Card className="mx-auto max-w-2xl border border-primary/40 bg-card/70 hover:border-primary/60 transition-all">
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
+                    Clasificación de Equipos
+                  </CardTitle>
+                  <Link href="/clasificacion" className="flex items-center gap-1 text-sm text-primary hover:underline">
+                    Ver todo <ChevronRight className="h-4 w-4" />
+                  </Link>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <div className="grid gap-4 md:grid-cols-2">
+                    {allStandings.map(tier => (
+                      <div key={tier.id} className="rounded-lg border border-border bg-card p-4">
+                        <p className="mb-3 text-sm font-medium uppercase tracking-wider text-primary">{tier.name}</p>
+                        <div className="space-y-2">
+                          {tier.standings.map((team) => (
+                            <div key={team.position} className="flex items-center gap-3">
+                              <span className={cn(
+                                "flex h-6 w-6 items-center justify-center rounded text-xs font-bold",
+                                team.position === 1 ? "bg-yellow-500 text-black" :
+                                team.position === 2 ? "bg-neutral-400 text-black" :
+                                team.position === 3 ? "bg-amber-700 text-white" :
+                                "bg-muted text-muted-foreground"
+                              )}>
+                                {team.position}
+                              </span>
+                              <div className="flex items-start gap-2">
+                                <span className="h-2 w-2 mr-2 inline-block rounded-full" style={{ backgroundColor: team.color }} />
+                                <span className="text-sm font-medium">{team.acronym}</span>
+                              </div>
+                              <span className="ml-auto text-sm font-bold text-foreground">{team.points}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button asChild size="lg" className="gap-2">
                 <Link href="/clasificacion">
@@ -97,7 +140,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {currentSeason.completed && standingsWithTeams[0] && (
+      {currentSeason.completed && allStandings[0]?.standings[0] && (
         <section className="border-y border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 via-amber-500/10 to-yellow-500/10 py-10">
           <div className="container mx-auto px-4 text-center">
             <div className="flex items-center justify-center gap-2 text-yellow-500">
@@ -106,11 +149,11 @@ export default function HomePage() {
               <Crown className="h-5 w-5" />
             </div>
             <div className="mt-3 flex items-center justify-center gap-4">
-              <div className="h-3 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: standingsWithTeams[0].color }} />
-              <span className="font-oswald text-2xl font-bold text-yellow-500 md:text-3xl">{standingsWithTeams[0].acronym}</span>
-              <span className="text-amber-200/80 md:text-2xl">— {standingsWithTeams[0].name}</span>
+              <div className="h-3 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: allStandings[0].standings[0].color }} />
+              <span className="font-oswald text-2xl font-bold text-yellow-500 md:text-3xl">{allStandings[0].standings[0].acronym}</span>
+              <span className="text-amber-200/80 md:text-2xl">— {allStandings[0].standings[0].name}</span>
             </div>
-            <p className="mt-1 font-bold text-yellow-500">{standingsWithTeams[0].points} puntos</p>
+            <p className="mt-1 font-bold text-yellow-500">{allStandings[0].standings[0].points} puntos</p>
           </div>
         </section>
       )}
@@ -184,45 +227,12 @@ export default function HomePage() {
               </Card>
             )}
           </div>
-        </section>
+</section>
       )}
 
       {/* Main Content */}
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
-          {/* Team Standings */}
-          {hasPoints ? (
-            <Card className="mx-auto max-w-2xl border-border/80 bg-card/70 backdrop-blur-sm">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
-                  Clasificación de Equipos
-                </CardTitle>
-                <Link href="/clasificacion" className="flex items-center gap-1 text-sm text-primary hover:underline">
-                  Ver todo <ChevronRight className="h-4 w-4" />
-                </Link>
-              </CardHeader>
-              <CardContent className="p-0">
-                <TeamTable standings={standingsWithTeams} showHeader={false} />
-              </CardContent>
-            </Card>
-          ) : (
-            <Card className="mx-auto max-w-2xl border-border/80 bg-card/70">
-              <CardHeader>
-                <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
-                  Clasificación de Equipos
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="py-8 text-center">
-                <p className="mx-auto mb-4 text-6xl font-bold text-muted-foreground/50">🏆</p>
-                <p className="text-lg font-medium text-muted-foreground">
-                  Temporada {currentSeason.number} por comenzar
-                </p>
-                <p className="mt-2 text-sm text-muted-foreground/70">
-                  La clasificación se activará tras la primera carrera
-                </p>
-              </CardContent>
-            </Card>
-          )}
         </div>
       </section>
 
