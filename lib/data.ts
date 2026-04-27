@@ -67,17 +67,17 @@ export const teams: Team[] = [
 ]
 
 export const seasonPoints: Record<string, number> = {
-  "ksm": 0,
-  "tr": 0,
-  "tsr": 0,
-  "bpf": 0,
-  "bpf2": 0,
-  "grt": 0,
-  "srt": 0,
-  "shk": 0,
-  "shkb": 0,
-  "spuk": 0,
-  "erg": 0,
+  "ksm": 44,
+  "tr": 42,
+  "tsr": 32,
+  "bpf": 54,
+  "bpf2": 11,
+  "grt": 33,
+  "srt": 25,
+  "shk": 14,
+  "shkb": 66,
+  "spuk": 19,
+  "erg": 40,
 }
 
 export const standings: Standing[] = Object.entries(seasonPoints)
@@ -127,7 +127,7 @@ export const teamsSelection = [
 ]
 
 export const races: Race[] = [
-  { round: 1, circuit: "Deep Forest", date: "19 Abril 2026", time: "20:00 CET", session: "Amanecer", completed: false },
+  { round: 1, circuit: "Deep Forest", date: "19 Abril 2026", time: "20:00 CET", session: "Amanecer", completed: true },
   { round: 2, circuit: "Monza", date: "26 Abril 2026", time: "20:00 CET", session: "Atardecer", completed: false },
   { round: 3, circuit: "Sardegna A", date: "3 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", completed: false },
   { round: 4, circuit: "Dragon Trail", date: "10 Mayo 2026", time: "20:00 CET", session: "Alborada", completed: false },
