@@ -9,5 +9,9 @@ node_modules/
 .env*.local
 .DS_Store
 .aider*
+__pycache__/
 /venv
 /tsconfig.tsbuildinfo
+
+# Python venv
+/.venv
