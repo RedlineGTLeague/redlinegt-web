@@ -4,7 +4,7 @@ import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin,
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, currentSeason, races, preQualy, discordLink, tiers, getStandingsByTier, casters } from "@/lib/data"
+import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, currentSeason, races, preQualy, discordLink, tiers, getStandingsByTier, casters, getRaceStatus } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { TeamsSection } from "@/components/teams-section"
 import { PreQualyCard } from "@/components/pre-qualy-card"
@@ -13,7 +13,7 @@ import { navItems } from "@/lib/routes"
 const isEnabled = (href: string) => navItems.find(item => item.href === href)?.enabled !== false
 
 export default function HomePage() {
-  const hasUpcomingRace = races.some(race => !race.completed)
+  const hasUpcomingRace = races.some(race => getRaceStatus(race) !== 'completed')
   const allStandings = tiers.map(tier => ({
     ...tier,
     standings: getStandingsWithTeams(getStandingsByTier(tier.id)),

@@ -33,79 +33,93 @@ export const tiers: Tier[] = [
   { id: "split-blanco", name: "Split Blanco", teamIds: ["grt", "srt", "shk", "shkb", "spuk", "erg"] },
 ]
 
-export interface Race {
-  round: number
-  circuit: string
-  session: string
-  date: string
-  time: string
-  completed: boolean
-}
-
-/** Current active season for the website */
 export const currentSeason: Season = {
   number: 2,
   completed: false,
 }
 
-// Placeholder - drivers not used in current season
 export const drivers: { position: number; name: string; team: string; points: number; teamColor: string }[] = []
 
 export const teams: Team[] = [
   { id: "srt", acronym: "SRT", name: "Speed Racing Team", color: "#ef4444", logo: "/images/team-logos/srt.png", active: true },
-  { id: "tsr", acronym: "TSR", name: "Technical Sim Racing", color: "#22d3ee", logo: "/images/team-logos/tsr.jpg", active: true },   // cyan (was purple)
-  { id: "ksm", acronym: "KSM", name: "Kaishin Motorsport", color: "#f97316", logo: "/images/team-logos/ksm.png", active: true },      // lime (distinct from green)
+  { id: "tsr", acronym: "TSR", name: "Technical Sim Racing", color: "#22d3ee", logo: "/images/team-logos/tsr.jpg", active: true },
+  { id: "ksm", acronym: "KSM", name: "Kaishin Motorsport", color: "#f97316", logo: "/images/team-logos/ksm.png", active: true },
   { id: "tr", acronym: "TR", name: "Virtual Racing", color: "#e11d48", logo: "/images/team-logos/tr.png", active: true },
   { id: "grt", acronym: "GRT", name: "Gardening Racing Team", color: "#10b981", logo: "/images/team-logos/grt.png", active: true },
   { id: "hrb", acronym: "HRB", name: "Hispanic Racing Bulls", color: "#8b5cf6", logo: "/images/team-logos/hrb.jpg", active: true },
   { id: "bpf", acronym: "BPF", name: "Brinde Pa Festa", color: "#3b82f6", logo: "/images/team-logos/bpf1.jpg", active: false },
   { id: "shk", acronym: "SHK", name: "Shark Racing Team", color: "#0ea5e9", logo: "/images/team-logos/shk.jpg", active: false },
   { id: "spuk", acronym: "SPUK", name: "SPUK Racing", color: "#d946ef", logo: "/images/team-logos/spuk.png", active: false },
-  { id: "erg", acronym: "ERG", name: "Elite Racing Global", color: "#14b8a6", logo: "/images/team-logos/erg.jpg", active: false },   // rose/red (new identity)
+  { id: "erg", acronym: "ERG", name: "Elite Racing Global", color: "#14b8a6", logo: "/images/team-logos/erg.jpg", active: false },
   { id: "bpf2", acronym: "BPF2", name: "Brinde Pa Festa 2", color: "#93c5fd", logo: "/images/team-logos/bpf2.jpg", active: false },
-  { id: "shkb", acronym: "SHKB", name: "Shark Racing Team Black", color: "#b91c1c", logo: "/images/team-logos/shkb.jpg", active: false }, // amber (not purple anymore)
+  { id: "shkb", acronym: "SHKB", name: "Shark Racing Team Black", color: "#b91c1c", logo: "/images/team-logos/shkb.jpg", active: false },
 ]
 
-export const seasonPoints: Record<string, number> = {
-  "ksm": 44,
-  "tr": 42,
-  "tsr": 32,
-  "bpf": 54,
-  "bpf2": 11,
-  "grt": 33,
-  "srt": 25,
-  "shk": 14,
-  "shkb": 66,
-  "spuk": 19,
-  "erg": 40,
+export type RaceStatus = 'pending' | 'completed' | 'postponed'
+
+export interface Race {
+  round: number
+  circuit: string
+  session: string
+  date: string
+  time: string
+  splitStatus: Record<string, RaceStatus>
 }
 
-export const standings: Standing[] = Object.entries(seasonPoints)
-  .map(([teamId, points]) => ({ position: 0, teamId, points }))
-  .sort((a, b) => b.points - a.points)
-  .map((s, i) => ({ ...s, position: i + 1 }))
+// Simple per-team per-split total points (manually updated)
+export const splitPoints: Record<string, Record<string, number>> = {
+  "split-rojo": {
+    "bpf": 115,
+    "tr": 95,
+    "ksm": 78,
+    "tsr": 66,
+    "bpf2": 29,
+  },
+  "split-blanco": {
+    "shkb": 71,
+    "erg": 49,
+    "grt": 45,
+    "srt": 39,
+    "spuk": 31,
+    "shk": 21,
+  },
+}
+
+export const getTeamTotalPoints = (teamId: string, splitId?: string): number => {
+  if (splitId) {
+    return splitPoints[splitId]?.[teamId] ?? 0
+  }
+  return Object.values(splitPoints).reduce((total, split) => total + (split[teamId] ?? 0), 0)
+}
+
+export const getStandingsByTier = (tierId: string): Standing[] => {
+  const tier = tiers.find(t => t.id === tierId)
+  if (!tier) return []
+  return tier.teamIds
+    .map((teamId) => ({
+      position: 0,
+      teamId,
+      points: getTeamTotalPoints(teamId, tierId)
+    }))
+    .sort((a, b) => b.points - a.points)
+    .map((s, index) => ({ ...s, position: index + 1 }))
+}
+
+export const standings: Standing[] = getStandingsByTier('split-rojo').concat(
+  getStandingsByTier('split-blanco')
+).map((s, i) => ({ ...s, position: i + 1 }))
+
+// Backward compatibility
+export const seasonPoints: Record<string, number> = Object.fromEntries(
+  tiers.flatMap(tier =>
+    tier.teamIds.map(teamId => [teamId, splitPoints[tier.id]?.[teamId] ?? 0])
+  )
+)
 
 export const currentTeams = teams.filter(t => t.active).map(t => ({ acronym: t.acronym, name: t.name, logo: t.logo ?? null }))
 export const pastTeams = teams.filter(t => !t.active).map(t => ({ acronym: t.acronym, name: t.name, logo: t.logo ?? null }))
 
 export const getTeamById = (id: string) => teams.find((t) => t.id === id)
-
-export const getStandingsByTier = (tierId: string): Standing[] => {
-  const tier = tiers.find(t => t.id === tierId)
-  if (!tier) return standings
-  
-  return tier.teamIds
-    .map((teamId, index) => {
-      const standing = standings.find(s => s.teamId === teamId)
-      return {
-        position: index + 1,
-        teamId,
-        points: standing?.points ?? 0,
-      }
-    })
-    .sort((a, b) => b.points - a.points)
-    .map((s, index) => ({ ...s, position: index + 1 }))
-}
 
 export const getStandingsWithTeams = (standings: Standing[]) =>
   standings.map((s) => {
@@ -127,17 +141,19 @@ export const teamsSelection = [
 ]
 
 export const races: Race[] = [
-  { round: 1, circuit: "Deep Forest", date: "19 Abril 2026", time: "20:00 CET", session: "Amanecer", completed: true },
-  { round: 2, circuit: "Monza", date: "26 Abril 2026", time: "20:00 CET", session: "Atardecer", completed: false },
-  { round: 3, circuit: "Sardegna A", date: "3 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", completed: false },
-  { round: 4, circuit: "Dragon Trail", date: "10 Mayo 2026", time: "20:00 CET", session: "Alborada", completed: false },
-  { round: 5, circuit: "Watkins Glen", date: "17 Mayo 2026", time: "20:00 CET", session: "Amanecer", completed: false },
-  { round: 6, circuit: "Daytona Road Course", date: "24 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", completed: false },
-  { round: 7, circuit: "Trial Mountain", date: "31 Mayo 2026", time: "20:00 CET", session: "Amanecer", completed: false },
-  { round: 8, circuit: "Spa-Francorchamps", date: "7 Junio 2026", time: "20:00 CET", session: "Atardecer", completed: false },
+  { round: 1, circuit: "Deep Forest", date: "19 Abril 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
+  { round: 2, circuit: "Monza", date: "26 Abril 2026", time: "20:00 CET", session: "Atardecer", splitStatus: { "split-rojo": "completed", "split-blanco": "postponed" } },
+  { round: 3, circuit: "Sardegna A", date: "3 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
+  { round: 4, circuit: "Dragon Trail", date: "10 Mayo 2026", time: "20:00 CET", session: "Alborada", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
+  { round: 5, circuit: "Watkins Glen", date: "17 Mayo 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
+  { round: 6, circuit: "Daytona Road Course", date: "24 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
+  { round: 7, circuit: "Trial Mountain", date: "31 Mayo 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
+  { round: 8, circuit: "Spa-Francorchamps", date: "7 Junio 2026", time: "20:00 CET", session: "Atardecer", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
 ]
 
-export const nextRace = races.find(race => !race.completed) || races[races.length - 1]
+export const nextRace = races.find(race =>
+  Object.values(race.splitStatus).every(status => status === 'pending')
+) || races[races.length - 1]
 
 export interface Caster {
   name: string
@@ -208,3 +224,14 @@ export const preQualy: PreQualy = {
 
 export const tierNames = tiers.map((t) => t.name)
 export const isMultiTier = tiers.length > 1
+
+export const getRaceStatus = (race: Race): RaceStatus => {
+  const statuses = Object.values(race.splitStatus)
+  if (statuses.every(s => s === 'completed')) return 'completed'
+  if (statuses.some(s => s === 'postponed')) return 'postponed'
+  return 'pending'
+}
+
+export const getCompletedRacesCount = (): number => {
+  return races.filter(r => getRaceStatus(r) === 'completed').length
+}

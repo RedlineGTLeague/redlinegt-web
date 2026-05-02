@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { drivers, races, teams } from "@/lib/data"
+import { drivers, races, teams, getRaceStatus } from "@/lib/data"
 import { isRouteEnabled } from "@/lib/routes"
 
 export default function ReportarIncidentePage() {
@@ -184,7 +184,7 @@ export default function ReportarIncidentePage() {
                       <SelectValue placeholder="Selecciona la ronda" />
                     </SelectTrigger>
                     <SelectContent>
-                      {races.filter(r => r.completed).map((race) => (
+                      {races.filter(r => Object.values(r.splitStatus).some(status => status === 'completed')).map((race) => (
                         <SelectItem key={race.round} value={`R${race.round}: ${race.circuit}`}>
                           R{race.round}: {race.circuit}
                         </SelectItem>
