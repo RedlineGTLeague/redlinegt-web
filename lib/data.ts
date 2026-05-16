@@ -53,6 +53,7 @@ export const teams: Team[] = [
   { id: "erg", acronym: "ERG", name: "Elite Racing Global", color: "#14b8a6", logo: "/images/team-logos/erg.jpg", active: false },
   { id: "bpf2", acronym: "BPF2", name: "Brinde Pa Festa 2", color: "#93c5fd", logo: "/images/team-logos/bpf2.jpg", active: false },
   { id: "shkb", acronym: "SHKB", name: "Shark Racing Team Black", color: "#b91c1c", logo: "/images/team-logos/shkb.jpg", active: false },
+  { id: "irt", acronym: "IRT", name: "Iberia Racing Team", color: "#ec4899", logo: "/images/team-logos/irt.png", active: true },  
 ]
 
 export type RaceStatus = 'pending' | 'completed' | 'postponed'
