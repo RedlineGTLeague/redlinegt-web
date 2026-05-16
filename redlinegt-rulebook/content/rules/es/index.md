@@ -19,3 +19,4 @@ que regulan la competición.
 10. [Gestión de Liga en Discord](./10.md)  
 11. [Requisitos de Diseño](./11.md)  
 12. [Disposiciones Finales](./12.md)  
+X.  [Anexos](./anexos.md)

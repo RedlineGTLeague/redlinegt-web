@@ -22,7 +22,7 @@ function VideoEmbed({ url }: { url: string }) {
 }
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useEffect } from "react"
-import type { Lang } from "@/lib/reglamento-server"
+import type { Lang, SectionData } from "@/lib/reglamento-server"
 
 export const LANGUAGES_CLIENT = [
   { code: 'es', name: 'ES' },
@@ -45,51 +45,6 @@ export const SECTION_ICONS: Record<string, React.ComponentType<{ className?: str
   "12": Scale,
 }
 
-export const SECTION_TITLES_CLIENT: Record<Lang, Record<string, string>> = {
-  es: {
-    "1": "Disposiciones Generales",
-    "2": "Categoría y Formato General",
-    "3": "Elección de Modelo (Draft)",
-    "4": "Inscripción de Equipo",
-    "5": "Formato Deportivo",
-    "6": "Configuración Técnica",
-    "7": "Sistema de Puntuación",
-    "8": "Sistema de Penalizaciones",
-    "9": "Reportes y Reclamaciones",
-    "10": "Gestión de Liga en Discord",
-    "11": "Requisitos de Diseño",
-    "12": "Disposiciones Finales",
-  },
-  pt: {
-    "1": "Disposições Gerais",
-    "2": "Categoria e Formato Geral",
-    "3": "Escolha de Modelo (Draft)",
-    "4": "Inscrição de Equipa",
-    "5": "Formato Desportivo",
-    "6": "Configuração Técnica",
-    "7": "Sistema de Pontuação",
-    "8": "Sistema de Penalizações",
-    "9": "Relatórios e Reclamações",
-    "10": "Gestão da Liga no Discord",
-    "11": "Requisitos da Pintura",
-    "12": "Disposições Finais",
-  },
-  ca: {
-    "1": "Disposicions Generals",
-    "2": "Categoria i Format General",
-    "3": "Elecció de Model i Draft",
-    "4": "Inscripció d'Equip",
-    "5": "Format Esportiu",
-    "6": "Configuració Tècnica",
-    "7": "Sistema de Puntuació",
-    "8": "Sistema de Penalitzacions",
-    "9": "Reportes i Reclamacions",
-    "10": "Gestió de Lliga a Discord",
-    "11": "Requisits de Disseny",
-    "12": "Disposicions Finals",
-  },
-}
-
 interface RuleSectionProps {
   number: string
   title: string
@@ -110,7 +65,7 @@ function RuleSection({ number, title, content }: RuleSectionProps) {
             <Icon className="h-5 w-5 text-[#e52222]" />
           </div>
           <span className="font-oswald text-xl font-bold uppercase tracking-wide text-white">
-            {number}. {title}
+            {title}
           </span>
         </CardTitle>
       </CardHeader>
@@ -138,9 +93,7 @@ function RuleSection({ number, title, content }: RuleSectionProps) {
   )
 }
 
-function IndexNav({ lang, onSelect }: { lang: Lang; onSelect?: () => void }) {
-  const titles = SECTION_TITLES_CLIENT[lang]
-  
+function IndexNav({ titles, onSelect }: { titles: Record<string, string>; onSelect?: () => void }) {
   const handleClick = () => {
     if (onSelect) onSelect()
   }
@@ -156,7 +109,7 @@ function IndexNav({ lang, onSelect }: { lang: Lang; onSelect?: () => void }) {
             onClick={handleClick}
             className="block py-2 px-3 text-sm text-[#888] no-underline rounded hover:bg-[#e52222]/10 hover:text-white hover:border-l-2 hover:border-[#e52222] transition-all"
           >
-            {num}. {title}
+            {title}
           </a>
         ))}
       </div>
@@ -166,7 +119,7 @@ function IndexNav({ lang, onSelect }: { lang: Lang; onSelect?: () => void }) {
 
 interface ReglamentoClientProps {
   lang: Lang
-  sections: Record<string, string>
+  sections: Record<string, SectionData>
 }
 
 export default function ReglamentoClient({ lang, sections }: ReglamentoClientProps) {
@@ -202,7 +155,9 @@ export default function ReglamentoClient({ lang, sections }: ReglamentoClientPro
     router.push(`/reglamento?${params.toString()}`, { scroll: false })
   }
 
-  const titles = SECTION_TITLES_CLIENT[currentLang]
+  const titles = Object.fromEntries(
+    Object.entries(sections).map(([key, data]) => [key, data.title || `Sección ${key}`])
+  )
 
   return (
     <>
@@ -227,17 +182,24 @@ export default function ReglamentoClient({ lang, sections }: ReglamentoClientPro
       <div className="space-y-6 max-w-[750px] mx-auto">
         {/* TOC visible on desktop */}
         <div className="hidden md:block">
-          <IndexNav lang={currentLang} />
+          <IndexNav titles={titles} />
         </div>
 
         {Object.entries(sections)
-          .sort(([a], [b]) => parseInt(a) - parseInt(b))
-          .map(([num, content]) => (
+          .sort(([a], [b]) => {
+            const aIsNum = /^\d+$/.test(a)
+            const bIsNum = /^\d+$/.test(b)
+            if (aIsNum && bIsNum) return parseInt(a) - parseInt(b)
+            if (aIsNum && !bIsNum) return -1
+            if (!aIsNum && bIsNum) return 1
+            return a.localeCompare(b)
+          })
+          .map(([num, data]) => (
             <RuleSection
               key={num}
               number={num}
-              title={titles[num] || `Sección ${num}`}
-              content={content}
+              title={data.title || `Sección ${num}`}
+              content={data.content}
             />
           ))}
       </div>
@@ -250,7 +212,7 @@ export default function ReglamentoClient({ lang, sections }: ReglamentoClientPro
             onClick={() => setShowToc(false)}
           />
           <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-sm z-[80]">
-            <IndexNav lang={currentLang} onSelect={() => setShowToc(false)} />
+            <IndexNav titles={titles} onSelect={() => setShowToc(false)} />
           </div>
         </>
       )}

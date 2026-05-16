@@ -9,63 +9,31 @@ export const LANGUAGES = [
 
 export type Lang = typeof LANGUAGES[number]['code']
 
-export const SECTION_TITLES: Record<Lang, Record<string, string>> = {
-  es: {
-    "1": "Disposiciones Generales",
-    "2": "Categoría y Formato General",
-    "3": "Elección de Modelo (Draft)",
-    "4": "Inscripción de Equipo",
-    "5": "Formato Deportivo",
-    "6": "Configuración Técnica",
-    "7": "Sistema de Puntuación",
-    "8": "Sistema de Penalizaciones",
-    "9": "Reportes y Reclamaciones",
-    "10": "Gestión de Liga en Discord",
-    "11": "Requisitos de Diseño",
-    "12": "Disposiciones Finales",
-  },
-  pt: {
-    "1": "Disposições Gerais",
-    "2": "Categoria e Formato Geral",
-    "3": "Escolha de Modelo (Draft)",
-    "4": "Inscrição de Equipa",
-    "5": "Formato Desportivo",
-    "6": "Configuração Técnica",
-    "7": "Sistema de Pontuação",
-    "8": "Sistema de Penalizações",
-    "9": "Relatórios e Reclamações",
-    "10": "Gestão da Liga no Discord",
-    "11": "Requisitos da Pintura",
-    "12": "Disposições Finais",
-  },
-  ca: {
-    "1": "Disposicions Generals",
-    "2": "Categoria i Format General",
-    "3": "Elecció de Model i Draft",
-    "4": "Inscripció d'Equip",
-    "5": "Format Esportiu",
-    "6": "Configuració Tècnica",
-    "7": "Sistema de Puntuació",
-    "8": "Sistema de Penalitzacions",
-    "9": "Reportes i Reclamacions",
-    "10": "Gestió de Lliga a Discord",
-    "11": "Requisits de Disseny",
-    "12": "Disposicions Finals",
-  },
+export interface SectionData {
+  title: string
+  content: string
 }
 
 function getRulebookPath(lang: Lang): string {
   return path.join(process.cwd(), 'redlinegt-rulebook', 'content', 'rules', lang)
 }
 
+function parseFrontmatter(content: string): { title: string; body: string } {
+  const match = content.match(/^---\s*\n([\s\S]*?)\n---\s*\n/)
+  if (match) {
+    const yaml = match[1]
+    const titleMatch = yaml.match(/^title:\s*(.+)$/m)
+    const title = titleMatch ? titleMatch[1].replace(/^['"]|['"]$/g, '') : ''
+    return { title, body: content.slice(match[0].length) }
+  }
+  return { title: '', body: content }
+}
+
 function cleanMarkdown(content: string): string {
   let result = content
   
-  // Strip YAML frontmatter (---...---)
-  result = result.replace(/^---[\s\S]*?---[\r\n]*/, '')
-  
-  // Remove the first h1 heading and following content until first real paragraph
-  result = result.replace(/^#\s+\d+\.\s+[^\r\n]*[\r\n]+/, '')
+  // Remove the first h1 heading
+  result = result.replace(/^#\s+[^\r\n]*[\r\n]+/, '')
   
   // Extract images from divs and convert to markdown image syntax
   result = result.replace(/<div[^>]*>\s*<img src="([^"]+)"[^>]*>\s*<\/div>/gi, (_, src) => {
@@ -101,17 +69,34 @@ function cleanMarkdown(content: string): string {
   return result
 }
 
-export function getRulebookSections(lang: Lang): Record<string, string> {
+export function getRulebookSections(lang: Lang): Record<string, SectionData> {
   const rulebookPath = getRulebookPath(lang)
-  const sections: Record<string, string> = {}
+  const sections: Record<string, SectionData> = {}
 
-  for (let i = 1; i <= 12; i++) {
-    const filePath = path.join(rulebookPath, `${i}.md`)
+  const files = fs.readdirSync(rulebookPath)
+  const mdFiles = files
+    .filter(f => f.endsWith('.md') && f !== 'index.md')
+    .sort((a, b) => {
+      const aKey = a.replace('.md', '')
+      const bKey = b.replace('.md', '')
+      const aIsNum = /^\d+$/.test(aKey)
+      const bIsNum = /^\d+$/.test(bKey)
+
+      if (aIsNum && bIsNum) return parseInt(aKey) - parseInt(bKey)
+      if (aIsNum && !bIsNum) return -1
+      if (!aIsNum && bIsNum) return 1
+      return aKey.localeCompare(bKey)
+    })
+
+  for (const file of mdFiles) {
+    const key = file.replace('.md', '')
+    const filePath = path.join(rulebookPath, file)
     try {
-      const content = fs.readFileSync(filePath, 'utf-8')
-      sections[String(i)] = cleanMarkdown(content)
+      const raw = fs.readFileSync(filePath, 'utf-8')
+      const { title, body } = parseFrontmatter(raw)
+      sections[key] = { title, content: cleanMarkdown(body) }
     } catch {
-      sections[String(i)] = ''
+      sections[key] = { title: '', content: '' }
     }
   }
 

@@ -69,19 +69,19 @@ export interface Race {
 // Simple per-team per-split total points (manually updated)
 export const splitPoints: Record<string, Record<string, number>> = {
   "split-rojo": {
-    "bpf": 156,
-    "tr": 135,
-    "ksm": 118,
-    "tsr": 104,
-    "bpf2": 51,
+    "bpf": 224,
+    "tr": 169,
+    "ksm": 157,
+    "tsr": 136,
+    "bpf2": 68,
   },
   "split-blanco": {
-    "shkb": 122,
-    "erg": 87,
-    "grt": 75,
-    "srt": 63,
-    "spuk": 63,
-    "shk": 34,
+    "shkb": 162,
+    "grt": 122,
+    "srt": 114,
+    "spuk": 98,
+    "erg": 94,
+    "shk": 48,
   },
 }
 
@@ -144,7 +144,7 @@ export const races: Race[] = [
   { round: 1, circuit: "Deep Forest", date: "19 Abril 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
   { round: 2, circuit: "Monza", date: "26 Abril 2026", time: "20:00 CET", session: "Atardecer", splitStatus: { "split-rojo": "completed", "split-blanco": "postponed" } },
   { round: 3, circuit: "Sardegna A", date: "3 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
-  { round: 4, circuit: "Dragon Trail", date: "10 Mayo 2026", time: "20:00 CET", session: "Alborada", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
+  { round: 4, circuit: "Dragon Trail", date: "10 Mayo 2026", time: "20:00 CET", session: "Alborada", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
   { round: 5, circuit: "Watkins Glen", date: "17 Mayo 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
   { round: 6, circuit: "Daytona Road Course", date: "24 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
   { round: 7, circuit: "Trial Mountain", date: "31 Mayo 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
