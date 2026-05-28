@@ -29,7 +29,7 @@ export interface Tier {
 }
 
 export const tiers: Tier[] = [
-  { id: "split-rojo", name: "Split Rojo", teamIds: ["ksm", "tr", "tsr", "bpf", "bpf2"] },
+  { id: "split-rojo", name: "Split Rojo", teamIds: ["ksm", "tr", "tsr", "bpf", "bpf2", "irt"] },
   { id: "split-blanco", name: "Split Blanco", teamIds: ["grt", "srt", "shk", "shkb", "spuk", "erg"] },
 ]
 
@@ -70,19 +70,20 @@ export interface Race {
 // Simple per-team per-split total points (manually updated)
 export const splitPoints: Record<string, Record<string, number>> = {
   "split-rojo": {
-    "bpf": 224,
-    "tr": 169,
-    "ksm": 157,
-    "tsr": 136,
+    "bpf": 355,
+    "tr": 226,
+    "ksm": 235,
+    "tsr": 209,
     "bpf2": 68,
+    "irt": 30,
   },
   "split-blanco": {
-    "shkb": 162,
-    "grt": 122,
-    "srt": 114,
-    "spuk": 98,
-    "erg": 94,
-    "shk": 48,
+    "shkb": 273,
+    "grt": 227,
+    "srt": 214,
+    "spuk": 205,
+    "erg": 165,
+    "shk": 78,
   },
 }
 
@@ -143,11 +144,11 @@ export const teamsSelection = [
 
 export const races: Race[] = [
   { round: 1, circuit: "Deep Forest", date: "19 Abril 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
-  { round: 2, circuit: "Monza", date: "26 Abril 2026", time: "20:00 CET", session: "Atardecer", splitStatus: { "split-rojo": "completed", "split-blanco": "postponed" } },
+  { round: 2, circuit: "Monza", date: "26 Abril 2026", time: "20:00 CET", session: "Atardecer", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
   { round: 3, circuit: "Sardegna A", date: "3 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
   { round: 4, circuit: "Dragon Trail", date: "10 Mayo 2026", time: "20:00 CET", session: "Alborada", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
-  { round: 5, circuit: "Watkins Glen", date: "17 Mayo 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
-  { round: 6, circuit: "Daytona Road Course", date: "24 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
+  { round: 5, circuit: "Watkins Glen", date: "17 Mayo 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
+  { round: 6, circuit: "Daytona Road Course", date: "24 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
   { round: 7, circuit: "Trial Mountain", date: "31 Mayo 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
   { round: 8, circuit: "Spa-Francorchamps", date: "7 Junio 2026", time: "20:00 CET", session: "Atardecer", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
 ]
