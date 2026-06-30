@@ -5,6 +5,8 @@ export interface Season {
   number: number
   /** Whether the season has finished and a champion has been crowned */
   completed: boolean
+  /** Whether to show the standings preview on the homepage */
+  showHomeStandings: boolean
 }
 
 export interface Team {
@@ -29,13 +31,14 @@ export interface Tier {
 }
 
 export const tiers: Tier[] = [
-  { id: "split-rojo", name: "Split Rojo", teamIds: ["ksm", "tr", "tsr", "bpf", "bpf2", "irt"] },
-  { id: "split-blanco", name: "Split Blanco", teamIds: ["grt", "srt", "shk", "shkb", "spuk", "erg"] },
+  { id: "split-rojo", name: "Split Rojo", teamIds: ["ksm", "tsr", "bpf", "irt"] },
+  { id: "split-blanco", name: "Split Blanco", teamIds: ["grt", "srt", "spuk", "erg"] },
 ]
 
 export const currentSeason: Season = {
   number: 2,
-  completed: false,
+  completed: true,
+  showHomeStandings: false,
 }
 
 export const drivers: { position: number; name: string; team: string; points: number; teamColor: string }[] = []
@@ -44,15 +47,15 @@ export const teams: Team[] = [
   { id: "srt", acronym: "SRT", name: "Speed Racing Team", color: "#ef4444", logo: "/images/team-logos/srt.png", active: true },
   { id: "tsr", acronym: "TSR", name: "Technical Sim Racing", color: "#22d3ee", logo: "/images/team-logos/tsr.jpg", active: true },
   { id: "ksm", acronym: "KSM", name: "Kaishin Motorsport", color: "#f97316", logo: "/images/team-logos/ksm.png", active: true },
-  { id: "tr", acronym: "TR", name: "Virtual Racing", color: "#e11d48", logo: "/images/team-logos/tr.png", active: true },
+  { id: "tr", acronym: "TR", name: "Virtual Racing", color: "#e11d48", logo: "/images/team-logos/tr.png", active: false },
   { id: "grt", acronym: "GRT", name: "Gardening Racing Team", color: "#10b981", logo: "/images/team-logos/grt.png", active: true },
   { id: "hrb", acronym: "HRB", name: "Hispanic Racing Bulls", color: "#8b5cf6", logo: "/images/team-logos/hrb.jpg", active: false },
   { id: "bpf", acronym: "BPF", name: "Brinde Pa Festa", color: "#3b82f6", logo: "/images/team-logos/bpf1.jpg", active: true },
-  { id: "shk", acronym: "SHK", name: "Shark Racing Team", color: "#0ea5e9", logo: "/images/team-logos/shk.jpg", active: true },
+  { id: "shk", acronym: "SHK", name: "Shark Racing Team", color: "#0ea5e9", logo: "/images/team-logos/shk.jpg", active: false },
   { id: "spuk", acronym: "SPUK", name: "SPUK Racing", color: "#d946ef", logo: "/images/team-logos/spuk.png", active: true },
   { id: "erg", acronym: "ERG", name: "Elite Racing Global", color: "#14b8a6", logo: "/images/team-logos/erg.jpg", active: true },
   { id: "bpf2", acronym: "BPF2", name: "Brinde Pa Festa 2", color: "#93c5fd", logo: "/images/team-logos/bpf2.jpg", active: true },
-  { id: "shkb", acronym: "SHKB", name: "Shark Racing Team Black", color: "#b91c1c", logo: "/images/team-logos/shkb.jpg", active: true },
+  { id: "shkb", acronym: "SHKB", name: "Shark Racing Team Black", color: "#b91c1c", logo: "/images/team-logos/shkb.jpg", active: false },
   { id: "irt", acronym: "IRT", name: "Iberia Racing Team", color: "#ec4899", logo: "/images/team-logos/irt.png", active: true },  
 ]
 
@@ -70,20 +73,16 @@ export interface Race {
 // Simple per-team per-split total points (manually updated)
 export const splitPoints: Record<string, Record<string, number>> = {
   "split-rojo": {
-    "bpf": 355,
-    "tr": 226,
-    "ksm": 235,
-    "tsr": 209,
-    "bpf2": 68,
-    "irt": 30,
+    "bpf": 438,
+    "ksm": 338,
+    "tsr": 314,
+    "irt": 46,
   },
   "split-blanco": {
-    "shkb": 273,
-    "grt": 227,
-    "srt": 214,
-    "spuk": 205,
-    "erg": 165,
-    "shk": 78,
+    "srt": 318,
+    "grt": 291,
+    "spuk": 281,
+    "erg": 215,
   },
 }
 
@@ -149,8 +148,8 @@ export const races: Race[] = [
   { round: 4, circuit: "Dragon Trail", date: "10 Mayo 2026", time: "20:00 CET", session: "Alborada", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
   { round: 5, circuit: "Watkins Glen", date: "17 Mayo 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
   { round: 6, circuit: "Daytona Road Course", date: "24 Mayo 2026", time: "20:00 CET", session: "Puesta de sol", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
-  { round: 7, circuit: "Trial Mountain", date: "31 Mayo 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
-  { round: 8, circuit: "Spa-Francorchamps", date: "7 Junio 2026", time: "20:00 CET", session: "Atardecer", splitStatus: { "split-rojo": "pending", "split-blanco": "pending" } },
+  { round: 7, circuit: "Trial Mountain", date: "31 Mayo 2026", time: "20:00 CET", session: "Amanecer", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
+  { round: 8, circuit: "Spa-Francorchamps", date: "7 Junio 2026", time: "20:00 CET", session: "Atardecer", splitStatus: { "split-rojo": "completed", "split-blanco": "completed" } },
 ]
 
 export const nextRace = races.find(race =>
@@ -179,6 +178,109 @@ export const redlineTv = casters["split-rojo"]!
 
 export const discordLink = "https://discord.gg/wFUpgjbKhM" as const
 
+// ── Carrera de Campeones ──────────────────────────────────────────
+export interface QualifiedTeam {
+  position: number
+  teamId: string
+  splitId: string
+  qualificationType: 'automatic' | 'wildcard'
+}
+
+export interface CarreraResult {
+  position: number
+  teamId: string
+  points: number
+}
+
+export interface CarreraCampeones {
+  enabled: boolean
+  seasonNumber: number
+  circuit: string | null
+  date: string | null
+  time: string | null
+  session: string | null
+  qualifiedTeams: QualifiedTeam[]
+  qualifyingResults: CarreraResult[]
+  sprintResults: CarreraResult[]
+  mainRaceResults: CarreraResult[]
+  championTeamId: string | null
+  completed: boolean
+}
+
+export const carreraCampeones: CarreraCampeones = {
+  enabled: true,
+  seasonNumber: 2,
+  circuit: "Circuit Gilles Villeneuve",
+  date: "21 Junio 2026",
+  time: "20:00 CET",
+  session: "Atardecer",
+  qualifiedTeams: [
+    { position: 1, teamId: "bpf", splitId: "split-rojo", qualificationType: "automatic" },
+    { position: 2, teamId: "ksm", splitId: "split-rojo", qualificationType: "automatic" },
+    { position: 3, teamId: "tsr", splitId: "split-rojo", qualificationType: "automatic" },
+    { position: 1, teamId: "srt", splitId: "split-blanco", qualificationType: "automatic" },
+    { position: 2, teamId: "grt", splitId: "split-blanco", qualificationType: "automatic" },
+    { position: 3, teamId: "spuk", splitId: "split-blanco", qualificationType: "automatic" },
+    { position: 7, teamId: "erg", splitId: "split-blanco", qualificationType: "wildcard" },
+  ],
+  qualifyingResults: [
+    { position: 1, teamId: "ksm", points: 1 },
+  ],
+  sprintResults: [
+    { position: 1, teamId: "srt", points: 18 },
+    { position: 2, teamId: "ksm", points: 17 },
+    { position: 3, teamId: "erg", points: 7 },
+    { position: 4, teamId: "grt", points: 6 },
+    { position: 5, teamId: "tsr", points: 5 },
+    { position: 6, teamId: "spuk", points: 4 },
+    { position: 7, teamId: "bpf", points: 2 },
+  ],
+  mainRaceResults: [
+    { position: 1, teamId: "bpf", points: 33 },
+    { position: 2, teamId: "ksm", points: 31 },
+    { position: 3, teamId: "srt", points: 31 },
+    { position: 4, teamId: "grt", points: 18 },
+    { position: 5, teamId: "spuk", points: 13 },
+    { position: 6, teamId: "erg", points: 8 },
+    { position: 7, teamId: "tsr", points: 5 },
+  ],
+  championTeamId: "srt",
+  completed: true,
+}
+
+export function getCarreraChampionTeam() {
+  if (!carreraCampeones.enabled || !carreraCampeones.completed || !carreraCampeones.championTeamId) return null
+  return getTeamById(carreraCampeones.championTeamId)
+}
+
+export function getCarreraTotalPoints(teamId: string): number {
+  const segments = [carreraCampeones.qualifyingResults, carreraCampeones.sprintResults, carreraCampeones.mainRaceResults]
+  return segments.reduce((total, segment) => {
+    const entry = segment.find(r => r.teamId === teamId)
+    return total + (entry?.points ?? 0)
+  }, 0)
+}
+
+export function getCarreraStandings(): (Standing & { name: string; acronym: string; color: string; logo?: string })[] {
+  const qualifiedTeamIds = carreraCampeones.qualifiedTeams.map(qt => qt.teamId)
+  return qualifiedTeamIds
+    .map(teamId => {
+      const team = getTeamById(teamId)
+      return {
+        position: 0,
+        teamId,
+        points: getCarreraTotalPoints(teamId),
+        name: team?.name ?? '',
+        acronym: team?.acronym ?? '',
+        color: team?.color ?? '#000000',
+        logo: team?.logo,
+      }
+    })
+    .sort((a, b) => b.points - a.points)
+    .map((s, i) => ({ ...s, position: i + 1 }))
+}
+
+// ── Pre-Qualy ─────────────────────────────────────────────────────
 export interface PreQualyPosition {
   position: number
   teamId: string

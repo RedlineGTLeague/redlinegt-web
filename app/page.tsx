@@ -1,29 +1,33 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv, Crown } from "lucide-react"
+import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv, Crown, Swords } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, currentSeason, races, preQualy, discordLink, tiers, getStandingsByTier, casters, getRaceStatus } from "@/lib/data"
+import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, currentSeason, races, preQualy, discordLink, tiers, getStandingsByTier, casters, getRaceStatus, carreraCampeones, getCarreraChampionTeam, getCarreraTotalPoints } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { TeamsSection } from "@/components/teams-section"
 import { PreQualyCard } from "@/components/pre-qualy-card"
+import { CarreraCampeonesCard } from "@/components/carrera-campeones-card"
 import { navItems } from "@/lib/routes"
 
 const isEnabled = (href: string) => navItems.find(item => item.href === href)?.enabled !== false
 
 export default function HomePage() {
+  const allRacesCompleted = races.every(race => getRaceStatus(race) === 'completed')
   const hasUpcomingRace = races.some(race => getRaceStatus(race) !== 'completed')
   const allStandings = tiers.map(tier => ({
     ...tier,
     standings: getStandingsWithTeams(getStandingsByTier(tier.id)),
   }))
   const hasPoints = allStandings.some(t => t.standings.some(s => s.points > 0))
-  const currentCaster = casters[tiers[0].id]
   const splitsWithCasters = tiers.map(tier => ({
     ...tier,
     caster: casters[tier.id],
   })).filter(s => s.caster)
+
+  const showChampion = currentSeason.completed
+  const showRegularSeasonFinished = carreraCampeones.enabled && allRacesCompleted && !carreraCampeones.completed
 
   return (
     <div className="min-h-screen">
@@ -48,14 +52,21 @@ export default function HomePage() {
         <div className="container relative mx-auto px-4 text-center">
           <div className="mx-auto max-w-4xl">
             <div className={`mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium ${
-              currentSeason.completed 
-                ? 'border-yellow-500/50 bg-yellow-500/10 text-yellow-500' 
-                : 'border-primary/30 bg-primary/10 text-primary'
+              showChampion
+                ? 'border-yellow-500/50 bg-yellow-500/10 text-yellow-500'
+                : showRegularSeasonFinished
+                  ? 'border-amber-500/40 bg-amber-500/10 text-amber-400'
+                  : 'border-primary/30 bg-primary/10 text-primary'
             }`}>
-              {currentSeason.completed ? (
+              {showChampion ? (
                 <>
                   <Crown className="h-4 w-4" />
                   Temporada {currentSeason.number} Finalizada
+                </>
+              ) : showRegularSeasonFinished ? (
+                <>
+                  <Swords className="h-4 w-4" />
+                  Temporada {currentSeason.number} — Fase Regular Finalizada
                 </>
               ) : (
                 <>
@@ -81,7 +92,7 @@ export default function HomePage() {
                Campeonato competitivo de Gran Turismo 7. Donde la velocidad, la estrategia y la habilidad se unen para coronar al mejor piloto virtual.
              </p>
              
-{hasPoints && (
+{currentSeason.showHomeStandings && hasPoints && (
               <Card className="mx-auto max-w-2xl border border-primary/40 bg-card/70 hover:border-primary/60 transition-all">
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
@@ -140,22 +151,40 @@ export default function HomePage() {
         </div>
       </section>
 
-      {currentSeason.completed && allStandings[0]?.standings[0] && (
-        <section className="border-y border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 via-amber-500/10 to-yellow-500/10 py-10">
-          <div className="container mx-auto px-4 text-center">
-            <div className="flex items-center justify-center gap-2 text-yellow-500">
-              <Crown className="h-5 w-5" />
-              <span className="font-oswald text-sm font-bold uppercase tracking-wide">Campeón de Temporada {currentSeason.number}</span>
-              <Crown className="h-5 w-5" />
-            </div>
-            <div className="mt-3 flex items-center justify-center gap-4">
-              <div className="h-3 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: allStandings[0].standings[0].color }} />
-              <span className="font-oswald text-2xl font-bold text-yellow-500 md:text-3xl">{allStandings[0].standings[0].acronym}</span>
-              <span className="text-amber-200/80 md:text-2xl">— {allStandings[0].standings[0].name}</span>
-            </div>
-            <p className="mt-1 font-bold text-yellow-500">{allStandings[0].standings[0].points} puntos</p>
-          </div>
-        </section>
+      {showChampion && (
+        (() => {
+          const carreraChampion = carreraCampeones.enabled && carreraCampeones.completed && carreraCampeones.championTeamId
+            ? (() => { const t = getCarreraChampionTeam(); return t ? { acronym: t.acronym, name: t.name, color: t.color, points: getCarreraTotalPoints(carreraCampeones.championTeamId!) } : null })()
+            : null
+          const legacyChampion = !carreraChampion && allStandings[0]?.standings[0]
+            ? { acronym: allStandings[0].standings[0].acronym, name: allStandings[0].standings[0].name, color: allStandings[0].standings[0].color, points: allStandings[0].standings[0].points }
+            : null
+          const champ = carreraChampion || legacyChampion
+          if (!champ) return null
+
+          return (
+            <section className="border-y border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 via-amber-500/10 to-yellow-500/10 py-10">
+              <div className="container mx-auto px-4 text-center">
+                <div className="flex items-center justify-center gap-2 text-yellow-500">
+                  <Crown className="h-5 w-5" />
+                  <span className="font-oswald text-sm font-bold uppercase tracking-wide">Campeón de Temporada {currentSeason.number}</span>
+                  <Crown className="h-5 w-5" />
+                </div>
+                {carreraChampion && (
+                  <div className="mt-1 text-xs font-medium uppercase tracking-wider text-yellow-400/60">
+                    Carrera de Campeones
+                  </div>
+                )}
+                <div className="mt-3 flex items-center justify-center gap-4">
+                  <div className="h-3 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: champ.color }} />
+                  <span className="font-oswald text-2xl font-bold text-yellow-500 md:text-3xl">{champ.acronym}</span>
+                  <span className="text-amber-200/80 md:text-2xl">— {champ.name}</span>
+                </div>
+                <p className="mt-1 font-bold text-yellow-500">{champ.points} puntos</p>
+              </div>
+            </section>
+          )
+        })()
       )}
 
       {hasUpcomingRace && (
@@ -228,6 +257,17 @@ export default function HomePage() {
             )}
           </div>
 </section>
+      )}
+
+      {/* Carrera de Campeones */}
+      {carreraCampeones.enabled && (
+        <section className="py-12">
+          <div className="container mx-auto px-4">
+            <div className="mx-auto max-w-2xl">
+              <CarreraCampeonesCard />
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Main Content */}

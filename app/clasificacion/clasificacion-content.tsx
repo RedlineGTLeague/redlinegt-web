@@ -1,10 +1,11 @@
 "use client"
 
-import { Users } from "lucide-react"
+import { Users, Swords } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { standings, getStandingsWithTeams, currentSeason, tiers, getStandingsByTier } from "@/lib/data"
+import { standings, getStandingsWithTeams, currentSeason, tiers, getStandingsByTier, carreraCampeones } from "@/lib/data"
 import { TeamTable } from "@/components/team-table"
 import { ChampionBanner } from "@/components/champion-banner"
+import { CarreraCampeonesCard } from "@/components/carrera-campeones-card"
 
 export function ClasificacionContent() {
   const allTiersWithStandings = tiers.map(tier => ({
@@ -21,11 +22,18 @@ export function ClasificacionContent() {
             Clasificación
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-[#b0b0b0]">
-            Clasificación actual de equipos en la temporada {currentSeason.number} de Redline GT League.
+            Clasificación de la temporada {currentSeason.number} de Redline GT League.
           </p>
         </div>
 
         <ChampionBanner />
+
+        {/* Carrera de Campeones */}
+        {carreraCampeones.enabled && (
+          <div className="mb-8">
+            <CarreraCampeonesCard showFull={true} />
+          </div>
+        )}
 
         <Card className="border-border bg-card">
           <CardHeader>
@@ -34,7 +42,7 @@ export function ClasificacionContent() {
                 <Users className="h-5 w-5 text-primary" />
               </div>
               <span className="font-oswald text-2xl font-bold uppercase tracking-wide">
-                Clasificación de Equipos
+                Fase Regular — Clasificación por Splits
               </span>
             </CardTitle>
           </CardHeader>

@@ -2,10 +2,11 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Calendar, Clock, MapPin, CheckCircle, Circle, Sun, Tv, AlertCircle } from "lucide-react"
+import { Calendar, Clock, MapPin, CheckCircle, Circle, Sun, Tv, AlertCircle, Swords } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { races, currentSeason, tiers, casters, getCompletedRacesCount } from "@/lib/data"
+
+import { races, currentSeason, tiers, casters, getCompletedRacesCount, carreraCampeones } from "@/lib/data"
 import { ChampionBanner } from "@/components/champion-banner"
 import { isRouteEnabled } from "@/lib/routes"
 
@@ -28,6 +29,9 @@ export default function CalendarioPage() {
 
   const completedRaces = getCompletedRacesCount()
   const totalRaces = races.length
+  const hasCarrera = carreraCampeones.enabled
+  const totalEvents = totalRaces + (hasCarrera ? 1 : 0)
+  const completedEvents = completedRaces + (hasCarrera && carreraCampeones.completed ? 1 : 0)
 
   return (
     <div className="min-h-screen py-12 lg:py-20">
@@ -38,8 +42,8 @@ export default function CalendarioPage() {
             Calendario
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-[#b0b0b0]">
-            Calendario completo de carreras de la temporada {currentSeason.number}.<br />
-            {completedRaces} de {totalRaces} rondas completadas.
+            Calendario completo de la temporada {currentSeason.number}.<br />
+            {completedEvents} de {totalEvents} eventos completados.
           </p>
         </div>
 
@@ -49,12 +53,12 @@ export default function CalendarioPage() {
         <div className="mx-auto mb-12 max-w-2xl">
           <div className="mb-2 flex justify-between text-sm text-muted-foreground">
             <span>Progreso de la temporada</span>
-            <span>{Math.round((completedRaces / totalRaces) * 100)}%</span>
+            <span>{Math.round((completedEvents / totalEvents) * 100)}%</span>
           </div>
           <div className="h-2 overflow-hidden rounded-full bg-secondary">
             <div
               className="h-full rounded-full bg-primary transition-all duration-500"
-              style={{ width: `${(completedRaces / totalRaces) * 100}%` }}
+              style={{ width: `${(completedEvents / totalEvents) * 100}%` }}
             />
           </div>
         </div>
@@ -84,6 +88,7 @@ export default function CalendarioPage() {
 
             {/* Race List */}
             <div className="space-y-3">
+            {/* Regular season races */}
             {races.map((race) => {
                  const allCompleted = Object.values(race.splitStatus).every(s => s === 'completed')
                  const allPending = Object.values(race.splitStatus).every(s => s === 'pending')
@@ -225,11 +230,110 @@ export default function CalendarioPage() {
                      </div>
                   </div>
                 )})}
-            </div>
-          </CardContent>
-        </Card>
 
-        {/* Info Box */}
+            {/* Carrera de Campeones Event */}
+            {hasCarrera && (
+              <div className="rounded-lg border-2 border-yellow-500/30 bg-gradient-to-r from-yellow-500/5 via-amber-500/5 to-yellow-500/5 transition-colors">
+                {/* Desktop */}
+                <div className="hidden grid-cols-[4rem_1fr_8rem_6rem_6rem_6rem] items-center gap-4 px-4 py-4 md:grid">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-500/20 text-sm font-bold text-yellow-500">
+                    <Swords className="h-5 w-5" />
+                  </span>
+                  <div className="flex items-center gap-3">
+                    <Swords className={`h-4 w-4 ${carreraCampeones.completed ? 'text-yellow-500' : 'text-yellow-500'}`} />
+                    <span className="font-medium text-yellow-500">
+                      Carrera de Campeones
+                      {carreraCampeones.circuit && <span className="text-muted-foreground ml-1">— {carreraCampeones.circuit}</span>}
+                    </span>
+                  </div>
+                  <span className="text-sm text-yellow-500/80">
+                    {carreraCampeones.session || '—'}
+                  </span>
+                  <span className="text-yellow-500/80">
+                    {carreraCampeones.date || '—'}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 text-yellow-500" />
+                    <span className="text-yellow-500/80">
+                      {carreraCampeones.time || '—'}
+                    </span>
+                  </div>
+                  <div className="flex justify-center">
+                    {carreraCampeones.completed ? (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-yellow-500/20 px-3 py-1 text-xs font-medium text-yellow-500">
+                        <CheckCircle className="h-3.5 w-3.5" />
+                        Finalizada
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/20 px-3 py-1 text-xs font-medium text-amber-500">
+                        <Swords className="h-3.5 w-3.5" />
+                        Pendiente
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Mobile */}
+                <div className="p-4 md:hidden">
+                  <div className="mb-3 flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-500/20 text-sm font-bold text-yellow-500">
+                        <Swords className="h-5 w-5" />
+                      </span>
+                      <div>
+                        <p className="font-medium text-yellow-500">
+                          Carrera de Campeones
+                        </p>
+                        <div className="flex flex-col gap-1 mt-1">
+                          {carreraCampeones.completed ? (
+                            <span className="inline-flex items-center gap-1 text-xs text-yellow-500">
+                              <CheckCircle className="h-3 w-3" />
+                              Finalizada
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-xs text-amber-500">
+                              <Swords className="h-3 w-3" />
+                              Pendiente
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-4 text-sm text-yellow-500/80">
+                    {carreraCampeones.circuit && (
+                      <span className="flex items-center gap-1.5">
+                        <MapPin className="h-4 w-4 text-yellow-500" />
+                        {carreraCampeones.circuit}
+                      </span>
+                    )}
+                    {carreraCampeones.session && (
+                      <span className="flex items-center gap-1.5">
+                        <Sun className="h-4 w-4 text-yellow-500" />
+                        {carreraCampeones.session}
+                      </span>
+                    )}
+                    {carreraCampeones.date && (
+                      <span className="flex items-center gap-1.5">
+                        <Calendar className="h-4 w-4 text-yellow-500" />
+                        {carreraCampeones.date}
+                      </span>
+                    )}
+                    {carreraCampeones.time && (
+                      <span className="flex items-center gap-1.5">
+                        <Clock className="h-4 w-4 text-yellow-500" />
+                        {carreraCampeones.time}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Info Box */}
         <div className="mt-8 space-y-4">
           {splitsWithCasters.length > 0 && (
             <Card className="mx-auto max-w-2xl border-border/80 bg-card/70">
