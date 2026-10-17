@@ -163,18 +163,22 @@ export interface Caster {
 }
 
 export const casters: Record<string, Caster | null> = {
-  "split-rojo": {
-    name: "dihondia",
-    twitch: "https://www.twitch.tv/dihondia",
-    youtube: "https://www.youtube.com/@dihondia/streams",
-  },
-  "split-blanco": {
-    name: "eliteracing_global",
-    twitch: "https://www.twitch.tv/eliteracing_global",
+  // "split-rojo": {
+  //   name: "dihondia",
+  //   twitch: "https://www.twitch.tv/dihondia",
+  //   youtube: "https://www.youtube.com/@dihondia/streams",
+  // },
+  // "split-blanco": {
+  //   name: "eliteracing_global",
+  //   twitch: "https://www.twitch.tv/eliteracing_global",
+  // },
+  "CUP": {
+    name: "pollo_racinggt",
+    twitch: "https://www.twitch.tv/pollo_racinggt",
   },
 }
 
-export const redlineTv = casters["split-rojo"]!
+export const redlineTv = casters["CUP"]!
 
 export const discordLink = "https://discord.gg/wFUpgjbKhM" as const
 
@@ -339,3 +343,17 @@ export const getRaceStatus = (race: Race): RaceStatus => {
 export const getCompletedRacesCount = (): number => {
   return races.filter(r => getRaceStatus(r) === 'completed').length
 }
+
+// ── Eventos Activos ───────────────────────────────────────────────
+export interface ActiveEvent {
+  id: string
+  name: string
+  /** Path to a PNG in /public/images/eventos_activos/, e.g. "/images/eventos_activos/redline-gt.png" */
+  image: string
+}
+
+export const activeEvents: ActiveEvent[] = [
+  { id: "redline-gt-cup-1", name: "Redline GT Cup 1", image: "/images/eventos_activos/redline-gt-cup-1.png" },
+  // Example entry — point `image` at a file dropped in public/images/eventos_activos/
+  // { id: "redline-gt-t3", name: "Redline GT Temporada 3", image: "/images/eventos_activos/redline-gt-t3.png" },
+]

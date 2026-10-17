@@ -2,23 +2,23 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { usePathname } from "next/navigation"
+// import { usePathname } from "next/navigation"
 import { useState } from "react"
 import { Menu, X, Tv, ChevronDown, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { cn } from "@/lib/utils"
-import { discordLink, casters, tiers } from "@/lib/data"
-import { navItems } from "@/lib/routes"
+import { discordLink, casters } from "@/lib/data"
+// import { navItems } from "@/lib/routes"
 
 export function Navigation() {
-  const pathname = usePathname()
+  // const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [expandedSplit, setExpandedSplit] = useState<string | null>(null)
-  const splitsWithCasters = tiers.map(tier => ({
-    ...tier,
-    caster: casters[tier.id],
-  })).filter(s => s.caster)
+  const tvChannels = Object.entries(casters)
+    .filter(([, caster]) => caster)
+    .map(([id, caster]) => ({ id, caster: caster! }))
+    .sort((a, b) => a.id.localeCompare(b.id))
 
   const toggleSplit = (splitId: string) => {
     setExpandedSplit(expandedSplit === splitId ? null : splitId)
@@ -41,6 +41,7 @@ export function Navigation() {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-1 md:flex">
+          {/* Hidden for clean landing — re-enable if needed
           {navItems.filter(item => item.enabled !== false).map((item) => {
             const Icon = item.icon
             return (
@@ -59,18 +60,19 @@ export function Navigation() {
               </Link>
             )
           })}
-          {splitsWithCasters.length > 0 && (
+          */}
+          {tvChannels.length > 0 && (
             <div className="group relative flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
               <Tv className="h-4 w-4" />
               <span>Redline TV</span>
               <ChevronDown className="h-4 w-4" />
               <div className="absolute top-full left-0 z-50 hidden flex-col rounded-md border border-border bg-card shadow-md group-hover:flex">
-                {splitsWithCasters.map(split => (
-                  <div key={split.id} className="p-2">
-                    <p className="px-2 py-1 text-xs font-medium text-foreground">{split.name}</p>
-                    {split.caster!.twitch && (
+                {tvChannels.map(channel => (
+                  <div key={channel.id} className="p-2">
+                    <p className="px-2 py-1 text-xs font-medium text-foreground">{channel.id}</p>
+                    {channel.caster.twitch && (
                       <a
-                        href={split.caster!.twitch}
+                        href={channel.caster.twitch}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -79,9 +81,9 @@ export function Navigation() {
                         Twitch
                       </a>
                     )}
-                    {split.caster!.youtube && (
+                    {channel.caster.youtube && (
                       <a
-                        href={split.caster!.youtube}
+                        href={channel.caster.youtube}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -123,6 +125,7 @@ export function Navigation() {
       {mobileMenuOpen && (
         <div className="border-t border-border bg-background md:hidden">
           <div className="container mx-auto space-y-1 px-4 py-4">
+            {/* Hidden for clean landing — re-enable if needed
             {navItems.filter(item => item.enabled !== false).map((item) => {
               const Icon = item.icon
               return (
@@ -142,27 +145,28 @@ export function Navigation() {
                 </Link>
               )
             })}
-            {splitsWithCasters.length > 0 && (
+            */}
+            {tvChannels.length > 0 && (
               <div className="border-t border-border pt-2">
                 <p className="px-3 py-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Redline TV
                 </p>
-                {splitsWithCasters.map(split => (
-                  <Collapsible key={`mobile-${split.id}`} open={expandedSplit === split.id} onOpenChange={() => toggleSplit(split.id)}>
+                {tvChannels.map(channel => (
+                  <Collapsible key={`mobile-${channel.id}`} open={expandedSplit === channel.id} onOpenChange={() => toggleSplit(channel.id)}>
                     <CollapsibleTrigger asChild>
                       <button
                         type="button"
                         className="flex w-full items-center justify-between gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
                       >
-                        <span>{split.name}</span>
-                        <ChevronRight className={cn("h-4 w-4 transition-transform", expandedSplit === split.id && "rotate-90")} />
+                        <span>{channel.id}</span>
+                        <ChevronRight className={cn("h-4 w-4 transition-transform", expandedSplit === channel.id && "rotate-90")} />
                       </button>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <div className="flex flex-col gap-1 rounded-md bg-card p-2">
-                        {split.caster!.twitch && (
+                        {channel.caster.twitch && (
                           <a
-                            href={split.caster!.twitch}
+                            href={channel.caster.twitch}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -171,9 +175,9 @@ export function Navigation() {
                             Twitch
                           </a>
                         )}
-                        {split.caster!.youtube && (
+                        {channel.caster.youtube && (
                           <a
-                            href={split.caster!.youtube}
+                            href={channel.caster.youtube}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"

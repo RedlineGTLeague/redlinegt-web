@@ -50,7 +50,7 @@ export default function RootLayout({
         <BackgroundSlideshow />
         <div className="relative z-10 flex min-h-screen flex-col">
           <Navigation />
-          <main className="flex-1">
+          <main className="flex flex-1 flex-col">
             {children}
           </main>
           <Footer />

@@ -1,36 +1,54 @@
-import Link from "next/link"
+// import Link from "next/link"
 import Image from "next/image"
-import { Trophy, Calendar, FileText, AlertTriangle, ChevronRight, Clock, MapPin, Tv, Crown, Swords } from "lucide-react"
+// import { Trophy, Calendar, FileText, AlertTriangle } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
-import { standings, getStandingsWithTeams, currentTeams, pastTeams, nextRace, currentSeason, races, preQualy, discordLink, tiers, getStandingsByTier, casters, getRaceStatus, carreraCampeones, getCarreraChampionTeam, getCarreraTotalPoints } from "@/lib/data"
-import { TeamTable } from "@/components/team-table"
-import { TeamsSection } from "@/components/teams-section"
-import { PreQualyCard } from "@/components/pre-qualy-card"
-import { CarreraCampeonesCard } from "@/components/carrera-campeones-card"
-import { navItems } from "@/lib/routes"
+// import { Card, CardContent } from "@/components/ui/card"
+// import { cn } from "@/lib/utils"
+// import {
+//   standings,
+//   getStandingsWithTeams,
+//   nextRace,
+//   currentSeason,
+//   races,
+//   preQualy,
+//   tiers,
+//   getStandingsByTier,
+//   casters,
+//   getRaceStatus,
+//   carreraCampeones,
+//   getCarreraChampionTeam,
+//   getCarreraTotalPoints,
+// } from "@/lib/data"
+// import { currentTeams, pastTeams } from "@/lib/data"
+import { discordLink, activeEvents } from "@/lib/data"
+// import { TeamsSection } from "@/components/teams-section"
+import { EventosActivosSection } from "@/components/eventos-activos-section"
+// import { PreQualyCard } from "@/components/pre-qualy-card"
+// import { CarreraCampeonesCard } from "@/components/carrera-campeones-card"
+// import { navItems } from "@/lib/routes"
 
-const isEnabled = (href: string) => navItems.find(item => item.href === href)?.enabled !== false
+// const isEnabled = (href: string) => navItems.find(item => item.href === href)?.enabled !== false
 
 export default function HomePage() {
-  const allRacesCompleted = races.every(race => getRaceStatus(race) === 'completed')
-  const hasUpcomingRace = races.some(race => getRaceStatus(race) !== 'completed')
-  const allStandings = tiers.map(tier => ({
-    ...tier,
-    standings: getStandingsWithTeams(getStandingsByTier(tier.id)),
-  }))
-  const hasPoints = allStandings.some(t => t.standings.some(s => s.points > 0))
-  const splitsWithCasters = tiers.map(tier => ({
-    ...tier,
-    caster: casters[tier.id],
-  })).filter(s => s.caster)
-
-  const showChampion = currentSeason.completed
-  const showRegularSeasonFinished = carreraCampeones.enabled && allRacesCompleted && !carreraCampeones.completed
+  // Hidden for clean landing — re-enable if needed
+  // const allRacesCompleted = races.every(race => getRaceStatus(race) === 'completed')
+  // const hasUpcomingRace = races.some(race => getRaceStatus(race) !== 'completed')
+  // const allStandings = tiers.map(tier => ({
+  //   ...tier,
+  //   standings: getStandingsWithTeams(getStandingsByTier(tier.id)),
+  // }))
+  // const hasPoints = allStandings.some(t => t.standings.some(s => s.points > 0))
+  // const splitsWithCasters = tiers.map(tier => ({
+  //   ...tier,
+  //   caster: casters[tier.id],
+  // })).filter(s => s.caster)
+  //
+  // const showChampion = currentSeason.completed
+  // const showRegularSeasonFinished = carreraCampeones.enabled && allRacesCompleted && !carreraCampeones.completed
 
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-1 flex-col">
+      {/* Hidden for clean landing — re-enable if needed
       {preQualy.enabled && (
         <PreQualyCard
           showPositions={preQualy.showPositions}
@@ -44,13 +62,15 @@ export default function HomePage() {
           positions={preQualy.positions}
         />
       )}
+      */}
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 lg:py-32">
+      <section className="relative flex flex-1 flex-col justify-center overflow-hidden py-20 lg:py-32">
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-transparent to-transparent" />
         <div className="container relative mx-auto px-4 text-center">
           <div className="mx-auto max-w-4xl">
+            {/* Hidden for clean landing — season status badge
             <div className={`mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium ${
               showChampion
                 ? 'border-yellow-500/50 bg-yellow-500/10 text-yellow-500'
@@ -78,7 +98,8 @@ export default function HomePage() {
                 </>
               )}
             </div>
-            
+            */}
+
             <Image
               src="/images/redlinegt-logo-full.svg"
               alt="Redline GT League"
@@ -87,12 +108,13 @@ export default function HomePage() {
               className="mx-auto h-28 w-auto md:h-36 lg:h-48"
               priority
             />
-            
-<p className="mx-auto mt-6 mb-8 max-w-2xl text-base text-[#b0b0b0] md:text-lg">
-               Campeonato competitivo de Gran Turismo 7. Donde la velocidad, la estrategia y la habilidad se unen para coronar al mejor piloto virtual.
-             </p>
-             
-{currentSeason.showHomeStandings && hasPoints && (
+
+            <p className="mx-auto mt-6 mb-8 max-w-2xl text-base text-[#b0b0b0] md:text-lg">
+              Campeonato competitivo de Gran Turismo 7. Donde la velocidad, la estrategia y la habilidad se unen para coronar al mejor piloto virtual.
+            </p>
+
+            {/* Hidden for clean landing — home standings card
+            {currentSeason.showHomeStandings && hasPoints && (
               <Card className="mx-auto max-w-2xl border border-primary/40 bg-card/70 hover:border-primary/60 transition-all">
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle className="font-oswald text-xl font-bold uppercase tracking-wide">
@@ -133,24 +155,23 @@ export default function HomePage() {
                 </CardContent>
               </Card>
             )}
+            */}
+
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button asChild size="lg" className="gap-2">
-                <Link href="/clasificacion">
-                  <Trophy className="h-5 w-5" />
-                  Ver Clasificación
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="gap-2">
-                <Link href="/calendario">
-                  <Calendar className="h-5 w-5" />
-                  Calendario
-                </Link>
+              <Button asChild size="lg" className="gap-2 bg-[#5865F2] text-white hover:bg-[#4752C4]">
+                <a href={discordLink} target="_blank" rel="noopener noreferrer">
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
+                  </svg>
+                  Únete al Discord · Join Discord
+                </a>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Hidden for clean landing — champion banner
       {showChampion && (
         (() => {
           const carreraChampion = carreraCampeones.enabled && carreraCampeones.completed && carreraCampeones.championTeamId
@@ -186,7 +207,9 @@ export default function HomePage() {
           )
         })()
       )}
+      */}
 
+      {/* Hidden for clean landing — next race + Redline TV casters
       {hasUpcomingRace && (
         <section className="border-y border-border/80 bg-card/60 py-12 backdrop-blur-sm">
           <div className="container mx-auto px-4">
@@ -256,10 +279,11 @@ export default function HomePage() {
               </Card>
             )}
           </div>
-</section>
+        </section>
       )}
+      */}
 
-      {/* Carrera de Campeones */}
+      {/* Hidden for clean landing — Carrera de Campeones
       {carreraCampeones.enabled && (
         <section className="py-12">
           <div className="container mx-auto px-4">
@@ -269,27 +293,33 @@ export default function HomePage() {
           </div>
         </section>
       )}
+      */}
 
-      {/* Main Content */}
+      {/* Hidden for clean landing — empty main content section
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
         </div>
       </section>
+      */}
 
-      {/* Teams on the Grid */}
+      {/* Eventos Activos */}
+      <EventosActivosSection events={activeEvents} />
+
+      {/* Hidden for clean landing — Equipos Participantes (Teams on the Grid); re-enable if needed
       <TeamsSection teams={currentTeams} extraTeams={pastTeams} />
+      */}
 
-      {/* Quick Links Section */}
+      {/* Hidden for clean landing — Acceso Rápido (Quick Links); re-enable if needed
       <section className="border-t border-border/80 bg-card/60 py-16 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <h2 className="font-oswald mb-10 text-center text-2xl font-bold uppercase tracking-wide text-foreground md:text-3xl">
             Acceso Rápido
           </h2>
-          
+
           <div className="flex flex-wrap items-center justify-center gap-4">
             {isEnabled("/clasificacion") && (
               <Link href="/clasificacion" className="group">
-                <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
+                <Card className="h-full w-44 border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
                   <CardContent className="flex flex-col items-center justify-center p-6 text-center">
                     <Trophy className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
                     <span className="font-medium text-foreground">Clasificación</span>
@@ -297,10 +327,10 @@ export default function HomePage() {
                 </Card>
               </Link>
             )}
-            
+
             {isEnabled("/calendario") && (
               <Link href="/calendario" className="group">
-                <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
+                <Card className="h-full w-44 border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
                   <CardContent className="flex flex-col items-center justify-center p-6 text-center">
                     <Calendar className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
                     <span className="font-medium text-foreground">Calendario</span>
@@ -308,10 +338,10 @@ export default function HomePage() {
                 </Card>
               </Link>
             )}
-            
+
             {isEnabled("/reglamento") && (
               <Link href="/reglamento" className="group">
-                <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
+                <Card className="h-full w-44 border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
                   <CardContent className="flex flex-col items-center justify-center p-6 text-center">
                     <FileText className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
                     <span className="font-medium text-foreground">Reglamento</span>
@@ -319,10 +349,10 @@ export default function HomePage() {
                 </Card>
               </Link>
             )}
-            
+
             {isEnabled("/reportar-incidente") && (
               <Link href="/reportar-incidente" className="group">
-                <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
+                <Card className="h-full w-44 border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
                   <CardContent className="flex flex-col items-center justify-center p-6 text-center">
                     <AlertTriangle className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" />
                     <span className="font-medium text-foreground">Reportar Incidente</span>
@@ -330,9 +360,9 @@ export default function HomePage() {
                 </Card>
               </Link>
             )}
-            
+
             <a href={discordLink} target="_blank" rel="noopener noreferrer" className="group">
-              <Card className="h-full border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
+              <Card className="h-full w-44 border-border/80 bg-card/50 backdrop-blur-sm transition-all hover:border-primary hover:bg-card/70">
                 <CardContent className="flex flex-col items-center justify-center p-6 text-center">
                   <svg className="mb-3 h-10 w-10 text-primary transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
@@ -344,6 +374,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      */}
     </div>
   )
 }

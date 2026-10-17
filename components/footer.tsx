@@ -1,14 +1,15 @@
 import Link from "next/link"
 import Image from "next/image"
 
-const footerLinks = [
-  { href: "/", label: "Inicio", enabled: true },
-  { href: "/clasificacion", label: "Clasificación", enabled: true },
-  { href: "/calendario", label: "Calendario", enabled: true },
-  { href: "/reglamento", label: "Reglamento", enabled: true },
-]
-
-// Disable items by setting enabled: false
+// Hidden for clean landing — re-enable if needed
+// const footerLinks = [
+//   { href: "/", label: "Inicio", enabled: true },
+//   { href: "/clasificacion", label: "Clasificación", enabled: true },
+//   { href: "/calendario", label: "Calendario", enabled: true },
+//   { href: "/reglamento", label: "Reglamento", enabled: true },
+// ]
+//
+// // Disable items by setting enabled: false
 
 export function Footer() {
   return (
@@ -25,6 +26,7 @@ export function Footer() {
             />
           </Link>
           
+          {/* Hidden for clean landing — footer links re-enable if needed
           <nav className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
             {footerLinks.filter(link => link.enabled !== false).map((link) => (
               <Link key={link.href} href={link.href} className="transition-colors hover:text-foreground">
@@ -32,6 +34,7 @@ export function Footer() {
               </Link>
             ))}
           </nav>
+          */}
           
           <p className="text-sm text-muted-foreground">
             2026 Redline GT League

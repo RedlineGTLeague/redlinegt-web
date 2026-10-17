@@ -12,6 +12,7 @@ node_modules/
 __pycache__/
 /venv
 /tsconfig.tsbuildinfo
+package-lock.json
 
 # Python venv
 /.venv
